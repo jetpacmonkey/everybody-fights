@@ -1,5 +1,6 @@
 
 db
+
 *.pyc
 
 server/fight/.DS_Store

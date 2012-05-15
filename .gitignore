@@ -1,3 +1,11 @@
 
 db
 *.pyc
+
+server/fight/.DS_Store
+
+server/fight/migrations/.DS_Store
+
+server/fight/models/.DS_Store
+
+server/server/.DS_Store

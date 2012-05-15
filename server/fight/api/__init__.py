@@ -1,0 +1,1 @@
+from fight.api.MapResource import MapResource

@@ -1,0 +1,18 @@
+<html>
+	<head>
+		<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/base.css"/>
+		{% block styles %}{% endblock %}
+	</head>
+	<body>
+		{% block content %}
+
+		{% endblock %}
+
+		<script type="text/javascript" src="{{ STATIC_URL }}js/ext/jquery-1.7.2.js"></script>
+		<script type="text/javascript" src="{{ STATIC_URL }}js/ext/underscore.js"></script>
+		<script type="text/javascript" src="{{ STATIC_URL }}js/ext/backbone.js"></script>
+		{% block scripts %}
+
+		{% endblock %}
+	</body>
+</html>

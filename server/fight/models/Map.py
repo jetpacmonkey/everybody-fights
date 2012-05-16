@@ -7,10 +7,11 @@ class Map(models.Model):
 	creator = models.ForeignKey(User, null=True)
 
 	def __unicode__(self):
-		return self.name
+		return "%s (by %s)" % (self.name, self.creator)
 
 	class Meta:
 		app_label = 'fight'
+		ordering = ("creator", "name")
 
 class MapAdmin(admin.ModelAdmin):
 	fields = ['name', 'creator']

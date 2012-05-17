@@ -9,9 +9,19 @@
 		<div class="header">
 			{% block header %}
 			<div class="menu">
-				<div class="menuItem">Games</div>
-				<div class="menuItem">Create</div>
+				<div class="menuItem" data-submenu="games">Games</div>
+				<div class="menuItem" data-submenu="create">Create</div>
 				<div class="menuItemHighlight"></div>
+				<div class="subMenus">
+					<div class="subMenu subMenu-games">
+						
+					</div>
+					<div class="subMenu subMenu-create">
+						<a class="subMenuItem">Manage Created Maps</a>
+						<a class="subMenuItem">Manage Created Character Types</a>
+						<a class="subMenuItem">Manage Created Character Sets</a>
+					</div>
+				</div>
 			</div>
 			{% endblock %}
 		</div>

@@ -1,18 +1,26 @@
 <html>
 	<head>
+		<title>{% block title %}Everybody Fights{% endblock %}</title>
+		<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/reset.css"/>
 		<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/base.css"/>
 		{% block styles %}{% endblock %}
 	</head>
 	<body>
-		{% block content %}
+		<div class="header">
+			{% block header %}
+			<div class="menu">
+				<div class="menuItem">Games</div>
+				<div class="menuItem">Create</div>
+				<div class="menuItemHighlight"></div>
+			</div>
+			{% endblock %}
+		</div>
 
-		{% endblock %}
+		<div class="mainContent">
+			{% block content %}{% endblock %}
+		</div>
 
-		<script type="text/javascript" src="{{ STATIC_URL }}js/ext/jquery-1.7.2.js"></script>
-		<script type="text/javascript" src="{{ STATIC_URL }}js/ext/underscore.js"></script>
-		<script type="text/javascript" src="{{ STATIC_URL }}js/ext/backbone.js"></script>
-		{% block scripts %}
-
-		{% endblock %}
+		{% include "jsIncludes.html" %}
+		{% block scripts %}{% endblock %}
 	</body>
 </html>

@@ -5,8 +5,8 @@ from fight.models import Map, Cell, Character
 
 class Game(models.Model):
 	name = models.CharField(max_length = 128)
-	creator = models.ForeignKey(User, related_name = 'creator')
-	currentPlayer = models.ForeignKey(User, related_name = 'current')
+	creator = models.ForeignKey(User, related_name = 'createdGames')
+	currentPlayer = models.ForeignKey(User, related_name = 'currentGames')
 	mapObj = models.ForeignKey(Map)
 
 	def __unicode__(self):
@@ -53,8 +53,28 @@ class GameCell(models.Model):
 
 class GameCharacter(models.Model):
 	character = models.ForeignKey('fight.Character')
-	game = models.ForeignKey(Game)
 	cell = models.OneToOneField(GameCell)
+	owner = models.ForeignKey(GamePlayer)
+	#TODO: add validators enforcing cell's game matches owner's game
+
+	def calcAttr(self, attrName):
+		val = self.character.attr(attrName)
+		if val is None:
+			return None # not a valid attribute for this character type
+		for cellMod in self.cell.cellmodifier_set.filter(modifier__attribute__name=attrName).select_related('modifier'):
+			val += cellMod.modifier.effect
+		for charMod in self.charactermodifier_set.filter(modifier__attribute__name=attrName).select_related('modifier'):
+			val += cellMod.modifier.effect
+		return val
+
 
 	class Meta:
 		app_label = 'fight'
+
+class CellModifier(models.Model):
+	cell = models.ForeignKey(GameCell)
+	modifier = models.ForeignKey("fight.Modifier")
+
+class CharacterModifier(models.Model):
+	character = models.ForeignKey(GameCharacter)
+	modifier = models.ForeignKey("fight.Modifier")

@@ -2,7 +2,7 @@ from fight.models.Map import Map, MapAdmin
 from fight.models.Cell import Cell, CellAdmin
 from fight.models.TerrainType import TerrainType
 from fight.models.Game import Game, GamePlayer, GameCell, GameCharacter
-from fight.models.Character import Character
+from fight.models.Character import Character, CharacterAttribute
 
 from django.contrib import admin
 

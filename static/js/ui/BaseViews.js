@@ -14,6 +14,7 @@
 			this.initLeft = this.highlight.position().left;
 			this.currentSub = null;
 			this.subMenus = $('.subMenus', this.el);
+			this.slideSpeed = 500;
 		},
 
 		overItem: function(e) {
@@ -51,7 +52,7 @@
 
 				this.closeSub(subName);
 				$(":animated", this.subMenus).queue(function(next) {
-					self.subMenus.slideUp(1000);
+					self.subMenus.slideUp(self.slideSpeed);
 				});
 			} else if (this.currentSub) {
 				//change submenu
@@ -61,7 +62,7 @@
 				//open submenu
 				var self = this;
 				this.currentSub = subName;
-				this.subMenus.slideDown(1000, function() {
+				this.subMenus.slideDown(self.slideSpeed, function() {
 					self.openSub(subName);
 				});
 			}
@@ -83,6 +84,28 @@
 				'left': '0'
 			});
 			this.currentSub = subName;
+		}
+	});
+
+	BaseView = Backbone.View.extend({
+		el: '.content',
+		initialize: function() {
+			control = this;
+		},
+		load: function() {
+			var dataBlock = $("#data");
+			for (var i=0; i<arguments.length; ++i) {
+				var dataInput = $("#data-" + arguments[i], dataBlock);
+				if (dataInput.length === 0) {
+					console.log("WARNING: Missing data input for " + arguments[i]);
+					continue;
+				}
+				if (!(arguments[0] in this)) {
+					console.log("WARNING: Missing Collection object for " + arguments[i]);
+					continue;
+				}
+				this[arguments[i]].reset(Utils_niceJSON(dataInput.val()));
+			}
 		}
 	});
 

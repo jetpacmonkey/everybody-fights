@@ -64,8 +64,13 @@
 	border-bottom: 1px solid white;
 	text-decoration: none;
 	cursor: pointer;
+	color: white;
 }
 
 .menu .subMenu .subMenuItem:hover {
 	background-color: #888;
+}
+
+#data {
+	display: none;
 }

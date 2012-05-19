@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% load defaultTags %}
+
+{% block scripts %}
+	<script type="text/javascript" src="{{ STATIC_URL }}js/ui/CreateCharView.js"></script>
+{% endblock %}
+
+{% block content %}
+	
+{% endblock %}
+
+{% block data %}
+	<input type="hidden" id="data-attributes" value="{{ attributes|json }}"/>
+{% endblock %}

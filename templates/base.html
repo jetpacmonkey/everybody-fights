@@ -14,11 +14,13 @@
 				<div class="menuItemHighlight"></div>
 				<div class="subMenus">
 					<div class="subMenu subMenu-games">
-						
+						<a class="subMenuItem">Create Game</a>
+						<a class="subMenuItem">Join Game</a>
+						<a class="subMenuItem">Current Games</a>
 					</div>
 					<div class="subMenu subMenu-create">
 						<a class="subMenuItem">Manage Created Maps</a>
-						<a class="subMenuItem">Manage Created Character Types</a>
+						<a class="subMenuItem" href="/fight/createChar/">Manage Created Character Types</a>
 						<a class="subMenuItem">Manage Created Character Sets</a>
 					</div>
 				</div>
@@ -26,8 +28,12 @@
 			{% endblock %}
 		</div>
 
-		<div class="mainContent">
+		<div class="content">
 			{% block content %}{% endblock %}
+		</div>
+
+		<div id="data">
+			{% block data %}{% endblock %}
 		</div>
 
 		{% include "jsIncludes.html" %}

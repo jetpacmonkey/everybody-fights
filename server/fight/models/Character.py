@@ -2,9 +2,11 @@ from django.db import models
 from django.core import validators
 
 from fight.models.Attribute import Attribute
+from django.contrib.auth.models import User
 
 class Character(models.Model):
 	name = models.CharField(max_length = 128)
+	creator = models.ForeignKey(User, null=True)
 
 	def __unicode__(self):
 		return self.name

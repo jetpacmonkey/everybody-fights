@@ -2,7 +2,7 @@ from django.db import models
 
 class Attribute(models.Model):
 	name = models.CharField(max_length = 32, unique = True)
-	default = models.IntegerField(default = None, null = True,
+	default = models.IntegerField(default = None, blank = True,
 				help_text = "Value returned when character doesn't have this attribute")
 
 	def __unicode__(self):

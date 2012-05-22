@@ -18,7 +18,11 @@ class CharacterResource(ModelResource):
 		return bundle
 
 	def hydrate(self, bundle):
-		bundle.obj.creator = User.objects.get(id=bundle.data['creator'])
+		if not bundle.obj.id:
+			bundle.obj.creator = bundle.request.user
+		else:
+			# maybe shouldn't allow this?
+			bundle.obj.creator = User.objects.get(id=bundle.data['creator'])
 		return bundle
 
 class CharacterAttributeResource(ModelResource):

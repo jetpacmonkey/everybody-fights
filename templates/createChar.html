@@ -12,4 +12,6 @@
 
 {% block data %}
 	<input type="hidden" id="data-attributes" value="{{ attributes|json }}"/>
+	<input type="hidden" id="data-createdChars" value="{{ created_chars|json }}"/>
+	<input type="hidden" id="data-characterAttributes" value="{{ character_attributes|json }}"/>
 {% endblock %}

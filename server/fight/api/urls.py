@@ -6,6 +6,8 @@ from tastypie.api import Api
 v1_api = Api(api_name='v1')
 v1_api.register(MapResource())
 v1_api.register(UserResource())
+v1_api.register(CharacterResource())
+v1_api.register(CharacterAttributeResource())
 
 urlpatterns = patterns('',
 		('', include(v1_api.urls))

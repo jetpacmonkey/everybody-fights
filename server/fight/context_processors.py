@@ -10,7 +10,8 @@ def proc(request):
 		'js/ui/BaseViews.js',
 
 		'js/models/base.js',
-		'js/models/attribute.js'
+		'js/models/attribute.js',
+		'js/models/character.js',
 	]
 
 	# page-specific additions could go here

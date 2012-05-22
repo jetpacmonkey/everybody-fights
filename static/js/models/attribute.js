@@ -9,7 +9,7 @@
 	AttributeSet = BaseCollection.extend({
 		model: Attribute,
 		url: function() {
-			return this.baseUrl + 'attribute'
+			return this.baseUrl + 'attribute/';
 		},
 		getByName: function(name) {
 			var arr = this.where({"name": name});
@@ -18,6 +18,11 @@
 			} else {
 				return arr[0];
 			}
+		},
+		initialize: function() {
+			this.globalCollections.attributes = this;
+
+			BaseCollection.prototype.initialize.call(this);
 		}
 	});
 

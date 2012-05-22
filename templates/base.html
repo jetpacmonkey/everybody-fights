@@ -36,6 +36,9 @@
 			{% block data %}{% endblock %}
 		</div>
 
+		<script type="text/javascript">
+			username = "{{ user.username }}";
+		</script>
 		{% include "jsIncludes.html" %}
 		{% block scripts %}{% endblock %}
 	</body>

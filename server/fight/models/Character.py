@@ -42,3 +42,6 @@ class CharacterAttribute(models.Model):
 	character = models.ForeignKey(Character)
 	attribute = models.ForeignKey(Attribute)
 	value = models.IntegerField()
+
+	class Meta:
+		app_label = 'fight'

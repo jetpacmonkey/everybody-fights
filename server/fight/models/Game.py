@@ -3,11 +3,16 @@ from django.contrib import admin
 from django.contrib.auth.models import User
 from fight.models import Map, Cell, Character
 
+GAME_TYPE_CHOICES = (
+	('skirmish', 'Skirmish'),
+)
+
 class Game(models.Model):
 	name = models.CharField(max_length = 128)
 	creator = models.ForeignKey(User, related_name = 'createdGames')
 	currentPlayer = models.ForeignKey(User, related_name = 'currentGames')
 	mapObj = models.ForeignKey(Map)
+	gameType = models.CharField(max_length = 16, choices = GAME_TYPE_CHOICES, default = GAME_TYPE_CHOICES[0][0])
 
 	def __unicode__(self):
 		return "%s (%d players)" % (self.name, self.gameplayer_set.count())

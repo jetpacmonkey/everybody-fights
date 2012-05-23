@@ -80,8 +80,7 @@
 }
 
 .editChar .oneAttr label {
-	display: block;
-	float: left;
+	display: inline-block;
 	width: 50%;
 	overflow: hidden;
 	white-space: nowrap;
@@ -94,7 +93,7 @@
 	box-sizing: border-box;
 	width: 50%;
 	height: 24px;
-	float: left;
+	margin: 0;
 	margin-top: 3px;
 }
 

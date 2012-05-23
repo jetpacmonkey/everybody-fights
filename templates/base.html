@@ -20,7 +20,7 @@
 					</div>
 					<div class="subMenu subMenu-create">
 						<a class="subMenuItem">Manage Created Maps</a>
-						<a class="subMenuItem" href="/fight/createChar/">Manage Created Character Types</a>
+						<a class="subMenuItem" href="{% url fight.views.createChar %}">Manage Created Character Types</a>
 						<a class="subMenuItem">Manage Created Character Sets</a>
 					</div>
 				</div>
@@ -36,10 +36,13 @@
 			{% block data %}{% endblock %}
 		</div>
 
-		<script type="text/javascript">
-			username = "{{ user.username }}";
-		</script>
 		{% include "jsIncludes.html" %}
 		{% block scripts %}{% endblock %}
+		<script type="text/javascript">
+			user = new User({
+				"username": "{{ user.username|escapejs }}",
+				"id": "{{ user.id }}"
+			});
+		</script>
 	</body>
 </html>

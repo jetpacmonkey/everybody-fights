@@ -13,4 +13,10 @@
 			}
 		}
 	});
+
+	Backbone.Model.prototype.builtinUrl = Backbone.Model.prototype.url;
+	Backbone.Model.prototype.url = function() {
+		var defUrl = this.builtinUrl();
+		return defUrl + (defUrl.charAt(defUrl.length - 1) == "/" ? "" : "/");
+	};
 })(jQuery);

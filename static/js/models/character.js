@@ -14,6 +14,9 @@
 				}
 				return null;
 			} else if (!attribute) { //adding the attribute
+				if (value === "") {
+					return; //trying to remove the attribute, but it's already not there
+				}
 				var attrObj = this.collection.getCollection("attributes").getByName(name);
 				if (!attrObj) {
 					return null;
@@ -26,8 +29,28 @@
 			} else if (getter) {
 				return attribute.get('value');
 			} else {
-				attribute.set('value', value);
+				if (value === "") {
+					attribute.destroy({wait: true});
+					attribute.collection.remove(attribute);
+				} else {
+					attribute.set('value', value);
+				}
 			}
+		},
+		saveAttrs: function() {
+			var attrs = this.collection.getCollection("characterAttributes").where({character: this.get("id")});
+			var arr = [];
+			for (var i=0; i<attrs.length; ++i) {
+				arr.push(attrs[i].toJSON());
+			}
+			$.ajax({
+				type: "PUT",
+				dataType: 'json',
+				data: JSON.stringify({"objects": arr}),
+				url: this.collection.getCollection("characterAttributes").url(),
+				contentType: "application/json",
+				async: false
+			});
 		}
 	});
 
@@ -75,7 +98,7 @@
 			}
 		},
 		onCreate: function(cAtt, coll, options) {
-			cAtt.save();
+			cAtt.save(["character", "value", "attribute"], {wait: true});
 		}
 	});
 })();

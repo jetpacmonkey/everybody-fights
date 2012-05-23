@@ -10,11 +10,13 @@
 		},
 
 		initialize: function() {
-			this.highlight = this.$el.children('.menuItemHighlight');
-			this.initLeft = this.highlight.position().left;
-			this.currentSub = null;
-			this.subMenus = $('.subMenus', this.el);
-			this.slideSpeed = 500;
+			if (this.$el.length) {
+				this.highlight = this.$el.children('.menuItemHighlight');
+				this.initLeft = this.highlight.position().left;
+				this.currentSub = null;
+				this.subMenus = $('.subMenus', this.el);
+				this.slideSpeed = 500;
+			}
 		},
 
 		overItem: function(e) {

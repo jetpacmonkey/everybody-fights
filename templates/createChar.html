@@ -6,8 +6,30 @@
 	<script type="text/javascript" src="{{ STATIC_URL }}js/ui/CreateCharView.js"></script>
 {% endblock %}
 
+{% block styles %}
+	<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/createChar.css"/>
+{% endblock %}
+
 {% block content %}
-	
+	<div class="selectChar">
+		<div class="newChar"><div class="charName">New Character...</div><div class="charBack"></div></div>
+		{% for c in created_chars %}
+		<div class="viewChar" data-characterid="{{ c.id }}"><div class="charName">{{ c.name }}</div><div class="charBack"></div></div>
+		{% endfor %}
+	</div>
+	<div class="charZones">
+		<div class="editChar">
+			<div class="charName">---</div>
+			<div class="charAttributes">
+				{% for a in attributes %}
+				<div class="oneAttr">
+					<label for="attr_{{ a.id }}">{{ a.name|wordify }}</label><input type="text" id="attr_{{ a.id }}" data-attributeid="{{ a.id }}" disabled/>
+				</div>
+				{% endfor %}
+			</div>
+		</div>
+		<div class="saveChar">Save</div>
+	</div>
 {% endblock %}
 
 {% block data %}

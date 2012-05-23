@@ -10,6 +10,7 @@ def proc(request):
 		'js/ui/BaseViews.js',
 
 		'js/models/base.js',
+		'js/models/user.js',
 		'js/models/attribute.js',
 		'js/models/character.js',
 	]

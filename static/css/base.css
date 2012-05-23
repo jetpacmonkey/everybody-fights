@@ -5,6 +5,7 @@
 	line-height: 30px;
 	background-color: #333;
 	color: #eee;
+	z-index: 1;
 }
 
 .menu > .menuItem {
@@ -44,8 +45,8 @@
 	height: 500%;
 	display: none;
 	background-color: #666;
-	-moz-opacity: 0.80;
-	opacity: 0.80;
+	-moz-opacity: 0.90;
+	opacity: 0.90;
 	filter:alpha(opacity=80);
 }
 
@@ -69,6 +70,15 @@
 
 .menu .subMenu .subMenuItem:hover {
 	background-color: #888;
+}
+
+.content {
+	position: absolute;
+	top: 30px;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	overflow: auto;
 }
 
 #data {

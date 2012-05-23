@@ -35,6 +35,7 @@
 				this.inputs.prop("disabled", true);
 				this.$(".charName").text("---");
 			}
+			return this;
 		},
 
 		saveChar: function() {
@@ -49,6 +50,17 @@
 		}
 	});
 
+	var SelectOneView = Backbone.View.extend({
+		tagName: "div",
+		className: "viewChar",
+		render: function() {
+			var charName = $("<div>").addClass("charName").text(this.model.get("name"));
+			this.$el.html(charName).append("<div class='charBack'></div>");
+			this.$el.data("characterid", this.model.get("id"));
+			return this;
+		}
+	});
+
 	var SelectCharView = Backbone.View.extend({
 		el: ".selectChar",
 		events: {
@@ -59,9 +71,30 @@
 			this.mainView = null;
 			this.editView = null;
 		},
+		render: function() {
+			var self = this;
+			this.$(".viewChar").remove();
+			this.mainView.createdChars.forEach(function(character, idx, coll) {
+				var subview = new SelectOneView({model: character});
+				self.$el.append(subview.render().$el);
+			});
+			return this;
+		},
 
 		newChar: function() {
-
+			var newName = prompt('Character Name');
+			if (!newName) {
+				return;
+			}
+			var self = this;
+			this.editView.curChar = new Character({name: newName});
+			this.mainView.createdChars.add(this.editView.curChar);
+			this.editView.curChar.save(["name"], {
+				success: function() {
+					self.editView.render();
+					self.render();
+				}
+			});
 		},
 		viewChar: function(e) {
 			if (!this.mainView || !this.editView) {

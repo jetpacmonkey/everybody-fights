@@ -81,6 +81,17 @@
 	overflow: auto;
 }
 
+.dialogs {
+	position: absolute;
+	top: 0;
+	left: 0;
+}
+
+.dialogs > * {
+	position: absolute;
+	display: none;
+}
+
 #data {
 	display: none;
 }

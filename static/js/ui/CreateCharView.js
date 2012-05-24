@@ -11,15 +11,54 @@
 		}
 	});
 
+	var AttrInfoView = Backbone.View.extend({
+		el: ".attributeInfo",
+		initialize: function() {
+			this.model = null;
+		},
+		render: function() {
+			if (this.model) {
+				var input = $("#attr_" + this.model.get("id")); //find input for positioning
+
+				//fill in data
+				this.$(".attrInfoName").text(this.model.get("name"));
+				this.$(".attrInfoDesc").text(this.model.get("desc"));
+				var def = this.model.get("default");
+				if (def === null) {
+					this.$(".attrInfoDefaultZone").hide();
+				} else {
+					this.$(".attrInfoDefaultZone").show().find(".attrInfoDefault").text(def);
+				}
+
+				//position and show
+				var inOffset = input.offset();
+				var left = inOffset.left + input.width() + 5;
+				if (left + this.$el.width() > $(window).width()) { //going off the edge of the screen
+					left = inOffset.left - this.$el.width() - 15;
+				}
+				this.$el.css({
+					"left": left + "px",
+					"top": inOffset.top + "px"
+				}).show();
+			} else {
+				//no attribute, so just hide
+				this.$el.hide();
+			}
+		}
+	});
+
 	var EditViewChar = Backbone.View.extend({
 		el: ".charZones",
 		events: {
-			"click .saveChar": "saveChar"
+			"click .saveChar": "saveChar",
+			"focus input": "showInfo",
+			"blur input": "hideInfo"
 		},
 		initialize: function() {
 			this.mainView = null;
 			this.curChar = null;
 			this.inputs = this.$("input");
+			this.attrInfo = new AttrInfoView();
 		},
 		render: function() {
 			this.inputs.val("");
@@ -47,6 +86,14 @@
 				self.curChar.attr(attr.get("name"), $(this).val());
 			});
 			self.curChar.saveAttrs();
+		},
+		showInfo: function(e) {
+			this.attrInfo.model = this.mainView.attributes.get($(e.currentTarget).data("attributeid"));
+			this.attrInfo.render()
+		},
+		hideInfo: function() {
+			this.attrInfo.model = null;
+			this.attrInfo.render()
 		}
 	});
 

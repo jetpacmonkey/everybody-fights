@@ -37,6 +37,7 @@ class Character(models.Model):
 
 	class Meta:
 		app_label = 'fight'
+		ordering = ['name', 'creator__username']
 
 class CharacterAttribute(models.Model):
 	character = models.ForeignKey(Character)

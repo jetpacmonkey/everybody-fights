@@ -32,6 +32,16 @@
 	</div>
 {% endblock %}
 
+{% block dialogs %}
+	<div class="attributeInfo">
+		<div class="attrInfoName"></div>
+		<div class="attrInfoDesc"></div>
+		<div class="attrInfoDefaultZone">
+			Default (value if blank): <span class="attrInfoDefault"></span>
+		</div>
+	</div>
+{% endblock %}
+
 {% block data %}
 	<input type="hidden" id="data-attributes" value="{{ attributes|json }}"/>
 	<input type="hidden" id="data-createdChars" value="{{ created_chars|json }}"/>

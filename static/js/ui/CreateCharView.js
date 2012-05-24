@@ -52,10 +52,12 @@
 		events: {
 			"click .saveChar": "saveChar",
 			"focus input": "showInfo",
-			"blur input": "hideInfo"
+			"blur input": "hideInfo",
+			"click .renameChar": "renameChar"
 		},
 		initialize: function() {
 			this.mainView = null;
+			this.selView = null;
 			this.curChar = null;
 			this.inputs = this.$("input");
 			this.attrInfo = new AttrInfoView();
@@ -70,9 +72,11 @@
 					$("#attr_" + a.get("attribute")).val(a.get("value"));
 				}
 				this.$(".charName").text(this.curChar.get("name"));
+				this.$(".renameChar").show();
 			} else {
 				this.inputs.prop("disabled", true);
 				this.$(".charName").text("---");
+				this.$(".renameChar").hide();
 			}
 			return this;
 		},
@@ -94,6 +98,17 @@
 		hideInfo: function() {
 			this.attrInfo.model = null;
 			this.attrInfo.render()
+		},
+		renameChar: function() {
+			var self = this;
+			var newName = prompt("New character name", this.curChar.get("name"));
+			if (newName) {
+				this.curChar.save({"name": newName}, {success: function() {
+					self.curChar.collection.sort();
+					self.render().selView.render();
+				}});
+			}
+			return false;
 		}
 	});
 
@@ -162,5 +177,6 @@
 		//link the views together
 		selView.mainView = editView.mainView = mainView;
 		selView.editView = editView;
+		editView.selView = selView;
 	});
 })();

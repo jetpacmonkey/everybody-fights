@@ -4,6 +4,7 @@
 			name: "",
 			creator: null
 		},
+
 		attr: function(name, value) {
 			var attribute = this.collection.getCollection("characterAttributes").getByNameAndChar(name, this);
 			var getter = (arguments.length == 1);
@@ -63,6 +64,9 @@
 			this.globalCollections.characters = this;
 
 			BaseCollection.prototype.initialize.call(this);
+		},
+		comparator: function(character) {
+			return character.get("name");
 		}
 	});
 

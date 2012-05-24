@@ -53,14 +53,22 @@
 	overflow: auto;
 }
 
-.editChar .charName {
-	font-size: 24px;
-	font-weight: bold;
+.editChar .charNameZone {
 	height: 40px;
 	line-height: 40px;
 	width: 100%;
 	border-bottom: 1px dashed black;
 	margin-bottom: 5px;
+}
+
+.editChar .charName {
+	font-size: 24px;
+	font-weight: bold;
+	margin-right: 10px;
+}
+
+.editChar .renameChar {
+	display: none;
 }
 
 .editChar .charAttributes {

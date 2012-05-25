@@ -10,7 +10,7 @@ class Cell(models.Model):
 	y = models.IntegerField()
 
 	def __unicode__(self):
-		return "%s - %s" % (self.coordsString(), self.mapObj)
+		return "%s (%s) - %s" % (self.coordsString(), self.terrain, self.mapObj)
 
 	def coordsString(self):
 		return "(%d, %d)" % (self.x, self.y)

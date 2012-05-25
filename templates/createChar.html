@@ -11,10 +11,10 @@
 {% endblock %}
 
 {% block content %}
-	<div class="selectChar">
-		<div class="newChar"><div class="charName">New Character...</div><div class="charBack"></div></div>
+	<div class="selectChar selector">
+		<div class="newChar"><div class="itemName">New Character...</div><div class="itemBack"></div></div>
 		{% for c in created_chars %}
-		<div class="viewChar" data-characterid="{{ c.id }}"><div class="charName">{{ c.name }}</div><div class="charBack"></div></div>
+		<div class="viewChar" data-characterid="{{ c.id }}"><div class="itemName">{{ c.name }}</div><div class="itemBack"></div></div>
 		{% endfor %}
 	</div>
 	<div class="charZones">

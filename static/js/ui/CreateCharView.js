@@ -116,8 +116,8 @@
 		tagName: "div",
 		className: "viewChar",
 		render: function() {
-			var charName = $("<div>").addClass("charName").text(this.model.get("name"));
-			this.$el.html(charName).append("<div class='charBack'></div>");
+			var charName = $("<div>").addClass("itemName").text(this.model.get("name"));
+			this.$el.html(charName).append("<div class='itemBack'></div>");
 			this.$el.data("characterid", this.model.get("id"));
 			return this;
 		}

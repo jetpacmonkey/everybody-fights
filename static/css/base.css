@@ -95,3 +95,51 @@
 #data {
 	display: none;
 }
+
+
+/* ***COMMON CLASSES*** */
+.selector {
+	float: left;
+	height: 100%;
+	overflow: auto;
+	width: 301px;
+
+	background: #258dc8; /* Old browsers */
+	background: -moz-linear-gradient(top, #258dc8 0%, #a0dfff 100%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#258dc8), color-stop(100%,#a0dfff)); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(top, #258dc8 0%,#a0dfff 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(top, #258dc8 0%,#a0dfff 100%); /* Opera 11.10+ */
+	background: -ms-linear-gradient(top, #258dc8 0%,#a0dfff 100%); /* IE10+ */
+	background: linear-gradient(top, #258dc8 0%,#a0dfff 100%); /* W3C */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#258dc8', endColorstr='#a0dfff',GradientType=0 ); /* IE6-9 */
+}
+
+.selector > div {
+	height: 40px;
+	line-height: 40px;
+	padding: 0 10px;
+	border-bottom: 1px solid white;
+	position: relative;
+	cursor: pointer;
+}
+
+.selector > div .itemName {
+	z-index: 1;
+}
+
+.selector > div .itemBack {
+	background: transparent;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	z-index: 0;
+}
+.selector > div:hover .itemBack {
+	background: white;
+	-moz-opacity: 0.15;
+	filter:alpha(opacity=15);
+	opacity: 0.15;
+}
+

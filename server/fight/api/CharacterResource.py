@@ -1,6 +1,5 @@
 from tastypie.resources import ModelResource
 from fight.models import Character, CharacterAttribute, Attribute
-from django.contrib.auth.models import User
 from tastypie.authorization import Authorization
 from tastypie import fields
 
@@ -9,7 +8,7 @@ class CharacterResource(ModelResource):
 	class Meta:
 		queryset = Character.objects.all()
 		resource_name = 'character'
-		authorization = Authorization()
+		authorization = Authorization()  # TODO: real authorization
 		always_return_data = True
 		include_resource_uri = False
 
@@ -21,8 +20,7 @@ class CharacterResource(ModelResource):
 		if not bundle.obj.id:
 			bundle.obj.creator = bundle.request.user
 		else:
-			# maybe shouldn't allow this?
-			bundle.obj.creator = User.objects.get(id=bundle.data['creator'])
+			del bundle.data['creator'] #don't allow creator to be modified
 		return bundle
 
 class CharacterAttributeResource(ModelResource):

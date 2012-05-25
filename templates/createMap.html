@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% load defaultTags %}
+
+{% block scripts %}
+	<script type="text/javascript" src="{{ STATIC_URL }}js/ui/CreateMapView.js"></script>
+{% endblock %}
+
+{% block styles %}
+	<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/createMap.css"/>
+{% endblock %}
+
+{% block content %}
+<div class="selectMap selector">
+	<div class="newMap"><div class="itemName">New Map...</div><div class="itemBack"></div></div>
+	{% for m in createdMaps %}
+		<div class="viewMap"><div class="itemName">{{ m.name }}</div><div class="itemBack"></div></div>
+	{% endfor %}
+</div>
+
+<div class="editMap">
+	
+</div>
+{% endblock %}
+
+{% block data %}
+	<input type="hidden" id="data-createdMaps" value="{{ createdMaps|json }}"/>
+	<input type="hidden" id="data-cells" value="{{ cells|json }}"/>
+	<input type="hidden" id="data-terrainTypes" value="{{ terrainTypes|json }}"/>
+{% endblock %}

@@ -8,6 +8,13 @@
 
 {% block styles %}
 	<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/createMap.css"/>
+	<style type="text/css">
+		{% for tType in terrainTypes %}
+		.terrain-{{ tType.id }} {
+			background-color: {{ tType.color }};
+		}
+		{% endfor %}
+	</style>
 {% endblock %}
 
 {% block content %}
@@ -20,13 +27,29 @@
 
 <div class="editMap">
 	<div class="mapProperties">
-		<div class="mapNameZone"><span class="mapName">---</span><a href="#">rename</a></div>
+		<div class="mapNameZone"><span class="mapName">---</span><a href="#" class="renameMap">rename</a></div>
 		<div class="mapDimensionsZone">
-			<label for="mapWidth">Width: </label><input type="number" id="mapWidth"/>
-			<label for="mapHeight">Height: </label><input type="number" id="mapHeight"/>
+			<label for="mapWidth">Width: </label><input type="number" id="mapWidth" step="1" max="100" min="2" disabled/>
+			<label for="mapHeight">Height: </label><input type="number" id="mapHeight" step="1" max="100" min="2" disabled/>
 		</div>
 	</div>
+	<div class="mapDetails">
+		<div class="mapCells">
 
+		</div>
+		<div class="mapTerrainTypes">
+			{% for tType in terrainTypes %}
+			<div class="terrainType">
+				<div class="terrainSelect terrain-{{ tType.id }}"></div>
+				<span class="terrainTypeName">{{ tType.name }}</span>
+			</div>
+			{% endfor %}
+			<div class="selectedTerrainTypeZone">
+				<div class="selectedTerrainType"></div>
+				<span class="terrainTypeName">Selected</span>
+			</div>
+		</div>
+	</div>
 </div>
 {% endblock %}
 

@@ -11,6 +11,10 @@
 		}
 	});
 
+	var SelectMapView = Backbone.View.extend({
+		
+	});
+
 	$(function() {
 		new CreateMapView();
 	});

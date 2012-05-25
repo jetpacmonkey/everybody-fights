@@ -2,7 +2,7 @@
 	TerrainType = Backbone.Model.extend({
 		defaults: {
 			"name": "",
-			"creator": null
+			"color": "#FFFFFF"
 		}
 	});
 

@@ -13,6 +13,9 @@ def proc(request):
 		'js/models/user.js',
 		'js/models/attribute.js',
 		'js/models/character.js',
+		'js/models/map.js',
+		'js/models/terrainType.js',
+		'js/models/cell.js'
 	]
 
 	# page-specific additions could go here

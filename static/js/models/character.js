@@ -61,7 +61,9 @@
 			return this.baseUrl + "character/";
 		},
 		initialize: function() {
-			this.globalCollections.characters = this;
+			if (!("characters" in this.globalCollections)) {
+				this.globalCollections.characters = this;
+			}
 
 			BaseCollection.prototype.initialize.call(this);
 		},
@@ -84,7 +86,9 @@
 			return this.baseUrl + "characterAttribute/";
 		},
 		initialize: function() {
-			this.globalCollections.characterAttributes = this;
+			if (!("characterAttributes" in this.globalCollections)) {
+				this.globalCollections.characterAttributes = this;
+			}
 			this.on("add", this.onCreate);
 
 			BaseCollection.prototype.initialize.call(this);

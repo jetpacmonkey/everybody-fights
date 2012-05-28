@@ -5,6 +5,34 @@
 			"mapObj": null,
 			"x": 0,
 			"y": 0
+		},
+
+		adjacentCells: function(cells) {
+			if (arguments.length === 0) {
+				cells = this.collection;
+			}
+			var evenCol = (this.get("x") % 2) === 0;
+			return _.union(
+				cells.where({
+					"mapObj": this.get("mapObj"),
+					"x": this.get("x") - 1,
+					"y": this.get("y")
+				}),
+				cells.where({
+					"mapObj": this.get("mapObj"),
+					"x": this.get("x") - 1,
+					"y": this.get("y") + (evenRow ? 1 : -1)
+				}),
+					"mapObj": this.get("mapObj"),
+					"x": this.get("x") + 1,
+					"y": this.get("y")
+				}),
+				cells.where({
+					"mapObj": this.get("mapObj"),
+					"x": this.get("x") + 1,
+					"y": this.get("y") + (evenRow ? 1 : -1)
+				})
+			);
 		}
 	});
 

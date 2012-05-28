@@ -21,7 +21,7 @@
 <div class="selectMap selector">
 	<div class="newMap"><div class="itemName">New Map...</div><div class="itemBack"></div></div>
 	{% for m in createdMaps %}
-		<div class="viewMap"><div class="itemName">{{ m.name }}</div><div class="itemBack"></div></div>
+		<div class="viewMap" data-mapid="{{ m.id }}"><div class="itemName">{{ m.name }}</div><div class="itemBack"></div></div>
 	{% endfor %}
 </div>
 
@@ -31,25 +31,27 @@
 		<div class="mapDimensionsZone">
 			<label for="mapWidth">Width: </label><input type="number" id="mapWidth" step="1" max="100" min="2" disabled/>
 			<label for="mapHeight">Height: </label><input type="number" id="mapHeight" step="1" max="100" min="2" disabled/>
+			<a href="#" class="resizeMap">resize</a>
 		</div>
 	</div>
 	<div class="mapDetails">
-		<div class="mapCells">
-
-		</div>
+		<div class="mapCells"></div>
 		<div class="mapTerrainTypes">
-			{% for tType in terrainTypes %}
-			<div class="terrainType">
-				<div class="terrainSelect terrain-{{ tType.id }}"></div>
-				<span class="terrainTypeName">{{ tType.name }}</span>
-			</div>
-			{% endfor %}
-			<div class="selectedTerrainTypeZone">
-				<div class="selectedTerrainType"></div>
-				<span class="terrainTypeName">Selected</span>
+			<div class="terrainSelectionBox">
+				{% for tType in terrainTypes %}
+				<div class="terrainType">
+					<div class="terrainSelect terrain-{{ tType.id }}" data-terrainid="{{ tType.id }}"></div>
+					<span class="terrainTypeName">{{ tType.name }}</span>
+				</div>
+				{% endfor %}
+				<div class="selectedTerrainTypeZone">
+					<div class="selectedTerrainType"></div>
+					<span class="terrainTypeName">Selected<span class="selectedTerrainTypeName"></span></span>
+				</div>
 			</div>
 		</div>
 	</div>
+	<div class="saveMap">Save</div>
 </div>
 {% endblock %}
 

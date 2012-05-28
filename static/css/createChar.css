@@ -20,6 +20,7 @@
 	font-size: 24px;
 	font-weight: bold;
 	margin-right: 10px;
+	padding-left: 5px;
 }
 
 .editChar .renameChar {
@@ -48,6 +49,7 @@
 	overflow: hidden;
 	white-space: nowrap;
 	text-overflow: ellipsis;
+	float: left;
 }
 
 .editChar .oneAttr input {
@@ -58,12 +60,13 @@
 	height: 24px;
 	margin: 0;
 	margin-top: 3px;
+	float: right;
 }
 
 .saveChar {
 	position: absolute;
-	left: 306px;
-	right: 5px;
+	left: 316px;
+	right: 15px;
 	bottom: 0;
 	height: 49px;
 	line-height: 49px;

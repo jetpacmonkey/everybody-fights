@@ -72,6 +72,13 @@
 	background-color: #888;
 }
 
+.menu .subMenu .subMenuItem.comingSoon:hover:after {
+	color: #ffa8a8;
+	font-style: italic;
+	content: "Coming soon!";
+	margin-left: 20px;
+}
+
 .content {
 	position: absolute;
 	top: 30px;

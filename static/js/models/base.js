@@ -17,7 +17,7 @@
 				options = {};
 			}
 			var params = {
-				type: "PUT",
+				type: "PATCH",
 				dataType: 'json',
 				data: JSON.stringify({"objects": models}),
 				contentType: "application/json"

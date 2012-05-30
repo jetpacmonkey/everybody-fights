@@ -1,7 +1,7 @@
 Nothing really here yet… But eventually it'll be AWESOME!
 
 To-Do:
-	Simple map creation
+	Simple map creation: DONE
 	Terrain effects (right now all terrain are the same outside of color)
 		- <attribute> <operator> <effect> (eg moveCost * 2)
 		- require <attribute> <comparison> <value> (eg size < 7)

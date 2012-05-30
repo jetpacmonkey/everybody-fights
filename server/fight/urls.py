@@ -5,6 +5,7 @@ urlpatterns = patterns('fight.views',
 	url(r'^index/', 'index'),
 	url(r'^createChar/', 'createChar'),
 	url(r'^createMap/', 'createMap'),
+	url(r'^createGame/', 'createGame'),
 
 	url(r'^api/', include('fight.api.urls'))
-	)
+)

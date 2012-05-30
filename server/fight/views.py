@@ -3,10 +3,12 @@ from django.template import RequestContext
 from django.contrib.auth.decorators import login_required
 from fight.models import *
 
+
 def index(request):
 	return render_to_response("index.html", {
 		
 	}, RequestContext(request))
+
 
 @login_required
 def createChar(request):
@@ -20,6 +22,7 @@ def createChar(request):
 		"character_attributes": character_attributes
 	}, RequestContext(request))
 
+
 @login_required
 def createMap(request):
 	createdMaps = Map.objects.filter(creator = request.user)
@@ -30,4 +33,11 @@ def createMap(request):
 		"createdMaps": createdMaps,
 		"cells": cells,
 		"terrainTypes": terrainTypes
+	}, RequestContext(request))
+
+
+@login_required
+def createGame(request):
+	return render_to_response("createGame.html", {
+
 	}, RequestContext(request))

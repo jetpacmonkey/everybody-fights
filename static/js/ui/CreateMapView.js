@@ -61,7 +61,9 @@
 			"click .resizeMap": "resize",
 			"click .terrainSelect": "terrainSelect",
 			"click .mapCell": "terrainSet",
-			"change #mapWidth, #mapHeight": "changeDimInput"
+			"click .fillTerrain": "terrainFill",
+			"change #mapWidth, #mapHeight": "changeDimInput",
+			"click .saveMap": "saveMap"
 		},
 		initialize: function() {
 			this.terrainView = new TerrainSelectView();
@@ -118,7 +120,22 @@
 			this.terrainView.render();
 		},
 		terrainSet: function(e) {
-
+			var cellId = $(e.currentTarget).data("cellid");
+			var cell = this.mainView.cells.get(cellId);
+			cell.set("terrain", this.terrainView.selected.get("id"));
+			this.render();
+		},
+		terrainFill: function() {
+			this.model.fillTerrain(this.terrainView.selected, this.mainView.cells);
+			this.render();
+		},
+		saveMap: function() {
+			var self = this;
+			this.model.saveCells({
+				success: function() {
+					self.render();
+				}
+			}, this.mainView.cells)
 		}
 	});
 

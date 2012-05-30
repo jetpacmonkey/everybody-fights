@@ -7,7 +7,7 @@
 
 		getDimensions: function(cells) {
 			if (arguments.length === 0) {
-				cells = this.collection.globalCollections.cells;
+				cells = this.collection.getCollection("cells");
 			}
 			if (!this.x || !this.y) {
 				var dim = findDimensions(this, cells);
@@ -15,6 +15,19 @@
 				this.y = dim.y;
 			}
 			return {"x": this.x, "y": this.y};
+		},
+		fillTerrain: function(terrain, cells) {
+			if (arguments.length == 1) {
+				cells = this.collection.getCollection("cells");
+			}
+			var terrainId = terrain;
+			if (terrainId !== +terrainId) {
+				terrainId = terrain.get("id");
+			}
+			var mapCells = cells.where({"mapObj": this.get("id")});
+			for (var i=0; i<mapCells.length; ++i) {
+				mapCells[i].set("terrain", terrainId);
+			}
 		},
 		resize: function(options) {
 			if (typeof options !== "object") {
@@ -24,7 +37,7 @@
 				throw "Bad arguments passed, missing x or y";
 			}
 			if (!("cells" in options)) {
-				options.cells = this.collection.globalCollections.cells;
+				options.cells = this.collection.getCollection("cells");
 			}
 
 			/*
@@ -92,9 +105,23 @@
 				}
 			}));
 		},
+		saveCells: function(opts, cellsColl) {
+			if (arguments.length < 2) {
+				cellsColl = this.collection.getCollection("cells");
+			}
+			if (typeof opts !== "object") {
+				opts = {};
+			}
+			var mapCells = cellsColl.where({"mapObj": this.get("id")});
+			var arr = [];
+			for (var i=0; i<mapCells.length; ++i) {
+				arr.push(mapCells[i].toJSON());
+			}
+			cellsColl.batchUpdate(arr, opts);
+		},
 		render: function(cells) {
 			if (arguments.length === 0) {
-				cells = this.collection.globalCollections.cells;
+				cells = this.collection.getCollection("cells");
 			}
 			var lastX = -1;
 			var mapCells = cells.where({"mapObj": this.get("id")});
@@ -110,7 +137,7 @@
 					curCol = $("<div>").addClass("mapCol");
 					lastX = x;
 				}
-				var cellDiv = $("<div>").addClass("mapCell terrain-" + cell.get("terrain")).data({"x": x, "y": y});
+				var cellDiv = $("<div>").addClass("mapCell terrain-" + cell.get("terrain")).data({"x": x, "y": y, "cellid": cell.get("id")});
 				curCol.append(cellDiv);
 			}, this);
 			if (curCol) {

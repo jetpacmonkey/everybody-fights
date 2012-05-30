@@ -8,6 +8,9 @@
 		{% block styles %}{% endblock %}
 	</head>
 	<body>
+		<div id="csrf" style="display: none">
+			{% csrf_token %}
+		</div>
 		<div class="header">
 			{% block header %}
 			<div class="menu">
@@ -36,6 +39,10 @@
 
 		<div class="dialogs">
 			{% block dialogs %}{% endblock %}
+			<div id="loadingOverlay">
+				<div class="loadingText">Loading...</div>
+				<div class="loadingBack"></div>
+			</div>
 		</div>
 
 		<div id="data">

@@ -19,8 +19,8 @@ class MapResource(ModelResource):
 	def hydrate(self, bundle):
 		if not bundle.obj.id:
 			bundle.obj.creator = bundle.request.user
-		else:
-			del bundle.data['creator'] #don't allow creator to be modified
+		
+		del bundle.data['creator'] #don't allow creator to be modified
 		return bundle
 
 

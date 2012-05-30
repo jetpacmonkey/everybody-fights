@@ -4,7 +4,7 @@ from fight.models.TerrainType import TerrainType
 from fight.models import Map
 
 class Cell(models.Model):
-	terrain = models.ForeignKey(TerrainType)
+	terrain = models.ForeignKey(TerrainType, null=True)
 	mapObj = models.ForeignKey(Map, verbose_name="Map")
 	x = models.IntegerField()
 	y = models.IntegerField()

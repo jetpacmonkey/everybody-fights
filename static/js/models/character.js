@@ -44,14 +44,7 @@
 			for (var i=0; i<attrs.length; ++i) {
 				arr.push(attrs[i].toJSON());
 			}
-			$.ajax({
-				type: "PUT",
-				dataType: 'json',
-				data: JSON.stringify({"objects": arr}),
-				url: this.collection.getCollection("characterAttributes").url(),
-				contentType: "application/json",
-				async: false
-			});
+			this.collection.getCollection("characterAttributes").batchUpdate(arr, {async: false});
 		}
 	});
 

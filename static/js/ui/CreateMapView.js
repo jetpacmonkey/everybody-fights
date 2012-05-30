@@ -101,7 +101,15 @@
 			}
 		},
 		resize: function() {
-
+			var self = this;
+			this.model.resize({
+				"x": this.$("#mapWidth").val(),
+				"y": this.$("#mapHeight").val(),
+				"cells": this.mainView.cells,
+				success: function() {
+					self.render();
+				}
+			});
 		},
 		terrainSelect: function(e) {
 			var terrainId = $(e.currentTarget).data("terrainid");

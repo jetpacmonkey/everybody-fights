@@ -16,11 +16,18 @@
 			}
 			return {"x": this.x, "y": this.y};
 		},
-		resize: function(newX, newY, cells) {
-			if (arguments.length <= 2) {
-				cells = this.collection.globalCollections.cells;
+		resize: function(options) {
+			if (typeof options !== "object") {
+				options = {};
+			}
+			if (!("x" in options) || !("y" in options)) {
+				throw "Bad arguments passed, missing x or y";
+			}
+			if (!("cells" in options)) {
+				options.cells = this.collection.globalCollections.cells;
 			}
 
+			/*
 			//double check that the stored dimensions are correct
 			this.x = this.y = null;
 			this.getDimensions(cells);
@@ -55,6 +62,35 @@
 			}
 			cells.remove(remove);
 			cells.add(add);
+			*/
+			var passedSuccess = options.success;
+			var self = this;
+			options.success = function(data) {
+				var removeObjs = [];
+				for (var i=0; i<data.removed.length; ++i) {
+					removeObjs.push(options.cells.get(data.removed[i]));
+				}
+
+				options.cells.remove(removeObjs);
+				options.cells.add(Utils_niceJSON(data.added));
+
+				self.x = self.y = null;
+				self.getDimensions(options.cells);
+
+				if ($.isFunction(passedSuccess)) {
+					passedSuccess.apply(this, arguments);
+				}
+			};
+
+			$.ajax(_.extend(options, {
+				type: "POST",
+				dataType: "json",
+				contentType: "application/json",
+				url: "/fight/api/resize/" + this.get("id") + "/" + options.x + ":" + options.y,
+				data: {
+					"csrfmiddlewaretoken": $("#csrf input").val()
+				}
+			}));
 		},
 		render: function(cells) {
 			if (arguments.length === 0) {

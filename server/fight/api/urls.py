@@ -11,5 +11,6 @@ v1_api.register(CharacterResource())
 v1_api.register(CharacterAttributeResource())
 
 urlpatterns = patterns('',
-		('', include(v1_api.urls))
+		('', include(v1_api.urls)),
+		(r'^resize/(?P<mapId>[0-9]*)/(?P<x>[0-9]*):(?P<y>[0-9]*)/?$', resize)  # resize/mapid/x:y with an optional trailing slash
 	)

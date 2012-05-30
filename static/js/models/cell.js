@@ -23,6 +23,7 @@
 					"x": this.get("x") - 1,
 					"y": this.get("y") + (evenRow ? 1 : -1)
 				}),
+				cells.where({
 					"mapObj": this.get("mapObj"),
 					"x": this.get("x") + 1,
 					"y": this.get("y")

@@ -180,6 +180,9 @@
 			}
 
 			BaseCollection.prototype.initialize.call(this);
+		},
+		comparator: function(model) {
+			return model.get("name").toLowerCase();
 		}
 	});
 })();

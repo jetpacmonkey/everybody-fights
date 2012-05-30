@@ -15,6 +15,17 @@
 		}
 	});
 
+	var SelectOneView = Backbone.View.extend({
+		tagName: "div",
+		className: "viewMap",
+		render: function() {
+			var charName = $("<div>").addClass("itemName").text(this.model.get("name"));
+			this.$el.html(charName).append("<div class='itemBack'></div>");
+			this.$el.data("mapid", this.model.get("id"));
+			return this;
+		}
+	});
+
 	var SelectMapView = Backbone.View.extend({
 		el: ".selectMap",
 		events: {
@@ -22,11 +33,28 @@
 			"click .viewMap": "viewMap"
 		},
 		render: function() {
-
+			var self = this;
+			this.$(".viewMap").remove();
+			this.mainView.createdMaps.each(function(oneMap) {
+				var subview = new SelectOneView({model: oneMap});
+				self.$el.append(subview.render().el);
+			});
 		},
 
 		newMap: function(e) {
-
+			var newName = prompt('Map Name');
+			if (!newName) {
+				return;
+			}
+			var self = this;
+			this.mainView.editView.curChar = new Map({"name": newName});
+			self.mainView.createdMaps.add(self.mainView.editView.curChar);
+			this.mainView.editView.curChar.save({}, {
+				success: function() {
+					self.mainView.editView.render();
+					self.render();
+				}
+			});
 		},
 		viewMap: function(e) {
 			var mapid = $(e.currentTarget).data("mapid");
@@ -89,7 +117,19 @@
 			return this;
 		},
 		rename: function() {
-
+			var newName = prompt("New map name:", this.model.get("name"));
+			if (!newName) {
+				return false;
+			}
+			var self = this;
+			this.model.save({"name": newName}, {
+				success: function() {
+					self.mainView.createdMaps.sort();
+					self.mainView.selView.render();
+					self.render();
+				}
+			});
+			return false;
 		},
 		changeDimInput: function(e) {
 			$(e.currentTarget).val(Math.floor($(e.currentTarget).val()));
@@ -112,6 +152,7 @@
 					self.render();
 				}
 			});
+			return false;
 		},
 		terrainSelect: function(e) {
 			var terrainId = $(e.currentTarget).data("terrainid");
@@ -135,7 +176,7 @@
 				success: function() {
 					self.render();
 				}
-			}, this.mainView.cells)
+			}, this.mainView.cells);
 		}
 	});
 

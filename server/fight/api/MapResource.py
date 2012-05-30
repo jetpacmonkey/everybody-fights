@@ -14,13 +14,15 @@ class MapResource(ModelResource):
 
 	def dehydrate(self, bundle):
 		bundle.data['creator'] = bundle.obj.creator.id
+		bundle.data['id'] = int(bundle.data['id'])
 		return bundle
 
 	def hydrate(self, bundle):
 		if not bundle.obj.id:
 			bundle.obj.creator = bundle.request.user
-		
-		del bundle.data['creator'] #don't allow creator to be modified
+
+		if 'creator' in bundle.data:
+			del bundle.data['creator'] #don't allow creator to be modified
 		return bundle
 
 

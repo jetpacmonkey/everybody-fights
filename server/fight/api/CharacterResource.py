@@ -14,6 +14,7 @@ class CharacterResource(ModelResource):
 
 	def dehydrate(self, bundle):
 		bundle.data['creator'] = bundle.obj.creator.id
+		bundle.data['id'] = int(bundle.data['id'])
 		return bundle
 
 	def hydrate(self, bundle):

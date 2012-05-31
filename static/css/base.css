@@ -1,3 +1,39 @@
+@font-face {
+	font-family: "MenuSans";
+	src: url(../fonts/Port_Lligat_sans/PortLligatSans-Regular.ttf) format("truetype");
+}
+
+@font-face {
+	font-family: "HeaderBlock";
+	src: url(../fonts/Black_Ops_One/BlackOpsOne.ttf) format("truetype");
+}
+
+@font-face {
+	font-family: "SelectorSans";
+	src: url(../fonts/Vollkorn/Vollkorn-Regular.ttf) format("truetype");
+}
+@font-face {
+	font-family: "SelectorSans";
+	src: url(../fonts/Vollkorn/Vollkorn-Bold.ttf) format("truetype");
+	font-weight: bold;
+}
+@font-face {
+	font-family: "SelectorSans";
+	src: url(../fonts/Vollkorn/Vollkorn-Italic.ttf) format("truetype");
+	font-style: italic;
+}
+@font-face {
+	font-family: "SelectorSans";
+	src: url(../fonts/Vollkorn/Vollkorn-BoldItalic.ttf) format("truetype");
+	font-weight: bold;
+	font-style: italic;
+}
+
+body {
+	font-size: 16px;
+	font-family: "MenuSans", "Trebuchet MS", sans-serif;
+}
+
 .menu {
 	position: relative;
 	display: block;
@@ -138,6 +174,7 @@
 
 /* ***COMMON CLASSES*** */
 .selector {
+	font-family: "SelectorSans", "Trebuchet MS", sans-serif;
 	float: left;
 	height: 100%;
 	overflow: auto;
@@ -160,6 +197,11 @@
 	border-bottom: 1px solid white;
 	position: relative;
 	cursor: pointer;
+}
+
+.selector .selected {
+	font-style: italic;
+	font-weight: bold;
 }
 
 .selector > div .itemName {

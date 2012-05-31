@@ -163,6 +163,8 @@
 				console.log("views not linked!");
 				return;
 			}
+			this.$(".selected").removeClass("selected");
+			$(e.currentTarget).addClass("selected");
 			var character = this.mainView.createdChars.get($(e.currentTarget).data("characterid"));
 			this.editView.curChar = character;
 			this.editView.render();

@@ -26,6 +26,7 @@
 	font-weight: bold;
 	margin-right: 10px;
 	padding-left: 5px;
+	font-family: "HeaderBlock", "Chicago", sans-serif;
 }
 
 .editMap .renameMap, .editMap .resizeMap {

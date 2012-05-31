@@ -1,0 +1,76 @@
+.gameSettingsZone {
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 50px;
+	overflow: auto;
+}
+
+.gameSettings {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	margin-top: -103px;
+	margin-left: -100px;
+}
+
+.gameSettings .settingsArea {
+	position: relative;
+	top: 0;
+	left: 2000px;
+	background-color: rgba(50, 50, 50, 0.75);
+	color: white;
+	width: 200px;
+	line-height: 30px;
+	font-size: 18px;
+	float: left;
+	border-left: 3px double white;
+	display: none;
+}
+
+.gameSettings .settingsArea:first-child {
+	display: block;
+	border-left: none;
+	left: 0;
+}
+
+.gameSettings .settingsHeader {
+	height: 30px;
+	padding: 5px;
+	padding-left: 10px;
+	font-weight: bold;
+	font-style: italic;
+	background-color: rgba(50, 50, 50, 0.9);
+	border-bottom: 2px solid #aaa;
+	font-family: "HeaderBlock", "Chicago", sans-serif;
+}
+
+.gameSettings .settingsOptions {
+	padding: 5px 0;
+	height: 154px;
+	overflow: auto;
+	font-family: "MenuSans", "Trebuchet MS", sans-serif;
+}
+
+.gameSettings .settingsOption {
+	height: 30px;
+	cursor: pointer;
+	padding: 0 5px;
+	border-bottom: 1px solid #ccc;
+}
+
+.gameSettings .settingsOption:last-child {
+	border-bottom: none;
+}
+
+.gameSettings .settingsOption:hover {
+	background-color: #aaa;
+	color: #ffff8e;
+}
+
+.gameSettings .settingsOption.selected {
+	background-color: #ffff8e;
+	color: black;
+	cursor: default;
+}

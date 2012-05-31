@@ -10,6 +10,8 @@
 	<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/createChar.css"/>
 {% endblock %}
 
+{% block headerTitle %}Create Characters{% endblock %}
+
 {% block content %}
 	<div class="selectChar selector">
 		<div class="newChar"><div class="itemName">New Character...</div><div class="itemBack"></div></div>
@@ -28,7 +30,7 @@
 				{% endfor %}
 			</div>
 		</div>
-		<div class="saveChar">Save</div>
+		<div class="saveChar bigButton">Save</div>
 	</div>
 {% endblock %}
 

@@ -1,7 +1,7 @@
 from fight.models.Map import Map, MapAdmin
 from fight.models.Cell import Cell, CellAdmin
 from fight.models.TerrainType import TerrainType
-from fight.models.Game import Game, GamePlayer, GameCell, GameCharacter, CellModifier, CharacterModifier
+from fight.models.Game import Game, GamePlayer, GameCell, GameCharacter, CellModifier, CharacterModifier, GAME_TYPE_CHOICES
 from fight.models.Character import Character, CharacterAttribute
 from fight.models.CharacterSet import CharacterSet
 from fight.models.Attribute import Attribute, Modifier

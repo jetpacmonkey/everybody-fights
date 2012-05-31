@@ -8,8 +8,38 @@
 	<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/createGame.css"/>
 {% endblock %}
 
-{% block content %}
+{% block headerTitle %}Create Game{% endblock %}
 
+{% block content %}
+	<div class="gameSettingsZone">
+		<div class="gameSettings">
+			<div class="settingsArea numPlayers">
+				<div class="settingsHeader"># Players</div>
+				<div class="settingsOptions">
+					{% for num in num_player_choices %}
+					<div class="settingsOption" data-val="{{ num }}">{{ num }}</div>
+					{% endfor %}
+				</div>
+			</div>
+			<div class="settingsArea gameType">
+				<div class="settingsHeader">Game Type</div>
+				<div class="settingsOptions">
+					{% for short,long in GAME_TYPE_CHOICES %}
+					<div class="settingsOption" data-val="{{ short }}">{{ long }}</div>
+					{% endfor %}
+				</div>
+			</div>
+			<div class="settingsArea budget">
+				<div class="settingsHeader">Budget</div>
+				<div class="settingsOptions">
+					{% for budget in budget_choices %}
+					<div class="settingsOption" data-val="{{ budget }}">{{ budget }}</div>
+					{% endfor %}
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="createMap bigButton disabled">Create!</div>
 {% endblock %}
 
 {% block data %}

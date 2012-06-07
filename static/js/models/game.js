@@ -7,7 +7,9 @@
 			"mapObj": null,
 			"gameType": "skirmish",
 			"minPlayers": 2,
-			"maxPlayers": 16
+			"maxPlayers": 16,
+			"maxAP": 20,
+			"started": false
 		}
 	});
 

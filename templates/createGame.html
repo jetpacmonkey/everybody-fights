@@ -45,6 +45,14 @@
 					{% endfor %}
 				</div>
 			</div>
+			<div class="settingsArea maxAP" data-field="maxAP">
+				<div class="settingsHeader">AP/Turn</div>
+				<div class="settingsOptions">
+					{% for ap in max_ap_choices %}
+					<div class="settingsOption{% if ap == defaults.maxAP %} default{% endif %}" data-val="{{ ap }}">{{ ap }}</div>
+					{% endfor %}
+				</div>
+			</div>
 			<div class="settingsArea map" data-field="mapObj">
 				<div class="settingsHeader">Map</div>
 				<div class="settingsOptions">

@@ -15,6 +15,8 @@ class Game(models.Model):
 	gameType = models.CharField(max_length = 16, choices = GAME_TYPE_CHOICES, default = GAME_TYPE_CHOICES[0][0])
 	minPlayers = models.IntegerField(default = 2)
 	maxPlayers = models.IntegerField(default = 16)
+	maxAP = models.IntegerField(default = 20)
+	started = models.BooleanField(default = False)
 
 	def __unicode__(self):
 		return "%s (%d players)" % (self.name, self.gameplayer_set.count())

@@ -13,6 +13,8 @@ class Game(models.Model):
 	currentPlayer = models.ForeignKey(User, related_name = 'currentGames')
 	mapObj = models.ForeignKey(Map)
 	gameType = models.CharField(max_length = 16, choices = GAME_TYPE_CHOICES, default = GAME_TYPE_CHOICES[0][0])
+	minPlayers = models.IntegerField(default = 2)
+	maxPlayers = models.IntegerField(default = 16)
 
 	def __unicode__(self):
 		return "%s (%d players)" % (self.name, self.gameplayer_set.count())
@@ -26,9 +28,19 @@ class Game(models.Model):
 	def nextPlayer(self):
 		laterPlayers = self.gameplayer_set.filter(playerNum__gt = currentPlayer.playerNum).order_by('playerNum')
 		if laterPlayers.exists():
-			currentPlayer = laterPlayers[0]
+			nextPlayer = laterPlayers[0]
 		else:
-			currentPlayer = self.gameplayer_set.order_by('playerNum')[0]
+			nextPlayer = self.gameplayer_set.order_by('playerNum')[0]
+		self.currentPlayer = nextPlayer.player
+		self.save()
+
+	class Meta:
+		app_label = 'fight'
+
+class GameSetting(models.Model):
+	name = models.CharField(max_length = 32)
+	game = models.ForeignKey(Game)
+	value = models.IntegerField(default = 0)
 
 	class Meta:
 		app_label = 'fight'
@@ -44,6 +56,9 @@ class GamePlayer(models.Model):
 
 		super(GamePlayer, self).save()
 
+	def __unicode__(self):
+		return "%s - Player %i (%s)" % (self.game.name, self.playerNum, self.player)
+
 	class Meta:
 		app_label = 'fight'
 		unique_together = (('game', 'playerNum'), ('game', 'player'))
@@ -52,13 +67,17 @@ class GamePlayer(models.Model):
 class GameCell(models.Model):
 	origCell = models.ForeignKey(Cell)
 	game = models.ForeignKey(Game)
+	#TODO: add validator enforcing cell's map matches game's map
+
+	def __unicode__(self):
+		return "%s: %s" % (self.game, self.origCell)
 
 	class Meta:
 		app_label = 'fight'
 
 class GameCharacter(models.Model):
 	character = models.ForeignKey('fight.Character')
-	cell = models.OneToOneField(GameCell)
+	cell = models.OneToOneField(GameCell, null=True)
 	owner = models.ForeignKey(GamePlayer)
 	#TODO: add validators enforcing cell's game matches owner's game
 

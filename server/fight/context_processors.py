@@ -12,6 +12,7 @@ def proc(request):
 
 		'js/models/base.js',
 		'js/models/user.js',
+		'js/models/game.js',
 		'js/models/attribute.js',
 		'js/models/character.js',
 		'js/models/map.js',

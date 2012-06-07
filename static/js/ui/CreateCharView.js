@@ -151,7 +151,7 @@
 			var self = this;
 			this.editView.curChar = new Character({name: newName});
 			this.mainView.createdChars.add(this.editView.curChar);
-			this.editView.curChar.save(["name"], {
+			this.editView.curChar.save({}, {
 				success: function() {
 					self.editView.render();
 					self.render();

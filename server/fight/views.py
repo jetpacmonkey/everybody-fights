@@ -41,8 +41,16 @@ def createMap(request):
 
 @login_required
 def createGame(request):
+	maps = Map.objects.all()
+	createGame_defaults = {
+		"minPlayers": Game._meta.get_field("minPlayers").default,
+		"maxPlayers": Game._meta.get_field("maxPlayers").default
+	}
+
 	return render_to_response("createGame.html", {
 		"GAME_TYPE_CHOICES": GAME_TYPE_CHOICES,
 		"num_player_choices": range(2, MAX_NUM_PLAYERS + 1),
-		"budget_choices": range(MIN_BUDGET, MAX_BUDGET + 5, 5)
+		"budget_choices": range(MIN_BUDGET, MAX_BUDGET + 5, 5),
+		"maps": maps,
+		"defaults": createGame_defaults
 	}, RequestContext(request))

@@ -13,15 +13,23 @@
 {% block content %}
 	<div class="gameSettingsZone">
 		<div class="gameSettings">
-			<div class="settingsArea numPlayers">
-				<div class="settingsHeader"># Players</div>
+			<div class="settingsArea minPlayers" data-field="minPlayers">
+				<div class="settingsHeader">Min # Players</div>
 				<div class="settingsOptions">
 					{% for num in num_player_choices %}
-					<div class="settingsOption" data-val="{{ num }}">{{ num }}</div>
+					<div class="settingsOption{% if num == defaults.minPlayers %} default{% endif %}" data-val="{{ num }}">{{ num }}</div>
 					{% endfor %}
 				</div>
 			</div>
-			<div class="settingsArea gameType">
+			<div class="settingsArea maxPlayers" data-field="maxPlayers">
+				<div class="settingsHeader">Max # Players</div>
+				<div class="settingsOptions">
+					{% for num in num_player_choices %}
+					<div class="settingsOption{% if num == defaults.maxPlayers %} default{% endif %}" data-val="{{ num }}">{{ num }}</div>
+					{% endfor %}
+				</div>
+			</div>
+			<div class="settingsArea gameType" data-field="gameType">
 				<div class="settingsHeader">Game Type</div>
 				<div class="settingsOptions">
 					{% for short,long in GAME_TYPE_CHOICES %}
@@ -29,7 +37,7 @@
 					{% endfor %}
 				</div>
 			</div>
-			<div class="settingsArea budget">
+			<div class="settingsArea budget" data-field="budget">
 				<div class="settingsHeader">Budget</div>
 				<div class="settingsOptions">
 					{% for budget in budget_choices %}
@@ -37,9 +45,26 @@
 					{% endfor %}
 				</div>
 			</div>
+			<div class="settingsArea map" data-field="mapObj">
+				<div class="settingsHeader">Map</div>
+				<div class="settingsOptions">
+					{% for m in maps %}
+					<div class="settingsOption" data-val="{{ m.id }}">{{ m }}</div>
+					{% endfor %}
+				</div>
+			</div>
+
+			<div class="finalSettings">
+				<div class="settingsHeader">Name and Map</div>
+				<div class="settingsOptions">
+					<label for="newGameName">Game Name:</label>
+					<input type="text" id="newGameName" value="New Game" data-field="name"/>
+				</div>
+				<div class="bigButton cancelSettings">Cancel</div>
+			</div>
 		</div>
 	</div>
-	<div class="createMap bigButton disabled">Create!</div>
+	<div class="createGame bigButton disabled">Create!</div>
 {% endblock %}
 
 {% block data %}

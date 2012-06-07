@@ -54,3 +54,14 @@ def createGame(request):
 		"maps": maps,
 		"defaults": createGame_defaults
 	}, RequestContext(request))
+
+
+@login_required
+def currentGames(request):
+	myTurn = request.user.currentGames.all()
+	gameIds = GamePlayer.objects.filter(player=request.user).values_list("game", flat=True)
+	otherGames = Game.objects.filter(id__in=gameIds).exclude(id__in=myTurn)
+	return render_to_response("currentGames.html", {
+		"myTurn": myTurn,
+		"otherGames": otherGames
+	}, RequestContext(request))

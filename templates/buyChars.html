@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+
+{% load defaultTags %}
+
+{% block scripts %}
+	<script type="text/javascript" src="{{ STATIC_URL }}js/ui/BuyCharsView.js"></script>
+{% endblock %}
+
+{% block styles %}
+	<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/buyChars.css"/>
+{% endblock %}
+
+{% block headerTitle %}Buy Characters{% endblock %}
+
+{% block content %}
+<div class="buyChars">
+	<div class="availChars charSelector">
+		<div class="selectHeader">Available</div>
+		<div class="charsArea">
+			{% for c in availChars %}
+			<div class="oneChar" data-charid="{{ c.id }}">
+				{{ c.name }}
+			</div>
+			{% endfor %}
+		</div>
+	</div>
+	<div class="charInfo">
+		<div class="charHeader"></div>
+		<div class="charInfoContents">
+			<div class="charStats">
+				{% for a in attributes %}
+				{% if a.name != "cost" %}
+				<div class="oneAttr" data-attrid="{{ a.id }}">
+					<div class="attrName">{{ a.name|wordify }}</div>
+					<div class="attrVal"></div>
+				</div>
+				{% endif %}
+				{% endfor %}
+			</div>
+			<div class="charCost oneAttr" data-attrid="{{ costAttr.id }}">
+				<div class="attrName">{{ costAttr.name|wordify }}</div>
+				<div class="attrVal"></div>
+			</div>
+			<div class="charAction bigButton">
+				<div class="wrap">
+					<div class="sellChar icon">&laquo;</div>
+					<div class="sellChar text">Sell</div>
+					<div class="buyChar text">Buy</div>
+					<div class="buyChar icon">&raquo;</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="boughtChars charSelector">
+		<div class="selectHeader">Bought</div>
+		<div class="charsArea">
+			{% for c in boughtChars %}
+			<div class="oneChar" data-charid="{{ c.id }}">
+				{{ c.name }}
+			</div>
+			{% endfor %}
+		</div>
+	</div>
+</div>
+<div class="bigButton lockIn">Lock In Purchases</div>
+{% endblock %}
+
+{% block data %}
+	<input type="hidden" id="data-availChars" value="{{ availChars|json }}"/>
+	<input type="hidden" id="data-attributes" value="{{ attributes|json }}"/>
+	<input type="hidden" id="data-characterAttributes" value="{{ character_attributes|json }}"/>
+{% endblock %}

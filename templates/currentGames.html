@@ -1,5 +1,7 @@
 {% extends "base.html" %}
 
+{% load url from future %}
+
 {% block scripts %}
 	<script type="text/javascript" src="{{ STATIC_URL }}js/ui/CurrentGamesView.js"></script>
 {% endblock %}
@@ -11,5 +13,56 @@
 {% block headerTitle %}Current Games{% endblock %}
 
 {% block content %}
-
+<div class="gamesWrapper">
+	<table class="games">
+		<thead>
+			<tr>
+				<th>Name</th>
+				<th>Type</th>
+				<th>Map</th>
+				<th># Players</th>
+				<th>Phase</th>
+				<th>Current Player</th>
+				<th>Turn #</th>
+				<th>Action</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for g in myTurn %}
+				<td>{{ g.name }}</td>
+				<td>{{ g.get_gameType_display }}</td>
+				<td>{{ g.mapObj.name }}</td>
+				<td>{{ g.gameplayer_set.count }}</td>
+				<td>{{ g.get_gamePhase_display }}</td>
+				<td>Your turn!</td>
+				<td>{{ g.turnNum }}</td>
+				<td><a href="{% url "fight.views.playGame" g.id %}">Play!</a>
+			{% endfor %}
+			{% for g in otherGames %}
+				<td>{{ g.name }}</td>
+				<td>{{ g.get_gameType_display }}</td>
+				<td>{{ g.mapObj.name }}</td>
+				<td>{{ g.gameplayer_set.count }}{% if g.gamePhase == 0 %} ({{ g.minPlayers }}-{{ g.maxPlayers }}){% endif %}</td>
+				<td>{{ g.get_gamePhase_display }}</td>
+				<td>{% if g.gamePhase == 2 %}{{ g.currentPlayer }}{% else %}---{% endif %}</td>
+				<td>{% if g.gamePhase == 2 %}{{ g.turnNum }}{% else %}---{% endif %}</td>
+				<td>
+					{% if g.gamePhase == 1 %}
+					<a href="{% url "fight.views.buyChars" g.id %}">Buy Characters</a>
+					{% elif g.gamePhase == 2 %}
+					<a href="{% url "fight.views.playGame" g.id %}">View</a>
+					{% elif g.gameplayer_set.count >= g.minPlayers and user == g.creator %}
+					<a href="{% url "fight.commands.startGame" g.id %}">Start Game</a>
+					{% else %}
+					---
+					{% endif %}
+			{% endfor %}
+			{% if not myTurn and not otherGames %}
+			<tr>
+				<td colspan="8" class="noGames">You're not currently in any games :(</td>
+			</tr>
+			{% endif %}
+		</tbody>
+	</table>
+</div>
 {% endblock %}

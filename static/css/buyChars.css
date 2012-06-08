@@ -1,0 +1,152 @@
+.buyChars {
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 50px;
+	overflow: auto;
+
+	display: -webkit-box;
+	display: -moz-box;
+	display: box;
+	-webkit-box-align: center;
+	-moz-box-align: center;
+	box-align: center;
+	-webkit-box-pack: center;
+	-moz-box-pack: center;
+	box-pack: center;
+}
+
+.charSelector, .charInfo {
+	background-color: rgba(50, 50, 50, 0.75);
+	color: white;
+	font-size: 18px;
+	border-left: 3px double white;;
+}
+
+.charSelector:first-child {
+	border-left: none;
+}
+
+.charSelector {
+	width: 200px;
+	line-height: 30px;
+}
+
+.charSelector .selectHeader, .charInfo .charHeader {
+	height: 30px;
+	padding: 5px;
+	padding-left: 10px;
+	font-weight: bold;
+	font-style: italic;
+	background-color: rgba(50, 50, 50, 0.9);
+	border-bottom: 2px solid #aaa;
+	font-family: "HeaderBlock", "Chicago", sans-serif;
+}
+
+.charSelector .charsArea {
+	height: 185px;
+	padding: 5px 0;
+	overflow: auto;
+	position: relative;
+}
+
+.charSelector .oneChar {
+	height: 30px;
+	border-bottom: 1px solid #ccc;
+	cursor: pointer;
+	padding: 0 5px;
+}
+
+.charSelector .oneChar:last-child {
+	border-bottom: none;
+}
+
+.charSelector .oneChar:hover {
+	background-color: #aaa;
+	color: #ffff8e;
+}
+
+.charSelector .oneChar.selected {
+	background-color: #ffff8e;
+	color: black;
+	cursor: default;
+}
+
+.charInfo {
+	position: relative;
+	padding-bottom: 45px;
+}
+
+.charInfo .charHeader {
+	line-height: 30px;
+}
+
+.charInfo .charStats {
+	position: relative;
+	height: 120px;
+	width: 500px;
+	padding-top: 5px;
+	margin-bottom: 5px;
+	-webkit-column-count: 3;
+	font-size: 14px;
+	line-height: 20px;
+}
+
+.charInfo .charInfoContents {
+	visibility: hidden;
+}
+
+.charInfo .attrName {
+	display: inline-block;
+	text-align: right;
+	width: 110px;
+}
+
+.charInfo .attrVal {
+	display: inline-block;
+}
+
+.charInfo .attrName:after {
+	content: ":";
+}
+
+.charInfo .charCost {
+	height: 20px;
+	line-height: 20px;
+	background-color: #aaa;
+	font-size: 20px;
+	font-style: italic;
+	text-align: center;
+}
+
+.charInfo .charCost .attrName {
+	width: auto;
+}
+
+.charInfo .charCost .attrVal:after {
+	content: "pts";
+}
+
+.charAction {
+	text-align: center;
+	height: 40px;
+	line-height: 40px;
+}
+
+.charAction .wrap {
+	display: inline-block;
+}
+
+.charAction .wrap * {
+	float: left;
+	display: none;
+}
+
+.charAction .icon {
+	visibility: hidden;
+}
+
+.charAction .text {
+	width: 100px;
+}

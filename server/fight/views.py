@@ -1,4 +1,4 @@
-from django.shortcuts import render_to_response
+from django.shortcuts import render_to_response, redirect
 from django.template import RequestContext
 from django.contrib.auth.decorators import login_required
 from fight.models import *
@@ -47,7 +47,8 @@ def createGame(request):
 	createGame_defaults = {
 		"minPlayers": Game._meta.get_field("minPlayers").default,
 		"maxPlayers": Game._meta.get_field("maxPlayers").default,
-		"maxAP": Game._meta.get_field("maxAP").default
+		"maxAP": Game._meta.get_field("maxAP").default,
+		"budget": Game._meta.get_field("budget").default
 	}
 
 	return render_to_response("createGame.html", {
@@ -62,10 +63,44 @@ def createGame(request):
 
 @login_required
 def currentGames(request):
-	myTurn = request.user.currentGames.all()
+	myTurn = request.user.currentGames.all().filter(gamePhase=2)  # only active games
 	gameIds = GamePlayer.objects.filter(player=request.user).values_list("game", flat=True)
 	otherGames = Game.objects.filter(id__in=gameIds).exclude(id__in=myTurn)
 	return render_to_response("currentGames.html", {
 		"myTurn": myTurn,
 		"otherGames": otherGames
+	}, RequestContext(request))
+
+
+@login_required
+def playGame(request, gameId):
+	game = Game.objects.get(id=gameId)
+	if game.gamePhase == 1:  # Buy mode
+		return redirect(buyChars, gameId)
+
+	return render_to_response("playGame.html", {
+
+	}, RequestContext(request))
+
+
+@login_required
+def buyChars(request, gameId):
+	game = Game.objects.get(id=gameId)
+	player = GamePlayer.objects.get(game=game, player=request.user)
+	availChars = Character.objects.all()  # this will later be different if the game is using specific character sets, or has other limiting settings
+	boughtChars = Character.objects.filter(id__in=GameCharacter.objects.filter(owner=player).values_list("character", flat=True))
+	attributes = Attribute.objects.all()  # this will probably also be filtered down at some point
+	character_attributes = CharacterAttribute.objects.filter(character__in=availChars)
+	try:
+		costAttr = attributes.get(name="cost")
+	except:
+		costAttr = None
+
+	return render_to_response("buyChars.html", {
+		"game": game,
+		"availChars": availChars,
+		"boughtChars": boughtChars,
+		"attributes": attributes,
+		"costAttr": costAttr,
+		"character_attributes": character_attributes
 	}, RequestContext(request))

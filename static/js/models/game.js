@@ -9,7 +9,9 @@
 			"minPlayers": 2,
 			"maxPlayers": 16,
 			"maxAP": 20,
-			"started": false
+			"gamePhase": 0,
+			"budget": 50,
+			"turnNum": 1
 		}
 	});
 

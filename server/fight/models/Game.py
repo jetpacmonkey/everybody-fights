@@ -7,16 +7,24 @@ GAME_TYPE_CHOICES = (
 	('skirmish', 'Skirmish'),
 )
 
+GAME_PHASE_CHOICES = (
+	(0, 'Waiting for players'),
+	(1, 'Buying characters'),
+	(2, 'Playing')
+)
+
 class Game(models.Model):
 	name = models.CharField(max_length = 128)
 	creator = models.ForeignKey(User, related_name = 'createdGames')
-	currentPlayer = models.ForeignKey(User, related_name = 'currentGames')
+	currentPlayer = models.ForeignKey(User, related_name = 'currentGames', default = None, null = True)
 	mapObj = models.ForeignKey(Map)
 	gameType = models.CharField(max_length = 16, choices = GAME_TYPE_CHOICES, default = GAME_TYPE_CHOICES[0][0])
 	minPlayers = models.IntegerField(default = 2)
 	maxPlayers = models.IntegerField(default = 16)
 	maxAP = models.IntegerField(default = 20)
-	started = models.BooleanField(default = False)
+	gamePhase = models.IntegerField(default = 0, choices = GAME_PHASE_CHOICES)
+	turnNum = models.IntegerField(default = 1)
+	budget = models.IntegerField(default = 50)
 
 	def __unicode__(self):
 		return "%s (%d players)" % (self.name, self.gameplayer_set.count())
@@ -28,12 +36,17 @@ class Game(models.Model):
 		newPlayer.save()
 
 	def nextPlayer(self):
-		laterPlayers = self.gameplayer_set.filter(playerNum__gt = currentPlayer.playerNum).order_by('playerNum')
-		if laterPlayers.exists():
-			nextPlayer = laterPlayers[0]
+		if self.currentPlayer:
+			laterPlayers = self.gameplayer_set.filter(playerNum__gt = currentPlayer.playerNum)
+			if laterPlayers.exists():
+				nextPlayer = laterPlayers[0]
+			else:
+				nextPlayer = self.gameplayer_set.all()[0]
+				self.turnNum += 1
+			self.currentPlayer = nextPlayer.player
 		else:
-			nextPlayer = self.gameplayer_set.order_by('playerNum')[0]
-		self.currentPlayer = nextPlayer.player
+			self.currentPlayer = self.gameplayer_set.all()[0]
+			self.turnNum = 1
 		self.save()
 
 	class Meta:
@@ -51,6 +64,7 @@ class GamePlayer(models.Model):
 	game = models.ForeignKey(Game)
 	player = models.ForeignKey(User)
 	playerNum = models.IntegerField(default = 1, editable = False)
+	apRemaining = models.IntegerField(default = 0)
 
 	def save(self):
 		if not self.id and self.game.gameplayer_set.exists():

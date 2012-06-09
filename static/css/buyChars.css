@@ -125,13 +125,14 @@
 }
 
 .charInfo .charCost .attrVal:after {
-	content: "pts";
+	content: " pts";
 }
 
 .charAction {
 	text-align: center;
 	height: 40px;
 	line-height: 40px;
+	color: black;
 }
 
 .charAction .wrap {
@@ -140,7 +141,6 @@
 
 .charAction .wrap * {
 	float: left;
-	display: none;
 }
 
 .charAction .icon {
@@ -149,4 +149,25 @@
 
 .charAction .text {
 	width: 100px;
+	display: none;
+}
+
+.boughtChars .charsArea {
+	height: 154px;
+}
+
+.boughtChars .remainingBudget {
+	text-align: center;
+	height: 31px;
+	line-height: 31px;
+	background-color: #aaa;
+	font-size: 16px;
+}
+
+.boughtChars .remainingBudget:before {
+	content: "Remaining Budget: ";
+}
+
+.boughtChars .remainingBudget:after {
+	content: " pts";
 }

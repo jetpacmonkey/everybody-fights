@@ -86,9 +86,10 @@ def playGame(request, gameId):
 @login_required
 def buyChars(request, gameId):
 	game = Game.objects.get(id=gameId)
-	player = GamePlayer.objects.get(game=game, player=request.user)
+	gamePlayers = GamePlayer.objects.filter(game=game, player=request.user)
+	player = gamePlayers[0]
+	gameCharacters = GameCharacter.objects.filter(owner=player)
 	availChars = Character.objects.all()  # this will later be different if the game is using specific character sets, or has other limiting settings
-	boughtChars = Character.objects.filter(id__in=GameCharacter.objects.filter(owner=player).values_list("character", flat=True))
 	attributes = Attribute.objects.all()  # this will probably also be filtered down at some point
 	character_attributes = CharacterAttribute.objects.filter(character__in=availChars)
 	try:
@@ -98,8 +99,9 @@ def buyChars(request, gameId):
 
 	return render_to_response("buyChars.html", {
 		"game": game,
+		"gamePlayers": gamePlayers,
+		"gameCharacters": gameCharacters,
 		"availChars": availChars,
-		"boughtChars": boughtChars,
 		"attributes": attributes,
 		"costAttr": costAttr,
 		"character_attributes": character_attributes

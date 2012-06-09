@@ -33,6 +33,7 @@ class Game(models.Model):
 		newPlayer = GamePlayer()
 		newPlayer.game = self
 		newPlayer.player = player
+		newPlayer.apRemaining = self.budget  # apRemaining holds the number of points that can still be spent during the buying characters phase
 		newPlayer.save()
 
 	def nextPlayer(self):
@@ -43,10 +44,12 @@ class Game(models.Model):
 			else:
 				nextPlayer = self.gameplayer_set.all()[0]
 				self.turnNum += 1
-			self.currentPlayer = nextPlayer.player
 		else:
-			self.currentPlayer = self.gameplayer_set.all()[0]
+			nextPlayer = self.gameplayer_set.all()[0]
 			self.turnNum = 1
+		self.currentPlayer = nextPlayer.player
+		nextPlayer.apRemaining = self.maxAP  # at the start of the turn, the player has the max AP
+		nextPlayer.save()
 		self.save()
 
 	class Meta:
@@ -64,7 +67,7 @@ class GamePlayer(models.Model):
 	game = models.ForeignKey(Game)
 	player = models.ForeignKey(User)
 	playerNum = models.IntegerField(default = 1, editable = False)
-	apRemaining = models.IntegerField(default = 0)
+	apRemaining = models.IntegerField(default = 0, help_text = "Either the amount of AP remaining or the amount of budget remaining, depending on the game phase")
 
 	def save(self):
 		if not self.id and self.game.gameplayer_set.exists():
@@ -93,9 +96,12 @@ class GameCell(models.Model):
 
 class GameCharacter(models.Model):
 	character = models.ForeignKey('fight.Character')
-	cell = models.OneToOneField(GameCell, null=True)
+	cell = models.OneToOneField(GameCell, null=True, blank=True)
 	owner = models.ForeignKey(GamePlayer)
 	#TODO: add validators enforcing cell's game matches owner's game
+
+	def __unicode__(self):
+		return "%s's %s" % (self.owner, self.character)
 
 	def calcAttr(self, attrName):
 		val = self.character.attr(attrName)
@@ -115,6 +121,12 @@ class CellModifier(models.Model):
 	cell = models.ForeignKey(GameCell)
 	modifier = models.ForeignKey("fight.Modifier")
 
+	class Meta:
+		app_label = 'fight'
+
 class CharacterModifier(models.Model):
 	character = models.ForeignKey(GameCharacter)
 	modifier = models.ForeignKey("fight.Modifier")
+
+	class Meta:
+		app_label = 'fight'

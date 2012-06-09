@@ -28,4 +28,47 @@
 			BaseCollection.prototype.initialize.call(this);
 		}
 	});
+
+	GamePlayer = Backbone.Model.extend({
+		"game": null,
+		"player": null,
+		"playerNum": 1,
+		"apRemaining": 0
+	});
+
+	GamePlayerSet = BaseCollection.extend({
+		model: GamePlayer,
+		url: function() {
+			return this.baseUrl + 'gamePlayer/';
+		},
+		initialize: function() {
+			if (!("gamePlayers" in this.globalCollections)) {
+				this.globalCollections.gamePlayers = this;
+			}
+
+			BaseCollection.prototype.initialize.call(this);
+		}
+	});
+
+	GameCharacter = Backbone.Model.extend({
+		defaults: {
+			"character": null,
+			"cell": null,
+			"game": null
+		}
+	});
+
+	GameCharacterSet = BaseCollection.extend({
+		model: GameCharacter,
+		url: function() {
+			return this.baseUrl + 'gameCharacter/';
+		},
+		initialize: function() {
+			if (!("gameCharacters" in this.globalCollections)) {
+				this.globalCollections.gameCharacters = this;
+			}
+
+			BaseCollection.prototype.initialize.call(this);
+		}
+	});
 })();

@@ -1,6 +1,6 @@
 from tastypie.resources import ModelResource
 from tastypie import fields
-from fight.models import Game, GameCell, GamePlayer, Map
+from fight.models import Game, GameCell, GamePlayer, GameCharacter, GameCell, Map, Character
 from tastypie.authorization import Authorization
 
 class GameResource(ModelResource):
@@ -19,7 +19,6 @@ class GameResource(ModelResource):
 		return bundle
 
 	def hydrate(self, bundle):
-		print bundle
 		if not bundle.obj.id:
 			bundle.obj.creator = bundle.request.user
 			bundle.obj.currentPlayer = bundle.request.user
@@ -40,5 +39,39 @@ class GameResource(ModelResource):
 
 		if 'creator' in bundle.data:
 			del bundle.data['creator']
+
+		return bundle
+
+
+class GameCharacterResource(ModelResource):
+	class Meta:
+		queryset = GameCharacter.objects.all()
+		resource_name = 'gameCharacter'
+		authorization = Authorization()  # TODO: real authorization
+		always_return_data = True
+		include_resource_uri = False
+
+	def dehydrate(self, bundle):
+		bundle.data['character'] = bundle.obj.character_id
+		bundle.data['cell'] = bundle.obj.cell_id
+		bundle.data['owner'] = bundle.obj.owner_id
+
+		return bundle
+
+	def hydrate(self, bundle):
+		bundle.obj.character = Character.objects.get(id=bundle.data['character'])
+		if "cell" in bundle.data:
+			del bundle.data['cell']  # don't allow cell to be arbitrarily set through the API
+
+		if not bundle.obj.id and "owner" in bundle.data:
+			owner = GamePlayer.objects.get(id=bundle.data['owner'])
+			if owner.player == bundle.request.user:
+				bundle.obj.owner = owner
+				owner.apRemaining -= bundle.obj.character.attr("cost")
+				owner.save()
+			else:
+				raise BaseException("Invalid value for 'owner' set by '%s'" % bundle.request.user)
+		elif "owner" in bundle.data:
+			del bundle.data['owner']  # don't allow the owner to be changed
 
 		return bundle

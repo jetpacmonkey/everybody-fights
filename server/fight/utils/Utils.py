@@ -1,11 +1,14 @@
 from django.utils import simplejson
 from django.core import serializers
 from time import mktime
+from django.db.models import Model
 
 class BetterEncoder(simplejson.JSONEncoder):
 	def default(self, obj):
 		if obj.__class__.__name__ == "QuerySet" or obj.__class__.__name__ == "EmptyQuerySet":
 			return serializers.serialize('python', obj)
+		elif isinstance(obj, Model):
+			return serializers.serialize('python', [obj])[0]
 		elif hasattr(obj, "timetuple"):
 			return mktime(obj.timetuple())
 		return simplejson.JSONEncoder.default(self, obj)

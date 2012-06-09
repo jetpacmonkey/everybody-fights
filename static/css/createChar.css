@@ -42,6 +42,8 @@
 .editChar .oneAttr {
 	height: 30px;
 	line-height: 30px;
+	white-space: nowrap;
+	clear: both;
 }
 
 .editChar .oneAttr label {

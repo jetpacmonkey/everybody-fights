@@ -14,7 +14,7 @@
 
 {% block content %}
 <div class="buyChars">
-	<div class="availChars charSelector">
+	<div class="availChars charSelector" data-seltype="buy">
 		<div class="selectHeader">Available</div>
 		<div class="charsArea">
 			{% for c in availChars %}
@@ -30,14 +30,14 @@
 			<div class="charStats">
 				{% for a in attributes %}
 				{% if a.name != "cost" %}
-				<div class="oneAttr" data-attrid="{{ a.id }}">
+				<div class="oneAttr" data-attrid="{{ a.id }}" data-attrname="{{ a.name }}">
 					<div class="attrName">{{ a.name|wordify }}</div>
 					<div class="attrVal"></div>
 				</div>
 				{% endif %}
 				{% endfor %}
 			</div>
-			<div class="charCost oneAttr" data-attrid="{{ costAttr.id }}">
+			<div class="charCost oneAttr" data-attrid="{{ costAttr.id }}" data-attrname="{{ costAttr.name }}">
 				<div class="attrName">{{ costAttr.name|wordify }}</div>
 				<div class="attrVal"></div>
 			</div>
@@ -51,15 +51,16 @@
 			</div>
 		</div>
 	</div>
-	<div class="boughtChars charSelector">
+	<div class="boughtChars charSelector" data-seltype="sell">
 		<div class="selectHeader">Bought</div>
 		<div class="charsArea">
-			{% for c in boughtChars %}
-			<div class="oneChar" data-charid="{{ c.id }}">
-				{{ c.name }}
+			{% for gc in gameCharacters %}
+			<div class="oneChar" data-charid="{{ gc.character.id }}">
+				{{ gc.character.name }}
 			</div>
 			{% endfor %}
 		</div>
+		<div class="remainingBudget">{{ gamePlayers.0.apRemaining }}</div>
 	</div>
 </div>
 <div class="bigButton lockIn">Lock In Purchases</div>
@@ -69,4 +70,7 @@
 	<input type="hidden" id="data-availChars" value="{{ availChars|json }}"/>
 	<input type="hidden" id="data-attributes" value="{{ attributes|json }}"/>
 	<input type="hidden" id="data-characterAttributes" value="{{ character_attributes|json }}"/>
+	<input type="hidden" id="data-gameCharacters" value="{{ gameCharacters|json }}"/>
+	<input type="hidden" id="data-gamePlayers" value="{{ gamePlayers|json }}"/>
+	<input type="hidden" id="data-game" value="{{ game|json }}"/>
 {% endblock %}

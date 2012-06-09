@@ -12,7 +12,7 @@ class Character(models.Model):
 		return self.name
 
 	def attr(self, name, value = None):
-		attribute = self.characterattribute_set.filter(name=name)
+		attribute = self.characterattribute_set.filter(attribute__name=name).select_related("attribute")
 		if not attribute.exists() and value is None: #getting an attribute that hasn't been applied to this character
 			defAttr = Attribute.objects.filter(name=name)
 			if not defAttr.exists():

@@ -53,6 +53,7 @@
 			"click .saveChar": "saveChar",
 			"focus input": "showInfo",
 			"blur input": "hideInfo",
+			"change input": "changeAttr",
 			"click .renameChar": "renameChar"
 		},
 		initialize: function() {
@@ -98,6 +99,11 @@
 		hideInfo: function() {
 			this.attrInfo.model = null;
 			this.attrInfo.render()
+		},
+		changeAttr: function(e) {
+			var attrId = $(e.currentTarget).data("attributeid");
+			var attr = this.mainView.attributes.get(attrId);
+			this.curChar.attr(attr.get("name"), $(e.currentTarget).val());
 		},
 		renameChar: function() {
 			var self = this;

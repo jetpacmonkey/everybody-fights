@@ -71,4 +71,25 @@
 			BaseCollection.prototype.initialize.call(this);
 		}
 	});
+
+	GameCell = Backbone.Model.extend({
+		defaults: {
+			"origCell": null,
+			"game": null
+		}
+	});
+
+	GameCellSet = BaseCollection.extend({
+		model: GameCell,
+		url: function() {
+			return this.baseUrl + 'gameCell/';
+		},
+		initialize: function() {
+			if (!("gameCells" in this.globalCollections)) {
+				this.globalCollections.gameCells = this;
+			}
+
+			BaseCollection.prototype.initialize.call(this);
+		}
+	})
 })();

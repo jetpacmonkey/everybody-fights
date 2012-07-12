@@ -1,5 +1,10 @@
 (function() {
 	var BuyCharsView = BaseView.extend({
+		el: ".content",
+		events: {
+			"click .lockIn": "lockIn"
+		},
+
 		initialize: function() {
 			this.attributes = new AttributeSet();
 			this.availChars = new CharacterSet();
@@ -25,6 +30,26 @@
 			this.charInfoView.mainView = this.selectAvailChar.mainView = this.selectBoughtChar.mainView = this;
 
 			BaseView.prototype.initialize.apply(this);
+		},
+
+		lockIn: function() {
+			var curGamePlayer = this.gamePlayers.where({"player": user.get("id")})[0];
+			if (!curGamePlayer) {
+				throw "Whaa?";
+			}
+			if (curGamePlayer.get("status") == "ok") {
+				alert("You've already indicated you're happy with your choices.");
+			} else {
+				if (confirm("This will indicate that you're happy with your choices and ready for the game to begin")) {
+					curGamePlayer.save({
+						"status": "ok"
+					}, {
+						success: function() {
+							window.location = "/fight/currentGames";
+						}
+					});
+				}
+			}
 		}
 	});
 

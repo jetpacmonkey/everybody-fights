@@ -67,6 +67,7 @@ class GamePlayer(models.Model):
 	game = models.ForeignKey(Game)
 	player = models.ForeignKey(User)
 	playerNum = models.IntegerField(default = 1, editable = False)
+	status = models.CharField(max_length = 32, blank = True, default = "")
 	apRemaining = models.IntegerField(default = 0, help_text = "Either the amount of AP remaining or the amount of budget remaining, depending on the game phase")
 
 	def save(self):

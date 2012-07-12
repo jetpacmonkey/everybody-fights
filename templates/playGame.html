@@ -1,1 +1,13 @@
 {% extends "base.html" %}
+
+{% load defaultTags %}
+
+{% block scripts %}
+	<script type="text/javascript" src="{{ STATIC_URL }}js/ui/PlayGameView.js"></script>
+{% endblock %}
+
+{% block data %}
+<input id="data-game" value="{{ game|json }}"/>
+<input id="data-cells" value="{{ cells|json }}"/>
+<input id="data-gameCells" value="{{ gameCells|json }}"/>
+{% endblock %}

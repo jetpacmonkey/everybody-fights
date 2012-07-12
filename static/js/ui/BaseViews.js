@@ -109,7 +109,7 @@
 				if (this[arguments[i]] instanceof BaseCollection) {
 					this[arguments[i]].reset(Utils_niceJSON(dataInput.val()));
 				} else if (this[arguments[i]] instanceof Backbone.Model) {
-					this[arguments[i]].set(Utils_niceJSON(dataInput.val()));
+					this[arguments[i]].set(Utils_oneNiceJSON(dataInput.val()));
 				} else {
 					this[arguments[i]] = $.parseJSON(dataInput.val());
 				}

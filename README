@@ -7,7 +7,7 @@ To-Do:
 	Terrain effects (right now all terrain are the same outside of color)
 		- <attribute> <operator> <effect> (eg moveCost * 2)
 		- require <attribute> <comparison> <value> (eg size < 7)
-	Game Creation
+	Game Creation: DONE
 	Basic gameplay (skirmish mode: purchase characters, place them, fight until no one's left)
 
 Down the road ideas:
@@ -24,3 +24,4 @@ Down the road ideas:
 	Limit initial placement/# of players as a map setting
 	Push server (either use my own Node.JS server with Socket.IO or use something like PubNub or Photon Server/Cloud)
 	In-game messaging
+	HTML5 audio (on button presses, etc)

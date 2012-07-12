@@ -75,3 +75,25 @@ class GameCharacterResource(ModelResource):
 			del bundle.data['owner']  # don't allow the owner to be changed
 
 		return bundle
+
+class GamePlayerResource(ModelResource):
+	class Meta:
+		queryset = GamePlayer.objects.all()
+		resource_name = 'gamePlayer'
+		authorization = Authorization()  # TODO: real authorization
+		always_return_data = True
+		include_resource_uri = False
+
+	def hydrate(self, bundle):
+		if "game" in bundle.data:
+			del bundle.data["game"]
+		if "player" in bundle.data:
+			del bundle.data["player"]
+		if ("status" in bundle.data and bundle.data["status"] != bundle.obj.status and
+					bundle.data["status"] == "ok" and bundle.obj.game.gamePhase == 1 and
+					bundle.obj.game.gameplayer_set.exclude(status="ok").count() <= 1):
+			bundle.obj.game.gamePhase += 1
+			bundle.obj.game.save()
+
+		return bundle
+

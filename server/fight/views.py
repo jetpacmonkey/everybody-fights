@@ -78,8 +78,13 @@ def playGame(request, gameId):
 	if game.gamePhase == 1:  # Buy mode
 		return redirect(buyChars, gameId)
 
-	return render_to_response("playGame.html", {
+	gameCells = game.gamecell_set.all()
+	cells = Cell.objects.filter(id__in=gameCells.values_list("origCell", flat=True))
 
+	return render_to_response("playGame.html", {
+		"game": game,
+		"cells": cells,
+		"gameCells": gameCells
 	}, RequestContext(request))
 
 

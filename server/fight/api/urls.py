@@ -11,6 +11,7 @@ v1_api.register(CharacterResource())
 v1_api.register(CharacterAttributeResource())
 v1_api.register(GameResource())
 v1_api.register(GameCharacterResource())
+v1_api.register(GamePlayerResource())
 
 urlpatterns = patterns('',
 		('', include(v1_api.urls)),

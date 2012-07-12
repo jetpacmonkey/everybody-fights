@@ -91,9 +91,10 @@ class GamePlayerResource(ModelResource):
 			del bundle.data["player"]
 		if ("status" in bundle.data and bundle.data["status"] != bundle.obj.status and
 					bundle.data["status"] == "ok" and bundle.obj.game.gamePhase == 1 and
-					bundle.obj.game.gameplayer_set.exclude(status="ok").count() <= 1):
+					bundle.obj.game.gameplayer_set.exclude(status="ok").count() <= 1):  # last player is ready
 			bundle.obj.game.gamePhase += 1
 			bundle.obj.game.save()
+			GamePlayer.objects.filter(game=bundle.obj.game).update(apRemaining=bundle.obj.game.maxAP)
 
 		return bundle
 

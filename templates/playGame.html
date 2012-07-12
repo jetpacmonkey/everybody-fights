@@ -2,12 +2,56 @@
 
 {% load defaultTags %}
 
+{% block styles %}
+	<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/playGame.css"/>
+	<style type="text/css">
+		{% for tType in terrainTypes %}
+		.terrain-{{ tType.id }} {
+			background-color: {{ tType.color }};
+		}
+		{% endfor %}
+
+		/* numbered by playerNum (not id) */
+		{% for c in colors %}
+		.ownedBy-{{ forloop.counter }} {
+			background-color: {{ c }};
+		}
+		.gamePlayer-{{ forloop.counter }} {
+			color: {{ c }};
+		}
+		{% endfor %}
+	</style>
+{% endblock %}
+
 {% block scripts %}
 	<script type="text/javascript" src="{{ STATIC_URL }}js/ui/PlayGameView.js"></script>
+{% endblock %}
+
+{% block content %}
+	<div class="mapCells">
+		<div class="map">
+			{% for mapCol in mapCols %}
+			<div class="mapCol">
+				{% for cell in mapCol %}
+				<div class="mapCell terrain-{{ cell.origCell.terrain.id }}">
+					{% if cell.gamecharacter %}
+					{% with char=cell.gamecharacter %}
+					<div class="character ownedBy-{{ char.owner.playerNum }}"></div>
+					{% endwith %}
+					{% endif %}
+				</div>
+				{% endfor %}
+			</div>
+			{% endfor %}
+			<div style="clear: both"></div>
+		</div>
+	</div>
 {% endblock %}
 
 {% block data %}
 <input id="data-game" value="{{ game|json }}"/>
 <input id="data-cells" value="{{ cells|json }}"/>
 <input id="data-gameCells" value="{{ gameCells|json }}"/>
+<input id="data-gamePlayers" value="{{ gamePlayers|json }}"/>
+<input id="data-terrainTypes" value="{{ terrainTypes|json }}"/>
 {% endblock %}

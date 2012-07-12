@@ -80,11 +80,25 @@ def playGame(request, gameId):
 
 	gameCells = game.gamecell_set.all()
 	cells = Cell.objects.filter(id__in=gameCells.values_list("origCell", flat=True))
+	terrainTypes = TerrainType.objects.all()
+
+	mapCols = [[None for j in range(cells[len(cells)-1].y + 1)] for i in range(cells[len(cells)-1].x + 1)]  # 2d array of Nones waiting to be filled in
+	for c in gameCells:
+		mapCols[c.origCell.x][c.origCell.y] = c
+
+	gamePlayers = game.gameplayer_set.all()
+
+	isCur = (game.currentPlayer == request.user)
 
 	return render_to_response("playGame.html", {
 		"game": game,
+		"isCur": isCur,
 		"cells": cells,
-		"gameCells": gameCells
+		"mapCols": mapCols,
+		"gameCells": gameCells,
+		"terrainTypes": terrainTypes,
+		"gamePlayers": gamePlayers,
+		"colors": ["aqua", "red"]  # just a temporary hacky thing, eventually will want this to be part of gamePlayer
 	}, RequestContext(request))
 
 

@@ -1,0 +1,56 @@
+
+
+.mapCells {
+	float: left;
+	width: 70%;
+	height: 100%;
+	overflow: auto;
+	display: -webkit-box;
+	display: -moz-box;
+	display: box;
+	-webkit-box-align: center;
+	-moz-box-align: center;
+	box-align: center;
+	-webkit-box-pack: center;
+	-moz-box-pack: center;
+	box-pack: center;
+}
+
+.mapCells .mapCol {
+	float: left;
+}
+
+.mapCells .mapCol:nth-child(even) {
+	margin-top: 10px;
+}
+
+.mapCells .mapCol .mapCell {
+	width: 40px;
+	height: 40px;
+	border-top: 1px dashed black;
+	border-right: 1px dashed black;
+	display: -webkit-box;
+	display: -moz-box;
+	display: box;
+	-webkit-box-align: center;
+	-moz-box-align: center;
+	box-align: center;
+	-webkit-box-pack: center;
+	-moz-box-pack: center;
+	box-pack: center;
+}
+
+.mapCells .mapCol:first-child .mapCell {
+	border-left: 1px dashed black;
+}
+
+.mapCells .mapCol .mapCell:last-child {
+	border-bottom: 1px dashed black;
+}
+
+.mapCell .character {
+	width: 20px;
+	height: 20px;
+	border: 2px solid white;
+	border-radius: 12px;
+}

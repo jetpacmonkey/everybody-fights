@@ -54,7 +54,28 @@
 		defaults: {
 			"character": null,
 			"cell": null,
-			"game": null
+			"owner": null
+		},
+		followPath: function(path, opts) {
+			var passedSuccess = opts.success;
+			var self = this;
+			opts.success = function(data) {
+				//not sure if anything will need to be added here...
+
+				if ($.isFunction(passedSuccess)) {
+					passedSuccess.apply(this, arguments);
+				}
+			};
+
+			$.ajax(_.extend(opts, {
+				type: "POST",
+				dataType: "json",
+				contentType: "application/json",
+				url: "/fight/api/move/" + this.get("id") + "/" + path.join(":"),
+				data: {
+					"csrfmiddlewaretoken": $("#csrf input").val()
+				}
+			}));
 		}
 	});
 

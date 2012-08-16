@@ -92,6 +92,12 @@ class GameCell(models.Model):
 	def __unicode__(self):
 		return "%s: %s" % (self.game, self.origCell)
 
+	def getCharacter(self):
+		try:
+			return self.gamecharacter
+		except:
+			return None
+
 	class Meta:
 		app_label = 'fight'
 

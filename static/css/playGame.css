@@ -1,4 +1,6 @@
-
+.unplaced {
+	font-style: italic;
+}
 
 .mapCells {
 	float: left;
@@ -21,7 +23,7 @@
 }
 
 .mapCells .mapCol:nth-child(even) {
-	margin-top: 10px;
+	margin-top: 20px;
 }
 
 .mapCells .mapCol .mapCell {

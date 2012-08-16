@@ -29,6 +29,7 @@
 		</thead>
 		<tbody>
 			{% for g in myTurn %}
+			<tr>
 				<td>{{ g.name }}</td>
 				<td>{{ g.get_gameType_display }}</td>
 				<td>{{ g.mapObj.name }}</td>
@@ -37,8 +38,10 @@
 				<td>Your turn!</td>
 				<td>{{ g.turnNum }}</td>
 				<td><a href="{% url "fight.views.playGame" g.id %}">Play!</a>
+			</tr>
 			{% endfor %}
 			{% for g in otherGames %}
+			<tr>
 				<td>{{ g.name }}</td>
 				<td>{{ g.get_gameType_display }}</td>
 				<td>{{ g.mapObj.name }}</td>
@@ -56,6 +59,8 @@
 					{% else %}
 					---
 					{% endif %}
+				</td>
+			</tr>
 			{% endfor %}
 			{% if not myTurn and not otherGames %}
 			<tr>

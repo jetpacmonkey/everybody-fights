@@ -78,7 +78,9 @@ def playGame(request, gameId):
 	if game.gamePhase == 1:  # Buy mode
 		return redirect(buyChars, gameId)
 
-	gameCells = game.gamecell_set.all()
+	isCur = (game.currentPlayer == request.user)
+
+	gameCells = game.gamecell_set.all().select_related("origCell", "origCell__terrain", "character")
 	cells = Cell.objects.filter(id__in=gameCells.values_list("origCell", flat=True))
 	terrainTypes = TerrainType.objects.all()
 
@@ -88,7 +90,9 @@ def playGame(request, gameId):
 
 	gamePlayers = game.gameplayer_set.all()
 
-	isCur = (game.currentPlayer == request.user)
+	characters = Character.objects.all()
+	gameChars = GameCharacter.objects.filter(owner__in=gamePlayers)
+	playerChars = gameChars.filter(owner__player=request.user)
 
 	return render_to_response("playGame.html", {
 		"game": game,
@@ -98,7 +102,10 @@ def playGame(request, gameId):
 		"gameCells": gameCells,
 		"terrainTypes": terrainTypes,
 		"gamePlayers": gamePlayers,
-		"colors": ["aqua", "red"]  # just a temporary hacky thing, eventually will want this to be part of gamePlayer
+		"colors": ["aqua", "red"],  # just a temporary hacky thing, eventually will want this to be part of gamePlayer
+		"characters": characters,
+		"gameCharacters": gameChars,
+		"playerChars": playerChars
 	}, RequestContext(request))
 
 

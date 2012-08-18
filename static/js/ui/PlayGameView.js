@@ -55,6 +55,10 @@
 				self.placingChar.character.followPath([cell.get("id")], {
 					success: function() {
 						self.placingChar = null;
+					},
+					error: function(response) {
+						var respTxt = response.responseText;
+						alert(respTxt);
 					}
 				});
 			}

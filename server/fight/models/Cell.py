@@ -17,6 +17,17 @@ class Cell(models.Model):
 	coordsString.short_description = "Coordinates"
 	coordsString.admin_order_field = 'x'
 
+	def isAdj(self, other):
+		xDiff = abs(self.x - other.x)
+		yDiff = self.y - other.y
+		if xDiff > 1:
+			return False
+		if xDiff == 0:
+			return abs(yDiff) == 1
+		if self.x % 2 == 0:  # even column, adjacent to self.y + 1 and self.y
+			return yDiff == 0 or yDiff == -1
+		return yDiff == 0 or yDiff == 1
+
 	class Meta:
 		app_label = 'fight'
 		unique_together = ("mapObj", "x", "y")

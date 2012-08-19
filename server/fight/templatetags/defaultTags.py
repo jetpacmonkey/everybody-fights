@@ -15,3 +15,8 @@ def wordify(s):
 	final = re.sub('([a-z0-9])([A-Z])', r'\1 \2', s1)
 	final = final[0].upper() + final[1:]
 	return final
+
+
+@register.filter
+def percentOf(numerator, denominator):
+	return 100 * numerator / denominator

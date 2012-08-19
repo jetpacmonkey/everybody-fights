@@ -52,6 +52,9 @@ class Game(models.Model):
 		nextPlayer.save()
 		self.save()
 
+	def currentGamePlayer(self):
+		return self.gameplayer_set.filter(player=self.currentPlayer)[0]
+
 	class Meta:
 		app_label = 'fight'
 

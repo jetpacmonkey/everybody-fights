@@ -30,11 +30,17 @@
 {% block content %}
 	<div class="characterSelector selector">
 		{% for char in playerChars %}
-		<div class="oneChar{% if not char.cell%} unplaced{% endif %}" data-id="{{ char.id }}">
+		<div class="oneChar{% if not char.cell%} unplaced{% endif %}" data-id="{{ char.id }}" id="gameCharacterSelect_{{ char.id }}">
 			<div class="itemName">{{ char.character.name }}</div>
 			<div class="itemBack"></div>
 		</div>
 		{% endfor %}
+		<div class="apArea">
+			<div class="apTitle">AP Remaining: <span class="apRemainingDisp">{{ game.currentGamePlayer.apRemaining }}</span>/<span class="totalApDisp">{{ game.maxAP }}</span></div>
+			<div class="apMeter">
+				<span class="apRemaining" style="width: {{ game.currentGamePlayer.apRemaining|percentOf:game.maxAP }}%;">
+			</div>
+		</div>
 	</div>
 	<div class="mapCells">
 		<div class="map">
@@ -44,7 +50,7 @@
 				<div class="mapCell terrain-{{ cell.origCell.terrain.id }}" data-gamecellid="{{ cell.id }}">
 					{% if cell.gamecharacter %}
 					{% with char=cell.gamecharacter %}
-					<div class="character ownedBy-{{ char.owner.playerNum }} character-{{ char.character.id }}" id="gameCharacter_{{ char.id }}"></div>
+					<div class="character ownedBy-{{ char.owner.playerNum }} character-{{ char.character.id }}" id="gameCharacter_{{ char.id }}" data-id="{{ char.id }}"></div>
 					{% endwith %}
 					{% endif %}
 				</div>

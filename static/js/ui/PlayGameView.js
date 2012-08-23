@@ -15,9 +15,15 @@
 			this.gamePlayers = new GamePlayerSet();
 			this.terrainTypes = new TerrainTypeSet();
 			this.characters = new CharacterSet();
+			this.characterAttributes = new CharacterAttributeSet();
 			this.gameCharacters = new GameCharacterSet();
+			this.modifiers = new ModifierSet();
+			this.attributes = new AttributeSet();
+			this.cellModifiers = new CellModifierSet();
+			this.characterModifiers = new CharacterModifierSet();
 
-			this.load("game", "cells", "gameCells", "gamePlayers", "terrainTypes", "characters", "gameCharacters");
+			this.load("game", "cells", "gameCells", "gamePlayers", "terrainTypes", "characters", "characterAttributes",
+						"gameCharacters", "attributes", "modifiers", "cellModifiers", "characterModifiers");
 
 			this.placingChar = null;
 
@@ -60,6 +66,9 @@
 				var cell = self.gameCells.get($(e.currentTarget).data("gamecellid"));
 				self.placingChar.character.followPath([cell.get("id")], {
 					success: function() {
+						var moveCost = self.placingChar.character.calcAttr("moveCost");
+						console.log(moveCost);
+						self.apRemView.setAp("-=" + moveCost.toString());
 						self.placingChar = null;
 					},
 					error: function(response) {
@@ -89,11 +98,20 @@
 		},
 
 		setAp: function(newAp) {
-			if (Math.floor(newAp) != newAp) {
-				newAp = Math.floor(newAp);
-			}
 			var apRemSpan = $(".apRemainingDisp", this.$el);
 			var oldAp = +apRemSpan.text();
+
+			var prefix = newAp.toString().substr(0,2);
+			if (prefix == "+=" || prefix == "-=") {
+				var diff = +(newAp.toString().substr(2));
+				if (newAp.toString().substr(0,1) == "-") {
+					newAp = oldAp - diff;
+				} else {
+					newAp = oldAp + diff;
+				}
+			} else if (Math.floor(newAp) != newAp) {
+				newAp = Math.floor(newAp);
+			}
 			var totalAp = this.mainView.game.get("maxAP");
 			var rem = $(".apRemaining", this.$el);
 

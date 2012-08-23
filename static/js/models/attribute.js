@@ -32,5 +32,24 @@
 			"permanent": false,
 			"effect": 0
 		}
-	})
+	});
+
+	ModifierSet = BaseCollection.extend({
+		model: Modifier,
+		url: function() {
+			return this.baseUrl + 'modifier/';
+		},
+		getByName: function(name) {
+			var attribute = this.getCollection("attributes").getByName(name);
+			var arr = this.where({"attribute": attribute.get("id")});
+			return arr;
+		},
+		initialize: function () {
+			if (!("modifiers" in this.globalCollections)) {
+				this.globalCollections.modifiers = this;
+			}
+
+			BaseCollection.prototype.initialize.call(this);
+		}
+	});
 })();

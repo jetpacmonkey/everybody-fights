@@ -1,6 +1,7 @@
 from django.shortcuts import render_to_response, redirect
 from django.template import RequestContext
 from django.contrib.auth.decorators import login_required
+from django.db.models import Q
 from fight.models import *
 
 MAX_NUM_PLAYERS = 16
@@ -90,9 +91,18 @@ def playGame(request, gameId):
 
 	gamePlayers = game.gameplayer_set.all()
 
-	characters = Character.objects.all()
 	gameChars = GameCharacter.objects.filter(owner__in=gamePlayers)
+	characters = Character.objects.filter(id__in=gameChars.values_list("character", flat=True))
 	playerChars = gameChars.filter(owner__player=request.user)
+	attributes = Attribute.objects.all()
+	cellModifiers = CellModifier.objects.filter(cell__in=gameCells)
+	characterModifiers = CharacterModifier.objects.filter(character__in=gameChars)
+	modifiers = Modifier.objects.filter(
+						Q(id__in=cellModifiers.values_list("modifier", flat=True))
+						|
+						Q(id__in=characterModifiers.values_list("modifier", flat=True))
+				)
+	characterAttributes = CharacterAttribute.objects.filter(character__in=characters)
 
 	return render_to_response("playGame.html", {
 		"game": game,
@@ -104,8 +114,13 @@ def playGame(request, gameId):
 		"gamePlayers": gamePlayers,
 		"colors": ["aqua", "red"],  # just a temporary hacky thing, eventually will want this to be part of gamePlayer
 		"characters": characters,
+		"characterAttributes": characterAttributes,
 		"gameCharacters": gameChars,
-		"playerChars": playerChars
+		"playerChars": playerChars,
+		"attributes": attributes,
+		"modifiers": modifiers,
+		"cellModifiers": cellModifiers,
+		"characterModifiers": characterModifiers
 	}, RequestContext(request))
 
 

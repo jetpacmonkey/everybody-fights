@@ -41,3 +41,7 @@ def moveChar(char, cell):
 		raise Exception("Cell already occupied")
 
 	# Subtract appropriate AP from gamePlayer
+	owner = char.owner
+	moveCost = char.calcAttr("moveCost")
+	owner.apRemaining -= moveCost
+	owner.save()

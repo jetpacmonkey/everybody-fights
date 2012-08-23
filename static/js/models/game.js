@@ -76,6 +76,31 @@
 					"csrfmiddlewaretoken": $("#csrf input").val()
 				}
 			}));
+		},
+		calcAttr: function(attrName) {
+			var character = null;
+			if ("characters" in this.collection.globalCollections) {
+				character = this.collection.getCollection("characters").get(this.get("character"));
+			}
+			if (!character) {
+				console.error("Character not found");
+				return null;
+			}
+			var val = character.attr(attrName);
+			if (val === null) {
+				return null; //not a valid attribute for this character type
+			}
+			var cellMods = this.collection.getCollection("cellModifiers").getByNameAndCell(attrName, this.get("cell"));
+			for (var i=0, ii=cellMods.length; i<ii; ++i) {
+				var mod = this.collection.getCollection("modifiers").get(cellMods.get("modifier"));
+				val += mod.get("effect");
+			}
+			var charMods = this.collection.getCollection("characterModifiers").getByNameAndCharacter(attrName, this.get("character"));
+			for (var i=0, ii=charMods.length; i<ii; ++i) {
+				var mod = this.collection.getCollection("modifiers").get(cellMods.get("modifier"));
+				val += mod.get("effect");
+			}
+			return val;
 		}
 	});
 
@@ -112,5 +137,75 @@
 
 			BaseCollection.prototype.initialize.call(this);
 		}
-	})
+	});
+
+	CellModifier = Backbone.Model.extend({
+		defaults: {
+			"cell": null,
+			"modifier": null
+		}
+	});
+
+	CellModifierSet = BaseCollection.extend({
+		model: CellModifier,
+		url: function() {
+			return this.baseUrl + 'cellModifier/';
+		},
+		initialize: function() {
+			if (!("cellModifiers" in this.globalCollections)) {
+				this.globalCollections.cellModifiers = this;
+			}
+
+			BaseCollection.prototype.initialize.call(this);
+		},
+		getByNameAndCell: function(attrName, cell) {
+			if (cell instanceof GameCell) {
+				cell = cell.get("id");
+			}
+			var result = [];
+			var modifiers = this.getCollection("modifiers").getByName(attrName);
+			for (var i=0, ii=modifiers.length; i<ii; ++i) {
+				result = result.concat(this.where({
+					"modifier": modifiers[i].get("id"),
+					"cell": cell
+				}));
+			}
+			return result;
+		}
+	});
+
+	CharacterModifier = Backbone.Model.extend({
+		defaults: {
+			"character": null,
+			"modifier": null
+		}
+	});
+
+	CharacterModifierSet = BaseCollection.extend({
+		model: CellModifier,
+		url: function() {
+			return this.baseUrl + 'characterModifier/';
+		},
+		initialize: function() {
+			if (!("characterModifiers" in this.globalCollections)) {
+				this.globalCollections.characterModifiers = this;
+			}
+
+			BaseCollection.prototype.initialize.call(this);
+		},
+		getByNameAndCharacter: function(attrName, character) {
+			if (character instanceof GameCharacter) {
+				character = character.get("id");
+			}
+			var result = [];
+			var modifiers = this.getCollection("modifiers").getByName(attrName);
+			for (var i=0, ii=modifiers.length; i<ii; ++i) {
+				result = result.concat(this.where({
+					"modifier": modifiers[i].get("id"),
+					"character": character
+				}));
+			}
+			return result;
+		}
+	});
 })();

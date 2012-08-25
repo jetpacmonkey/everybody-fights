@@ -60,6 +60,21 @@
 			<div style="clear: both"></div>
 		</div>
 	</div>
+	<div class="charInfo">
+		<div class="charHeader"></div>
+		<div class="charInfoContents">
+			<div class="charStats">
+				{% for a in attributes %}
+				{% if a.name != "cost" %}
+				<div class="oneAttr" data-attrid="{{ a.id }}" data-attrname="{{ a.name }}">
+					<div class="attrName">{{ a.name|wordify }}</div>
+					<div class="attrVal"></div>
+				</div>
+				{% endif %}
+				{% endfor %}
+			</div>
+		</div>
+	</div>
 {% endblock %}
 
 {% block data %}

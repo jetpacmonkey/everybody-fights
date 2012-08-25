@@ -37,6 +37,10 @@
 
 		clickSidebarChar: function(e) {
 			var character = this.gameCharacters.get($(e.currentTarget).data("id"));
+
+			$(e.currentTarget).addClass("selected").siblings(".selected").removeClass("selected");
+			this.selCharView.model = character;
+			this.selCharView.render();
 			
 			if (!character.get("cell")) {
 				var charIcon = $("<div>", {
@@ -81,7 +85,29 @@
 	});
 
 	var SelectedCharInfoView = Backbone.View.extend({
+		el: ".charInfo",
 
+		render: function() {
+			var self = this;
+			if (this.model) {
+				var character = this.mainView.characters.get(this.model.get("character"));
+				this.$(".charHeader").text(character.get("name"));
+				this.$(".charInfoContents .oneAttr").each(function() {
+					var val = self.model.calcAttr($(this).data("attrname"));
+					if (val === null) {
+						$(this).hide();
+					} else {
+						$(this).show();
+						$(".attrVal", this).text(val);
+					}
+				});
+				this.$(".charInfoContents").css("visibility", "visible");
+			} else {
+				this.$(".charHeader").html("");
+				this.$(".charInfoContents").css("visibility", "hidden");
+			}
+			return this;
+		}
 	});
 
 	var ApMeterView = Backbone.View.extend({
@@ -104,12 +130,13 @@
 			var prefix = newAp.toString().substr(0,2);
 			if (prefix == "+=" || prefix == "-=") {
 				var diff = +(newAp.toString().substr(2));
-				if (newAp.toString().substr(0,1) == "-") {
+				if (prefix.substr(0,1) == "-") {
 					newAp = oldAp - diff;
 				} else {
 					newAp = oldAp + diff;
 				}
-			} else if (Math.floor(newAp) != newAp) {
+			}
+			if (Math.floor(newAp) != newAp) {
 				newAp = Math.floor(newAp);
 			}
 			var totalAp = this.mainView.game.get("maxAP");
@@ -132,6 +159,8 @@
 				}
 			}
 			window.setTimeout(adjustByOne, msPerAp);
+
+			return this;
 		}
 	});
 

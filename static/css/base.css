@@ -215,6 +215,7 @@ body {
 .selector .selected {
 	font-style: italic;
 	font-weight: bold;
+	background-color: rgba(255, 255, 255, 0.4);
 }
 
 .selector > div .itemName {

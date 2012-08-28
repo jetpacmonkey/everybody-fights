@@ -3,8 +3,10 @@
 		el: ".content",
 		events: {
 			"click .oneChar": "clickSidebarChar",
-			"mouseover .mapCell": "overCell",
-			"mouseout .map": "outCells",
+			"mouseenter .oneChar": "overChar",
+			"mouseleave .oneChar": "outChar",
+			"mouseenter .mapCell": "overCell",
+			"mouseleave .mapCell": "outCell",
 			"click .mapCell": "clickCell"
 		},
 
@@ -42,9 +44,11 @@
 			this.selCharView.model = character;
 			this.selCharView.render();
 			
-			if (!character.get("cell")) {
+			if (character.get("cell")) {
+				this.placingChar = null;
+			} else {
 				var charIcon = $("<div>", {
-					"class": "character ownedBy-" + this.gamePlayers.where({"player": user.id})[0].get("playerNum") + " character-" + this.characters.get(character.get("character")).get("id"),
+					"class": "character ownedBy-" + this.gamePlayers.where({"player": user.id})[0].get("playerNum") + " character-" + character.get("character"),
 					"id": "gameCharacter_" + character.get("id")
 				}).data("id", character.get("id"));
 
@@ -54,14 +58,32 @@
 				};
 			}
 		},
+		overChar: function(e) {
+			var id = $(e.currentTarget).data("id");
+			var cellDiv = $("#gameCharacter_" + id).parent();
+			cellDiv.addClass("hovered");
+		},
+		outChar: function(e) {
+			var id = $(e.currentTarget).data("id");
+			var cellDiv = $("#gameCharacter_" + id).parent();
+			cellDiv.removeClass("hovered");
+		},
 		overCell: function(e) {
 			if (this.placingChar && !$(".character", e.currentTarget).length) {
 				$(e.currentTarget).append($(this.placingChar.icon));
+			} else if ($(".character", e.currentTarget).length) {
+				var id = $(".character", e.currentTarget).data("id");
+				var selDiv = $("#gameCharacterSelect_" + id);
+				selDiv.addClass("hovered");
 			}
 		},
-		outCells: function(e) {
-			if (this.placingChar && $(".character", e.currentTarget).length) {
-				//this.placingChar.icon = $(".character", e.currentTarget).detach();
+		outCell: function(e) {
+			if (this.placingChar && $(this.placingChar.icon, e.currentTarget).length) {
+				this.placingChar.icon.detach();
+			} else if ($(".character", e.currentTarget).length) {
+				var id = $(".character", e.currentTarget).data("id");
+				var selDiv = $("#gameCharacterSelect_" + id);
+				selDiv.removeClass("hovered");
 			}
 		},
 		clickCell: function(e) {

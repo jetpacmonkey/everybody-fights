@@ -46,6 +46,10 @@
 			
 			if (character.get("cell")) {
 				this.placingChar = null;
+				var id = $(e.currentTarget).data("id");
+				var cellDiv = $("#gameCharacter_" + id).parent();
+				$(".mapCell.selected").removeClass("selected");
+				cellDiv.addClass("selected");
 			} else {
 				var charIcon = $("<div>", {
 					"class": "character ownedBy-" + this.gamePlayers.where({"player": user.id})[0].get("playerNum") + " character-" + character.get("character"),

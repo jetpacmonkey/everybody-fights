@@ -77,7 +77,11 @@
 				}
 			}));
 		},
-		calcAttr: function(attrName) {
+		calcAttr: function(attrName, opts) {
+			if (arguments.length < 2) {
+				opts = {};
+			}
+
 			var character = null;
 			if ("characters" in this.collection.globalCollections) {
 				character = this.collection.getCollection("characters").get(this.get("character"));
@@ -90,7 +94,18 @@
 			if (val === null) {
 				return null; //not a valid attribute for this character type
 			}
-			var cellMods = this.collection.getCollection("cellModifiers").getByNameAndCell(attrName, this.get("cell"));
+
+			var cellId;
+			if ("gameCell" in opts) {
+				if (opts.gameCell instanceof GameCell) {
+					cellId = opts.gameCell.get("id");
+				} else {
+					cellId = opts.gameCell;
+				}
+			} else {
+				cellId = this.get("cell");
+			}
+			var cellMods = this.collection.getCollection("cellModifiers").getByNameAndCell(attrName, cellId);
 			for (var i=0, ii=cellMods.length; i<ii; ++i) {
 				var mod = this.collection.getCollection("modifiers").get(cellMods.get("modifier"));
 				val += mod.get("effect");

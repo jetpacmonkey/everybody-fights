@@ -84,7 +84,8 @@
 		outCell: function(e) {
 			if (this.placingChar && $(this.placingChar.icon, e.currentTarget).length) {
 				this.placingChar.icon.detach();
-			} else if ($(".character", e.currentTarget).length) {
+			}
+			if ($(".character", e.currentTarget).length) {
 				var id = $(".character", e.currentTarget).data("id");
 				var selDiv = $("#gameCharacterSelect_" + id);
 				selDiv.removeClass("hovered");
@@ -92,14 +93,18 @@
 		},
 		clickCell: function(e) {
 			var self = this;
-			if (self.placingChar) {
+			if (self.placingChar && !$(".character", e.currentTarget).not(self.placingChar.icon).length) {
 				var cell = self.gameCells.get($(e.currentTarget).data("gamecellid"));
 				self.placingChar.character.followPath([cell.get("id")], {
 					success: function() {
 						var moveCost = self.placingChar.character.calcAttr("moveCost");
-						console.log(moveCost);
+						$("#gameCharacterSelect_" + self.placingChar.character.get("id")).removeClass("unplaced");
+						self.placingChar.character.set({
+							"cell": cell.get("id")
+						});
 						self.apRemView.setAp("-=" + moveCost.toString());
 						self.placingChar = null;
+						$(e.currentTarget).addClass("selected");
 					},
 					error: function(response) {
 						var respTxt = response.responseText;

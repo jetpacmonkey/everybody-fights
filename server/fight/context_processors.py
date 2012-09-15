@@ -8,6 +8,8 @@ def proc(request):
 
 		'js/utils/utils.js',
 
+		'js/models/pathFinder.js',
+
 		'js/ui/BaseViews.js',
 
 		'js/models/base.js',

@@ -11,27 +11,41 @@
 			if (arguments.length === 0) {
 				cells = this.collection;
 			}
-			var evenCol = (this.get("x") % 2) === 0;
+			var evenCol = (this.get("x") % 2) === 0,
+				mapObj = this.get("mapObj"),
+				x = this.get("x"),
+				y = this.get("y");
+
 			return _.union(
-				cells.where({
-					"mapObj": this.get("mapObj"),
-					"x": this.get("x") - 1,
-					"y": this.get("y")
+				cells.where({ //left "straight"
+					"mapObj": mapObj,
+					"x": x - 1,
+					"y": y
 				}),
-				cells.where({
-					"mapObj": this.get("mapObj"),
-					"x": this.get("x") - 1,
-					"y": this.get("y") + (evenRow ? 1 : -1)
+				cells.where({ //left up/down
+					"mapObj": mapObj,
+					"x": x - 1,
+					"y": y + (evenCol ? 1 : -1)
 				}),
-				cells.where({
-					"mapObj": this.get("mapObj"),
-					"x": this.get("x") + 1,
-					"y": this.get("y")
+				cells.where({ //right "straight"
+					"mapObj": mapObj,
+					"x": x + 1,
+					"y": y
 				}),
-				cells.where({
-					"mapObj": this.get("mapObj"),
-					"x": this.get("x") + 1,
-					"y": this.get("y") + (evenRow ? 1 : -1)
+				cells.where({ //right up/down
+					"mapObj": mapObj,
+					"x": x + 1,
+					"y": y + (evenCol ? 1 : -1)
+				}),
+				cells.where({ //up
+					"mapObj": mapObj,
+					"x": x,
+					"y": y + 1
+				}),
+				cells.where({ //down
+					"mapObj": mapObj,
+					"x": x,
+					"y": y - 1
 				})
 			);
 		}

@@ -25,7 +25,7 @@
 				cells.where({ //left up/down
 					"mapObj": mapObj,
 					"x": x - 1,
-					"y": y + (evenCol ? 1 : -1)
+					"y": y + (evenCol ? -1 : 1)
 				}),
 				cells.where({ //right "straight"
 					"mapObj": mapObj,
@@ -35,7 +35,7 @@
 				cells.where({ //right up/down
 					"mapObj": mapObj,
 					"x": x + 1,
-					"y": y + (evenCol ? 1 : -1)
+					"y": y + (evenCol ? -1 : 1)
 				}),
 				cells.where({ //up
 					"mapObj": mapObj,

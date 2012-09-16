@@ -47,7 +47,7 @@
 			{% for mapCol in mapCols %}
 			<div class="mapCol">
 				{% for cell in mapCol %}
-				<div class="mapCell terrain-{{ cell.origCell.terrain.id }}" data-gamecellid="{{ cell.id }}">
+				<div class="mapCell terrain-{{ cell.origCell.terrain.id }}" id="gameCell_{{ cell.id }}" data-gamecellid="{{ cell.id }}">
 					{% if cell.gamecharacter %}
 					{% with char=cell.gamecharacter %}
 					<div class="character ownedBy-{{ char.owner.playerNum }} character-{{ char.character.id }}" id="gameCharacter_{{ char.id }}" data-id="{{ char.id }}"></div>

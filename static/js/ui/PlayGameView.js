@@ -28,6 +28,7 @@
 						"gameCharacters", "attributes", "modifiers", "cellModifiers", "characterModifiers");
 
 			this.placingChar = null;
+			this.pathFinder = null;
 
 			this.apRemView = new ApMeterView();
 			this.selCharView = new SelectedCharInfoView();
@@ -35,6 +36,15 @@
 			this.apRemView.mainView = this.selCharView.mainView = this;
 
 			BaseView.prototype.initialize.apply(this);
+		},
+
+		setPaths: function(gameChar) {
+			this.pathFinder = PathFinder(gameChar);
+			this.$(".mapCell.reachable").removeClass("reachable");
+			var reachable = this.pathFinder.reachable();
+			for (var i=0, ii=reachable.length; i<ii; ++i) {
+				this.$("#gameCell_" + reachable[i]).addClass("reachable");
+			}
 		},
 
 		clickSidebarChar: function(e) {
@@ -50,6 +60,7 @@
 				var cellDiv = $("#gameCharacter_" + id).parent();
 				$(".mapCell.selected").removeClass("selected");
 				cellDiv.addClass("selected");
+				this.setPaths(character);
 			} else {
 				var charIcon = $("<div>", {
 					"class": "character ownedBy-" + this.gamePlayers.where({"player": user.id})[0].get("playerNum") + " character-" + character.get("character"),
@@ -60,6 +71,8 @@
 					"character": character,
 					"icon": charIcon
 				};
+
+				this.pathFinder = null;
 			}
 		},
 		overChar: function(e) {
@@ -80,6 +93,14 @@
 				var selDiv = $("#gameCharacterSelect_" + id);
 				selDiv.addClass("hovered");
 			}
+
+			if (this.pathFinder && $(e.currentTarget).hasClass("reachable")) {
+				var path = this.pathFinder.movePath($(e.currentTarget).data("gamecellid"));
+				for (var i=0, ii=path.length; i<ii; ++i) {
+					this.$("#gameCell_" + path[i]).addClass("inPath");
+				}
+				$(e.currentTarget).addClass("inPath");
+			}
 		},
 		outCell: function(e) {
 			if (this.placingChar && $(this.placingChar.icon, e.currentTarget).length) {
@@ -90,6 +111,8 @@
 				var selDiv = $("#gameCharacterSelect_" + id);
 				selDiv.removeClass("hovered");
 			}
+
+			this.$(".inPath").removeClass("inPath");
 		},
 		clickCell: function(e) {
 			var self = this;
@@ -111,6 +134,10 @@
 						alert(respTxt);
 					}
 				});
+			} else if ($(".character", e.currentTarget).length) {
+				var id = $(".character", e.currentTarget).data("id");
+				var selDiv = $("#gameCharacterSelect_" + id);
+				selDiv.click();
 			}
 		}
 	});

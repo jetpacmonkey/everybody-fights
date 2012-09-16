@@ -70,7 +70,7 @@
 		};
 
 
-	PathFinder = function(gameChar, game, ap) {
+	PathFinder = function(gameChar, ap) {
 		if (arguments.length < 3) {
 			ap = gameChar.collection.getCollection("gamePlayers").get(gameChar.get("owner")).get("apRemaining");
 		}
@@ -156,7 +156,7 @@
 				if (cellId in distances) {
 					return distances[cellId].path;
 				} else {
-					return null;
+					return [];
 				}
 			},
 			"getAp": function() {

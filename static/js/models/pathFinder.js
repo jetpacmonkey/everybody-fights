@@ -104,16 +104,19 @@
 						var adjacentCells = cell.adjacentCells();
 
 						for (var i=0, ii=adjacentCells.length; i<ii; ++i) {
-							var gCell = gameCells.find(function(gc) {return gc.get("origCell") == adjacentCells[i].get("id")});
-							if (!(gCell.get("id") in distances)) { //if distance not already calculated
-									discovered.push({
+							var gCell = gameCells.find(function(gc) {return gc.get("origCell") == adjacentCells[i].get("id");});
+							var cellChar = gameChar.collection.find(function(gc) {return gc.get("cell") == gCell.get("id");});
+							if (!cellChar && !(gCell.get("id") in distances)) { //if distance not already calculated and cell isn't occupied
+								discovered.push(
+									{
 										"gameCell": gCell,
 										"path": _.union(prevPath, [gameCell.get("id")])
-									}, cost + gameChar.calcAttr("moveCost", {
+									},
+									cost + gameChar.calcAttr("moveCost", {
 										"gameCell": gCell
 									})
 								);
-							} //end if distance not already calculated
+							} //end if distance not already calculated/cell not occupied
 						} //adjacentCells for loop
 					} //if gameCell...
 				} //while...

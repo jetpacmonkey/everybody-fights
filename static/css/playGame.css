@@ -102,6 +102,25 @@
 	border-color: red;
 }
 
+.mapCell.inPath:before {
+	position: absolute;
+	display: block;
+	top: 0;
+	right: 0;
+	width: 50%;
+	height: 15px;
+	line-height: 15px;
+	font-size: 12px;
+	text-align: center;
+	border: 1px solid #333;
+	background: #ff8;
+	content: attr(data-movecost);
+}
+
+.mapCell.selected:before {
+	display: none;
+}
+
 /* progress bar CSS from http://css-tricks.com/css3-progress-bars/ */
 .content .apArea {
 	position: absolute;

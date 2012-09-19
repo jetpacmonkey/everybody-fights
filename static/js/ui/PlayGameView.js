@@ -95,11 +95,14 @@
 			}
 
 			if (this.pathFinder && $(e.currentTarget).hasClass("reachable")) {
-				var path = this.pathFinder.movePath($(e.currentTarget).data("gamecellid"));
+				var cellId = $(e.currentTarget).data("gamecellid"),
+					path = this.pathFinder.movePath(cellId);
 				for (var i=0, ii=path.length; i<ii; ++i) {
-					this.$("#gameCell_" + path[i]).addClass("inPath");
+					var pathCell = this.$("#gameCell_" + path[i]);
+					pathCell.addClass("inPath");
+					pathCell.attr("data-movecost", this.pathFinder.moveCost(path[i]));
 				}
-				$(e.currentTarget).addClass("inPath");
+				$(e.currentTarget).addClass("inPath").attr("data-movecost", this.pathFinder.moveCost(cellId));
 			}
 		},
 		outCell: function(e) {
@@ -112,7 +115,7 @@
 				selDiv.removeClass("hovered");
 			}
 
-			this.$(".inPath").removeClass("inPath");
+			this.$(".inPath").removeClass("inPath").removeAttr("data-movecost");
 		},
 		clickCell: function(e) {
 			var self = this;

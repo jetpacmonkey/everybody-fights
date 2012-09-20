@@ -2,7 +2,19 @@ Nothing really here yet… But eventually it'll be _AWESOME_!
 
 Possible Working Title: *FORSAKEN REALM*
 
-## To-Do:
+# Libraries used
+## Server-side dependencies:
+* django 1.4 (https://www.djangoproject.com/)
+* tastypie api (http://tastypieapi.org/)
+* south (for migrations) (http://south.aeracode.org/)
+
+## Client-side (included in repo):
+* jQuery 1.7.2 (http://jquery.com/)
+* Underscore.js 1.3.3 (http://underscorejs.org/)
+* Backbone.js 0.9.2 (http://backbonejs.org/)
+* json2.js (http://www.JSON.org/js.html)
+
+# To-Do:
 * Simple map creation _DONE_
 * Terrain effects (right now all terrain are the same outside of color)
     * `<attribute>` `<operator>` `<effect>` (eg `moveCost * 2`)

@@ -6,7 +6,7 @@ Possible Working Title: *FORSAKEN REALM*
 * Simple map creation _DONE_
 * Terrain effects (right now all terrain are the same outside of color)
     * `<attribute>` `<operator>` `<effect>` (eg `moveCost * 2`)
-    * require `<attribute>` `<comparison>` `<value>` (eg `size &lt; 7`)
+    * require `<attribute>` `<comparison>` `<value>` (eg `size < 7`)
 * Game Creation _DONE_
 * Basic gameplay (skirmish mode: purchase characters, place them, fight until no one's left)
 

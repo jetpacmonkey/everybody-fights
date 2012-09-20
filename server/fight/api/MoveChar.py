@@ -11,8 +11,9 @@ def followPath(request, charId, pathHash):
 
 	try:
 		for cellId in gCellIds:
-			gCell = GameCell.objects.get(id=cellId)
-			moveChar(gChar, gCell)
+			if int(cellId) != gChar.cell.id:
+				gCell = GameCell.objects.get(id=cellId)
+				moveChar(gChar, gCell)
 	except Exception as e:
 		resp.status_code = 400
 		resp.content = str(e)
@@ -28,7 +29,7 @@ def moveChar(char, cell):
 	# Make sure cell is adjacent to char.cell and gamePlayer has enough AP
 	if char.cell:
 		if not char.cell.origCell.isAdj(cell.origCell):
-			raise Exception("Cell not adjacent to character's previous location")
+			raise Exception("Cell %s not adjacent to character's previous location %s" % (cell, char.cell))
 	else:
 		# Character just entering the board, must enter from an edge
 		dim = cell.origCell.mapObj.dimensions()

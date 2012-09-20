@@ -27,6 +27,8 @@
 			this.load("game", "cells", "gameCells", "gamePlayers", "terrainTypes", "characters", "characterAttributes",
 						"gameCharacters", "attributes", "modifiers", "cellModifiers", "characterModifiers");
 
+			this.userPlayer = this.gamePlayers.find(function(gp) {return gp.get("player") == user.get("id")});
+
 			this.placingChar = null;
 			this.pathFinder = null;
 
@@ -138,9 +140,35 @@
 					}
 				});
 			} else if ($(".character", e.currentTarget).length) {
-				var id = $(".character", e.currentTarget).data("id");
-				var selDiv = $("#gameCharacterSelect_" + id);
-				selDiv.click();
+				var id = $(".character", e.currentTarget).data("id"),
+					gameChar = self.gameCharacters.get(id);
+
+				if (gameChar.get("owner") == self.userPlayer.get("id")) { //character owned by current player
+					var selDiv = $("#gameCharacterSelect_" + id);
+					selDiv.click();
+				}
+			} else if ($(e.currentTarget).hasClass("reachable")) {
+				var cellId = +$(e.currentTarget).data("gamecellid"),
+					cell = self.gameCells.get(cellId),
+					path = self.pathFinder.movePath(cellId),
+					cost = self.pathFinder.moveCost(cellId),
+					gameChar = self.selCharView.model;
+
+				gameChar.followPath(_.union(path, [cell.get("id")]), {
+					success: function() {
+						gameChar.set({
+							"cell": cellId
+						});
+						self.apRemView.setAp("-=" + cost.toString());
+						$(".mapCell.selected").removeClass("selected");
+						$(e.currentTarget).append($("#gameCharacter_" + gameChar.get("id"))).addClass("selected");
+						self.setPaths(gameChar);
+					},
+					error: function(response) {
+						var respTxt = response.responseText;
+						alert(respTxt);
+					}
+				});
 			}
 		}
 	});

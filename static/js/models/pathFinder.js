@@ -62,6 +62,7 @@
 	}
 
 
+	//private functions
 	var getCell = function(gameCell) {
 			return gameCell.collection.getCollection("cells").get(gameCell.get("origCell"));
 		},
@@ -70,6 +71,7 @@
 		};
 
 
+	//constructor, returns public methods
 	PathFinder = function(gameChar, ap) {
 		if (arguments.length < 3) {
 			ap = gameChar.collection.getCollection("gamePlayers").get(gameChar.get("owner")).get("apRemaining");

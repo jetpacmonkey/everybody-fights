@@ -20,7 +20,12 @@ Possible Working Title: *FORSAKEN REALM*
     * `<attribute>` `<operator>` `<effect>` (eg `moveCost * 2`) ___DONE___
     * require `<attribute>` `<comparison>` `<value>` (eg `size < 7`)
 * Game Creation ___DONE___
-* Basic gameplay (skirmish mode: purchase characters, place them, fight until no one's left)
+* Basic gameplay - skirmish mode
+    * Purchase characters ___DONE___
+    * Place characters ___DONE___
+    * Move characters ___DONE___
+    * Melee/ranged attacks
+    * End turn/end-of-game checking
 
 ## Down the road ideas:
 * Other game modes (CTF, race, ability to add NPCs, co-op)

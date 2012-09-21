@@ -84,6 +84,8 @@ def playGame(request, gameId):
 	gameCells = game.gamecell_set.all().select_related("origCell", "origCell__terrain", "character")
 	cells = Cell.objects.filter(id__in=gameCells.values_list("origCell", flat=True))
 	terrainTypes = TerrainType.objects.all()
+	terrainModifiers = TerrainModifier.objects.all()
+	terrainRequirements = TerrainRequirement.objects.all()
 
 	mapCols = [[None for j in range(cells[len(cells)-1].y + 1)] for i in range(cells[len(cells)-1].x + 1)]  # 2d array of Nones waiting to be filled in
 	for c in gameCells:
@@ -111,6 +113,8 @@ def playGame(request, gameId):
 		"mapCols": mapCols,
 		"gameCells": gameCells,
 		"terrainTypes": terrainTypes,
+		"terrainModifiers": terrainModifiers,
+		"terrainRequirements": terrainRequirements,
 		"gamePlayers": gamePlayers,
 		"colors": ["aqua", "red"],  # just a temporary hacky thing, eventually will want this to be part of gamePlayer
 		"characters": characters,

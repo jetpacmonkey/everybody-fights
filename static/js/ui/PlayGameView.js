@@ -17,6 +17,8 @@
 			self.gameCells = new GameCellSet();
 			self.gamePlayers = new GamePlayerSet();
 			self.terrainTypes = new TerrainTypeSet();
+			self.terrainModifiers = new TerrainModifierSet();
+			self.terrainRequirements = new TerrainRequirementSet();
 			self.characters = new CharacterSet();
 			self.characterAttributes = new CharacterAttributeSet();
 			self.gameCharacters = new GameCharacterSet();
@@ -25,8 +27,9 @@
 			self.cellModifiers = new CellModifierSet();
 			self.characterModifiers = new CharacterModifierSet();
 
-			self.load("game", "cells", "gameCells", "gamePlayers", "terrainTypes", "characters", "characterAttributes",
-						"gameCharacters", "attributes", "modifiers", "cellModifiers", "characterModifiers");
+			self.load("game", "cells", "gameCells", "gamePlayers", "terrainTypes", "terrainModifiers", "terrainRequirements",
+						"characters", "characterAttributes", "gameCharacters", "attributes", "modifiers",
+						"cellModifiers", "characterModifiers");
 
 			self.curGamePlayer = self.gamePlayers.find(function(gp) {return gp.get("player") == self.game.get("currentPlayer");});
 			self.userPlayer = self.gamePlayers.find(function(gp) {return gp.get("player") == user.get("id");});

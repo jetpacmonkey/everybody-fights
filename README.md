@@ -15,11 +15,11 @@ Possible Working Title: *FORSAKEN REALM*
 * json2.js (http://www.JSON.org/js.html)
 
 # To-Do:
-* Simple map creation _DONE_
+* Simple map creation ___DONE___
 * Terrain effects (right now all terrain are the same outside of color)
-    * `<attribute>` `<operator>` `<effect>` (eg `moveCost * 2`)
+    * `<attribute>` `<operator>` `<effect>` (eg `moveCost * 2`) ___DONE___
     * require `<attribute>` `<comparison>` `<value>` (eg `size < 7`)
-* Game Creation _DONE_
+* Game Creation ___DONE___
 * Basic gameplay (skirmish mode: purchase characters, place them, fight until no one's left)
 
 ## Down the road ideas:

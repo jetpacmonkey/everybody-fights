@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib import admin
+from fight.models.Attribute import Attribute
 
 class TerrainType(models.Model):
 	name = models.CharField(max_length=32)
@@ -12,3 +13,47 @@ class TerrainType(models.Model):
 
 	class Meta:
 		app_label = 'fight'
+
+
+modifierOperators = (
+	("+", "+"),
+	("-", "-"),
+	("/", "/"),
+	("*", "X")
+)
+
+
+class TerrainModifier(models.Model):
+	terrain = models.ForeignKey(TerrainType)
+	attribute = models.ForeignKey(Attribute)
+	operator = models.CharField(max_length=1, choices=modifierOperators)
+	effect = models.IntegerField(default=0)
+
+	def __unicode__(self):
+		return "%s: %s %s %i" % (self.terrain, self.attribute.name, self.get_operator_display(), self.effect)
+
+	class Meta:
+		app_label = 'fight'
+
+
+requirementOperators = (
+	("<", "<"),
+	("<=", "<="),
+	("==", "="),
+	(">", ">"),
+	(">=", ">=")
+)
+
+
+class TerrainRequirement(models.Model):
+	terrain = models.ForeignKey(TerrainType)
+	attribute = models.ForeignKey(Attribute)
+	operator = models.CharField(max_length=2, choices=requirementOperators)
+	value = models.IntegerField()
+
+	def __unicode__(self):
+		return "%s: %s %s %i" % (self.terrain, self.attribute, self.get_operator_display(), self.value)
+
+	class Meta:
+		app_label = 'fight'
+

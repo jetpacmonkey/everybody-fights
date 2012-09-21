@@ -11,6 +11,8 @@ class BetterEncoder(simplejson.JSONEncoder):
 			return serializers.serialize('python', [obj])[0]
 		elif hasattr(obj, "timetuple"):
 			return mktime(obj.timetuple())
+		elif hasattr(obj, "__float__"):
+			return float(obj)
 		return simplejson.JSONEncoder.default(self, obj)
 
 def toJSON(obj):

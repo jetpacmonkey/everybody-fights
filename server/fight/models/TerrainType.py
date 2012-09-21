@@ -33,7 +33,7 @@ class TerrainModifier(models.Model):
 		if self.operator == "+":
 			return val + self.effect
 		elif self.operator == "-":
-			return val - self.effect:
+			return val - self.effect
 		elif self.operator == "/":
 			return round(val / self.effect)
 		elif self.operator == "*":

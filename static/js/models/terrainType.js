@@ -33,7 +33,7 @@
 			switch(this.get("operator")) {
 				case "+":
 					return val + eff;
-				case "-";
+				case "-":
 					return val - eff;
 				case "/":
 					return Math.round(val / eff);

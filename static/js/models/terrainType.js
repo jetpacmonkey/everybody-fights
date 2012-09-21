@@ -7,7 +7,7 @@
 	});
 
 	TerrainTypeSet = BaseCollection.extend({
-		model: Map,
+		model: TerrainType,
 		url: function() {
 			throw "No API for Terrain Types exists!";
 		},

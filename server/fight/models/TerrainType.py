@@ -27,10 +27,10 @@ class TerrainModifier(models.Model):
 	terrain = models.ForeignKey(TerrainType)
 	attribute = models.ForeignKey(Attribute)
 	operator = models.CharField(max_length=1, choices=modifierOperators)
-	effect = models.IntegerField(default=0)
+	effect = models.DecimalField(default=0, max_digits=5, decimal_places=2)
 
 	def __unicode__(self):
-		return "%s: %s %s %i" % (self.terrain, self.attribute.name, self.get_operator_display(), self.effect)
+		return "%s: %s %s %g" % (self.terrain, self.attribute.name, self.get_operator_display(), self.effect)
 
 	class Meta:
 		app_label = 'fight'

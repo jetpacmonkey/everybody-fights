@@ -29,6 +29,18 @@ class TerrainModifier(models.Model):
 	operator = models.CharField(max_length=1, choices=modifierOperators)
 	effect = models.DecimalField(default=0, max_digits=5, decimal_places=2)
 
+	def applyTo(self, val):
+		if self.operator == "+":
+			return val + self.effect
+		elif self.operator == "-":
+			return val - self.effect:
+		elif self.operator == "/":
+			return round(val / self.effect)
+		elif self.operator == "*":
+			return round(val * self.effect)
+		else:
+			return val
+
 	def __unicode__(self):
 		return "%s: %s %s %g" % (self.terrain, self.attribute.name, self.get_operator_display(), self.effect)
 

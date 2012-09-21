@@ -117,6 +117,9 @@ class GameCharacter(models.Model):
 		val = self.character.attr(attrName)
 		if val is None:
 			return None # not a valid attribute for this character type
+		if self.cell:
+			for terrainMod in self.cell.origCell.terrain.terrainmodifier_set.filter(attribute__name=attrName):
+				val = terrainMod.applyTo(val)
 		for cellMod in self.cell.cellmodifier_set.filter(modifier__attribute__name=attrName).select_related('modifier'):
 			val += cellMod.modifier.effect
 		for charMod in self.charactermodifier_set.filter(modifier__attribute__name=attrName).select_related('modifier'):

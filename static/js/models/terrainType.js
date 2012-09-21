@@ -27,6 +27,21 @@
 			"attribute": null,
 			"operator": "+",
 			"effect": 0
+		},
+		applyTo: function(val) {
+			var eff = this.get("effect");
+			switch(this.get("operator")) {
+				case "+":
+					return val + eff;
+				case "-";
+					return val - eff;
+				case "/":
+					return Math.round(val / eff);
+				case "*":
+					return Math.round(val * eff);
+			}
+			console.warn("Invalid operator: " + this.get("operator"));
+			return val;
 		}
 	});
 
@@ -41,6 +56,13 @@
 			}
 
 			BaseCollection.prototype.initialize.call(this);
+		},
+		getByNameAndTerrain: function(name, terrain) {
+			var attribute = this.getCollection("attributes").find(function(att) {return att.get("name") == name;});
+			return this.where({
+				"terrain": terrain,
+				"attribute": (attribute ? attribute.get("id") : null)
+			});
 		}
 	});
 

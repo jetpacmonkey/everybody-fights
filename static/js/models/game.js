@@ -95,15 +95,24 @@
 				return null; //not a valid attribute for this character type
 			}
 
-			var cellId;
+			var cellId, gameCell;
 			if ("gameCell" in opts) {
 				if (opts.gameCell instanceof GameCell) {
+					gameCell = opts.gameCell;
 					cellId = opts.gameCell.get("id");
 				} else {
 					cellId = opts.gameCell;
+					gameCell = this.collection.getCollection("gameCells").get(cellId);
 				}
 			} else {
 				cellId = this.get("cell");
+				gameCell = this.collection.getCollection("gameCells").get(cellId);
+			}
+			
+			var cell = this.collection.getCollection("cells").get(gameCell.get("origCell"));
+			var cellTerrainMods = this.collection.getCollection("terrainModifiers").getByNameAndTerrain(attrName, cell.get("terrain"));
+			for (var i=0, ii=cellTerrainMods.length; i<ii; ++i) {
+				val = cellTerrainMods[i].applyTo(val);
 			}
 			var cellMods = this.collection.getCollection("cellModifiers").getByNameAndCell(attrName, cellId);
 			for (var i=0, ii=cellMods.length; i<ii; ++i) {

@@ -11,33 +11,35 @@
 		},
 
 		initialize: function() {
-			this.game = new Game();
-			this.cells = new CellSet();
-			this.gameCells = new GameCellSet();
-			this.gamePlayers = new GamePlayerSet();
-			this.terrainTypes = new TerrainTypeSet();
-			this.characters = new CharacterSet();
-			this.characterAttributes = new CharacterAttributeSet();
-			this.gameCharacters = new GameCharacterSet();
-			this.modifiers = new ModifierSet();
-			this.attributes = new AttributeSet();
-			this.cellModifiers = new CellModifierSet();
-			this.characterModifiers = new CharacterModifierSet();
+			var self = this;
+			self.game = new Game();
+			self.cells = new CellSet();
+			self.gameCells = new GameCellSet();
+			self.gamePlayers = new GamePlayerSet();
+			self.terrainTypes = new TerrainTypeSet();
+			self.characters = new CharacterSet();
+			self.characterAttributes = new CharacterAttributeSet();
+			self.gameCharacters = new GameCharacterSet();
+			self.modifiers = new ModifierSet();
+			self.attributes = new AttributeSet();
+			self.cellModifiers = new CellModifierSet();
+			self.characterModifiers = new CharacterModifierSet();
 
-			this.load("game", "cells", "gameCells", "gamePlayers", "terrainTypes", "characters", "characterAttributes",
+			self.load("game", "cells", "gameCells", "gamePlayers", "terrainTypes", "characters", "characterAttributes",
 						"gameCharacters", "attributes", "modifiers", "cellModifiers", "characterModifiers");
 
-			this.userPlayer = this.gamePlayers.find(function(gp) {return gp.get("player") == user.get("id")});
+			self.curGamePlayer = self.gamePlayers.find(function(gp) {return gp.get("player") == self.game.get("currentPlayer");});
+			self.userPlayer = self.gamePlayers.find(function(gp) {return gp.get("player") == user.get("id");});
 
-			this.placingChar = null;
-			this.pathFinder = null;
+			self.placingChar = null;
+			self.pathFinder = null;
 
-			this.apRemView = new ApMeterView();
-			this.selCharView = new SelectedCharInfoView();
+			self.apRemView = new ApMeterView();
+			self.selCharView = new SelectedCharInfoView();
 
-			this.apRemView.mainView = this.selCharView.mainView = this;
+			self.apRemView.mainView = self.selCharView.mainView = self;
 
-			BaseView.prototype.initialize.apply(this);
+			BaseView.prototype.initialize.apply(self);
 		},
 
 		setPaths: function(gameChar) {
@@ -231,7 +233,9 @@
 			var totalAp = this.mainView.game.get("maxAP");
 			var rem = $(".apRemaining", this.$el);
 
-			console.log(oldAp, totalAp, newAp);
+			this.mainView.curGamePlayer.set({
+				"apRemaining": newAp
+			});
 
 			rem.animate({
 				"width": (100*newAp/totalAp) + "%"

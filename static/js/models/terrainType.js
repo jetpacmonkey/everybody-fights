@@ -73,6 +73,24 @@
 			"attribute": null,
 			"operator": "==",
 			"value": 0
+		},
+		check: function(gameChar) {
+			var test = this.get("value"),
+				attr = this.collection.getCollection("attributes").get(this.get("attribute")),
+				val = gameChar.calcAttr(attr.get("name"));
+			
+			switch(this.get("operator")) {
+				case "<":
+					return val < test;
+				case "<=":
+					return val <= test;
+				case "==":
+					return val == test;
+				case ">=":
+					return val >= test;
+				case ">":
+					return val > test;
+			}
 		}
 	});
 

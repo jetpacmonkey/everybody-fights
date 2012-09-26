@@ -187,12 +187,24 @@
 				var character = this.mainView.characters.get(this.model.get("character"));
 				this.$(".charHeader").text(character.get("name"));
 				this.$(".charInfoContents .oneAttr").each(function() {
-					var val = self.model.calcAttr($(this).data("attrname"));
-					if (val === null) {
+					var base = self.model.calcBase($(this).data("attrname"))
+					if (base === null) {
 						$(this).hide();
 					} else {
+						var mod = self.model.calcMods($(this).data("attrname"), base);
 						$(this).show();
-						$(".attrVal", this).text(val);
+						$(".attrVal", this).text(base);
+						if (mod) {
+							$(".attrMod", this).text(mod).show();
+							if (mod < 0) {
+								$(".attrMod", this).removeClass("positive").addClass("negative");
+							} else {
+								$(".attrMod", this).prepend("+").removeClass("negative").addClass("positive");
+							}
+							$(".attrMod", this).append("=" + (base + mod).toString());
+						} else {
+							$(".attrMod", this).hide();
+						}
 					}
 				});
 				this.$(".charInfoContents").css("visibility", "visible");

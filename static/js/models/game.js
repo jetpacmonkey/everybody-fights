@@ -82,6 +82,10 @@
 				opts = {};
 			}
 
+			var base = this.calcBase(attrName, opts);
+			return base + this.calcMods(attrName, base, opts);
+		},
+		calcBase: function(attrName) {
 			var character = null;
 			if ("characters" in this.collection.globalCollections) {
 				character = this.collection.getCollection("characters").get(this.get("character"));
@@ -90,10 +94,17 @@
 				console.error("Character not found");
 				return null;
 			}
-			var val = character.attr(attrName);
-			if (val === null) {
-				return null; //not a valid attribute for this character type
+			return character.attr(attrName);
+		},
+		calcMods: function(attrName, base, opts) {
+			if (arguments.length < 3) {
+				opts = {};
+				if (arguments.length < 2) {
+					base = 0;
+				}
 			}
+
+			var val = base;
 
 			var cellId, gameCell;
 			if ("gameCell" in opts) {
@@ -124,7 +135,7 @@
 				var mod = this.collection.getCollection("modifiers").get(cellMods.get("modifier"));
 				val += mod.get("effect");
 			}
-			return val;
+			return val - base;
 		}
 	});
 

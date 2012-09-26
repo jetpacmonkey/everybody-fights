@@ -27,6 +27,7 @@ Possible Working Title: *FORSAKEN REALM*
     * Melee/ranged attacks
     * End turn/end-of-game checking
     * Enforce maxMove attribute
+* Simple, dumb AI (basically just need to put the hooks in there that a real AI would use, and then make a dummy AI that just picks an action at random)
 
 ## Down the road ideas:
 * Other game modes (CTF, race, ability to add NPCs, co-op)

@@ -26,6 +26,7 @@ Possible Working Title: *FORSAKEN REALM*
     * Move characters ___DONE___
     * Melee/ranged attacks
     * End turn/end-of-game checking
+    * Enforce maxMove attribute
 
 ## Down the road ideas:
 * Other game modes (CTF, race, ability to add NPCs, co-op)

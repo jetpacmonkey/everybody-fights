@@ -18,7 +18,7 @@ Possible Working Title: *FORSAKEN REALM*
 * Simple map creation ___DONE___
 * Terrain effects (right now all terrain are the same outside of color)
     * `<attribute>` `<operator>` `<effect>` (eg `moveCost * 2`) ___DONE___
-    * require `<attribute>` `<comparison>` `<value>` (eg `size < 7`)
+    * require `<attribute>` `<comparison>` `<value>` (eg `size < 7`) _NOTE: This is partly done. The models have been made, and I wrote a `check` function in the JS to help with enforcing it down the road._
 * Game Creation ___DONE___
 * Basic gameplay - skirmish mode
     * Purchase characters ___DONE___
@@ -37,7 +37,7 @@ Possible Working Title: *FORSAKEN REALM*
 * Player stats/rankings
 * Custom attributes (abilities that only apply to certain character sets or game types)
 * Abilities (Effects on surrounding characters, etc)
-* Cell-specific effects (Permanent modifiers that are attached to specific locations on a map)
+* Cell-specific effects (Permanent modifiers that are attached to specific locations on a map) _NOTE: Functionally, this is done. There's just no way to add them in the map editor._
 * Character icons
 * Limit initial placement/# of players as a map setting
 * Push server (either use my own Node.JS server with Socket.IO or use something like PubNub or Photon Server/Cloud)

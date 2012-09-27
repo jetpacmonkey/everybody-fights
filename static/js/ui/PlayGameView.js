@@ -195,11 +195,15 @@
 						$(this).show();
 						$(".attrVal", this).text(base);
 						if (mod) {
-							$(".attrMod", this).text(mod).show();
-							if (mod < 0) {
-								$(".attrMod", this).removeClass("positive").addClass("negative");
+							var modDiv = $(".attrMod", this);
+							modDiv.text(mod).show();
+							if (mod > 0) {
+								modDiv.prepend("+");
+							}
+							if (mod < 0 == ($(this).data("attrname").toLowerCase().indexOf("cost") == -1)) {
+								modDiv.removeClass("positive").addClass("negative");
 							} else {
-								$(".attrMod", this).prepend("+").removeClass("negative").addClass("positive");
+								modDiv.removeClass("negative").addClass("positive");
 							}
 							$(".attrMod", this).append("=" + (base + mod).toString());
 						} else {

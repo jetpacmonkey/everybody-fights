@@ -39,8 +39,9 @@
 
 			self.apRemView = new ApMeterView();
 			self.selCharView = new SelectedCharInfoView();
+			self.actionMenuView = new ActionMenuView();
 
-			self.apRemView.mainView = self.selCharView.mainView = self;
+			self.apRemView.mainView = self.selCharView.mainView = self.actionMenuView.mainView = self;
 
 			BaseView.prototype.initialize.apply(self);
 		},
@@ -200,7 +201,7 @@
 							if (mod > 0) {
 								modDiv.prepend("+");
 							}
-							if (mod < 0 == ($(this).data("attrname").toLowerCase().indexOf("cost") == -1)) {
+							if (mod < 0 == ($(this).data("attrname").toLowerCase().indexOf("cost") == -1)) { //negative value or positive cost
 								modDiv.removeClass("positive").addClass("negative");
 							} else {
 								modDiv.removeClass("negative").addClass("positive");
@@ -273,6 +274,28 @@
 			window.setTimeout(adjustByOne, msPerAp);
 
 			return this;
+		}
+	});
+
+	var ActionMenuView = Backbone.View.extend({
+		el: ".actionMenu",
+		events: {
+			"click .menuOpener": "toggleOpen",
+			"click .menuAction": "action",
+			"click .endTurn": "endTurn",
+			"click .forfeit": "forfeit"
+		},
+		toggleOpen: function() {
+			this.$el.toggleClass("open");
+		},
+		action: function() {
+			this.toggleOpen();
+		},
+		endTurn: function() {
+
+		},
+		forfeit: function() {
+			alert("Oh come on now, it's not as bad as you think.");
 		}
 	});
 

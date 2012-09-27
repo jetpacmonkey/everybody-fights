@@ -344,3 +344,61 @@
 .charInfo .positive {
 	color: #4F4;
 }
+
+.actionMenu {
+	position: absolute;
+	top: 0;
+	right: 301px;
+}
+
+.actionMenu .menuOpener {
+	height: 40px;
+	line-height: 40px;
+	width: 75px;
+	color: white;
+	text-align: center;
+	border: 1px solid #aaa;
+	background-color: rgba(50, 50, 50, 0.9);
+	cursor: pointer;
+}
+
+.actionMenu .menuOpener:hover {
+	background-color: rgba(100, 100, 100, 0.8);
+}
+
+.actionMenu .menuBody {
+	position: absolute;
+	top: 42px;
+	right: 0;
+	width: 300px;
+	z-index: -1;
+	opacity: 0;
+	background-color: rgba(50, 50, 50, 0.9);
+	color: white;
+	font-style: italic;
+	border-radius: 4px 0 0 4px;
+	-webkit-transition: all 0.2s linear;
+	transition: all 0.2s linear;
+}
+
+.actionMenu.open .menuBody {
+	display: block;
+	z-index: 999;
+	opacity: 1;
+}
+
+.menuAction {
+	height: 30px;
+	line-height: 30px;
+	padding: 0 10px;
+	border-bottom: 1px solid #aaa;
+	cursor: pointer;
+}
+.menuAction:last-child {
+	border-bottom: none;
+}
+.menuAction:hover {
+	background-color: rgba(176, 176, 176, 0.6);
+	color: #ff6;
+	text-decoration: underline;
+}

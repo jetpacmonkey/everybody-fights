@@ -131,6 +131,10 @@
 	padding: 0 10px;
 }
 
+.apArea .playerName {
+	text-shadow: 1px 0 black, -1px 0 black, 0 1px black, 0 -1px black, 2px 2px 2px #666;
+}
+
 .apMeter {
 	height: 20px;
 	position: relative;

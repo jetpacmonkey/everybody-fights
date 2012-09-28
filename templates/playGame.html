@@ -36,7 +36,11 @@
 		</div>
 		{% endfor %}
 		<div class="apArea">
-			<div class="apTitle">AP Remaining: <span class="apRemainingDisp">{{ game.currentGamePlayer.apRemaining }}</span>/<span class="totalApDisp">{{ game.maxAP }}</span></div>
+			<div class="apTitle">
+				{% with curGamePlayer=game.currentGamePlayer %}
+				<span class="playerName gamePlayer-{{ curGamePlayer.playerNum }}">{{ curGamePlayer.player.username }}</span>'s
+				{% endwith %}
+				AP Remaining: <span class="apRemainingDisp">{{ game.currentGamePlayer.apRemaining }}</span>/<span class="totalApDisp">{{ game.maxAP }}</span></div>
 			<div class="apMeter">
 				<span class="apRemaining" style="width: {{ game.currentGamePlayer.apRemaining|percentOf:game.maxAP }}%;">
 			</div>

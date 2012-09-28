@@ -47,11 +47,14 @@
 		},
 
 		setPaths: function(gameChar) {
-			this.pathFinder = PathFinder(gameChar);
-			this.$(".mapCell.reachable").removeClass("reachable");
-			var reachable = this.pathFinder.reachable();
-			for (var i=0, ii=reachable.length; i<ii; ++i) {
-				this.$("#gameCell_" + reachable[i]).addClass("reachable");
+			var self = this;
+			if (self.curGamePlayer == self.userPlayer) {
+				this.pathFinder = PathFinder(gameChar);
+				this.$(".mapCell.reachable").removeClass("reachable");
+				var reachable = this.pathFinder.reachable();
+				for (var i=0, ii=reachable.length; i<ii; ++i) {
+					this.$("#gameCell_" + reachable[i]).addClass("reachable");
+				}
 			}
 		},
 

@@ -81,6 +81,7 @@
 				};
 
 				this.pathFinder = null;
+				this.$(".mapCell.reachable").removeClass("reachable");
 			}
 		},
 		overChar: function(e) {
@@ -137,6 +138,7 @@
 							"cell": cell.get("id")
 						});
 						self.apRemView.setAp("-=" + moveCost.toString());
+						self.setPaths(self.placingChar.character);
 						self.placingChar = null;
 						$(e.currentTarget).addClass("selected");
 					},

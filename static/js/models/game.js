@@ -120,15 +120,17 @@
 				gameCell = this.collection.getCollection("gameCells").get(cellId);
 			}
 			
-			var cell = this.collection.getCollection("cells").get(gameCell.get("origCell"));
-			var cellTerrainMods = this.collection.getCollection("terrainModifiers").getByNameAndTerrain(attrName, cell.get("terrain"));
-			for (var i=0, ii=cellTerrainMods.length; i<ii; ++i) {
-				val = cellTerrainMods[i].applyTo(val);
-			}
-			var cellMods = this.collection.getCollection("cellModifiers").getByNameAndCell(attrName, cellId);
-			for (var i=0, ii=cellMods.length; i<ii; ++i) {
-				var mod = this.collection.getCollection("modifiers").get(cellMods.get("modifier"));
-				val += mod.get("effect");
+			if (gameCell) {
+				var cell = this.collection.getCollection("cells").get(gameCell.get("origCell"));
+				var cellTerrainMods = this.collection.getCollection("terrainModifiers").getByNameAndTerrain(attrName, cell.get("terrain"));
+				for (var i=0, ii=cellTerrainMods.length; i<ii; ++i) {
+					val = cellTerrainMods[i].applyTo(val);
+				}
+				var cellMods = this.collection.getCollection("cellModifiers").getByNameAndCell(attrName, cellId);
+				for (var i=0, ii=cellMods.length; i<ii; ++i) {
+					var mod = this.collection.getCollection("modifiers").get(cellMods.get("modifier"));
+					val += mod.get("effect");
+				}
 			}
 			var charMods = this.collection.getCollection("characterModifiers").getByNameAndCharacter(attrName, this.get("character"));
 			for (var i=0, ii=charMods.length; i<ii; ++i) {

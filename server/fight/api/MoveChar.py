@@ -14,8 +14,8 @@ def followPath(request, charId, pathHash):
 	initCell = gChar.cell
 	try:
 		for cellId in gCellIds:
-			if int(cellId) != gChar.cell.id:
-				gCell = GameCell.objects.get(id=cellId)
+			gCell = GameCell.objects.get(id=cellId)
+			if gCell != gChar.cell:
 				moveChar(gChar, gCell)
 	except Exception as e:
 		# Rollback data

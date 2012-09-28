@@ -38,7 +38,7 @@ class Game(models.Model):
 
 	def nextPlayer(self):
 		if self.currentPlayer:
-			laterPlayers = self.gameplayer_set.filter(playerNum__gt = currentPlayer.playerNum)
+			laterPlayers = self.gameplayer_set.filter(playerNum__gt = self.currentGamePlayer().playerNum)
 			if laterPlayers.exists():
 				nextPlayer = laterPlayers[0]
 			else:

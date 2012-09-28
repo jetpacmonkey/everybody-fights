@@ -292,7 +292,22 @@
 			this.toggleOpen();
 		},
 		endTurn: function() {
-
+			$.ajax({
+				type: "POST",
+				dataType: "json",
+				contentType: "application/json",
+				url: "/fight/api/endTurn/" + this.mainView.game.get("id") + "/",
+				data: {
+					"csrfmiddlewaretoken": $("#csrf input").val()
+				},
+				success: function() {
+					window.location = '/fight/currentGames';
+				},
+				error: function(response) {
+					var respTxt = response.responseText;
+					alert(respTxt);
+				}
+			});
 		},
 		forfeit: function() {
 			alert("Oh come on now, it's not as bad as you think.");

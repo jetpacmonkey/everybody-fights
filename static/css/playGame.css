@@ -345,6 +345,12 @@
 	color: #4F4;
 }
 
+.actionMenu .menuOpener, .actionMenu .menuBody, .actionMenu .menuAction {
+	-webkit-transition: all 0.15s linear;
+	-moz-transition: all 0.15s linear;
+	transition: all 0.15s linear;
+}
+
 .actionMenu {
 	position: absolute;
 	top: 0;
@@ -377,8 +383,6 @@
 	color: white;
 	font-style: italic;
 	border-radius: 4px 0 0 4px;
-	-webkit-transition: all 0.2s linear;
-	transition: all 0.2s linear;
 }
 
 .actionMenu.open .menuBody {
@@ -393,6 +397,7 @@
 	padding: 0 10px;
 	border-bottom: 1px solid #aaa;
 	cursor: pointer;
+	color: white;
 }
 .menuAction:last-child {
 	border-bottom: none;

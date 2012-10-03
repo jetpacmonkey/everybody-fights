@@ -1,6 +1,8 @@
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
+from django.utils import simplejson
 from fight.models import GameCharacter, GameCell
+import random
 
 @login_required
 def followPath(request, charId, pathHash):
@@ -57,3 +59,46 @@ def moveChar(char, cell):
 	# Subtract appropriate AP from gamePlayer
 	owner.apRemaining -= moveCost
 	owner.save()
+
+
+def attack(request, charId1, charId2):
+	char1 = GameCharacter.objects.get(id=charId1)
+	char2 = GameCharacter.objects.get(id=charId2)
+	owner = char1.owner
+	owner2 = char2.owner
+	resp = HttpResponse()
+
+	if owner == owner2:
+		resp.status_code = 400
+		resp.content = "Can't attack your own character, genius."
+		return resp
+
+	melee = char1.cell.origCell.isAdj(char2.cell.origCell)
+	if melee:
+		atk = char1.calcAttr("meleeAttack")
+		atkCost = char1.calcAttr("meleeAttackCost")
+		defense = char2.calcAttr("meleeDefense")
+	else:
+		atk = char1.calcAttr("rangeAttack")
+		atkCost = char1.calcAttr("rangeAttackCost")
+		defense = char2.calcAttr("rangeDefense")
+
+	if atkCost > owner.apRemaining:
+		resp.status_code = 400
+		resp.content = "Player does not have enough AP for that kind of attack"
+		return resp
+
+	damageVal = random.randint(atk - round(atk/3), atk + atk//4)
+	blockVal = random.randint(max(0, defense - 3), defense + 1)
+	damageDone = damageVal - blockVal
+
+	health = char2.damage(damageDone)
+
+	respDict = {}
+	respDict['health'] = health
+	respDict['damage'] = damageDone
+	respDict['attackCost'] = atkCost
+	
+	resp.content = simplejson.dumps(respDict)
+	resp.status_code = 200
+	return resp

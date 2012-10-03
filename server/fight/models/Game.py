@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib import admin
 from django.contrib.auth.models import User
 from fight.models import Map, Cell, Character
+from fight.models.Attribute import Modifier, Attribute
 
 GAME_TYPE_CHOICES = (
 	('skirmish', 'Skirmish'),
@@ -130,19 +131,41 @@ class GameCharacter(models.Model):
 		return val
 
 
+	def damage(self, damage):
+		try:
+			mod = CharacterModifier.objects.get(character=self, modifier__identifier="damage")
+		except:
+			mod = CharacterModifier()
+			mod.character = self
+			baseMod = Modifier()
+			baseMod.identifier = "damage"
+			baseMod.attribute = Attribute.objects.get(name="health")
+			baseMod.save()
+			mod.modifier = baseMod
+		healthLeft = self.calcAttr("health")
+		finalHealth = healthLeft
+		if damage > healthLeft:
+			mod.effect -= healthLeft
+			finalHealth = 0
+		else:
+			mod.effect -= damage
+			finalHealth -= damage
+		mod.save()
+		return finalHealth
+
 	class Meta:
 		app_label = 'fight'
 
 class CellModifier(models.Model):
 	cell = models.ForeignKey(GameCell)
-	modifier = models.ForeignKey("fight.Modifier")
+	modifier = models.ForeignKey(Modifier)
 
 	class Meta:
 		app_label = 'fight'
 
 class CharacterModifier(models.Model):
 	character = models.ForeignKey(GameCharacter)
-	modifier = models.ForeignKey("fight.Modifier")
+	modifier = models.ForeignKey(Modifier)
 
 	class Meta:
 		app_label = 'fight'

@@ -17,9 +17,10 @@ class Modifier(models.Model):
 	permanent = models.BooleanField(default = False)
 	attribute = models.ForeignKey(Attribute)
 	effect = models.IntegerField(default = 0)
+	identifier = models.CharField(max_length=64, blank = True, default = "")
 
 	def __unicode__(self):
-		return "%s %+i%s" % (self.attribute.name, self.effect, (" (permanent)" if self.permanent else ""))
+		return "%s %+i%s: %s" % (self.attribute.name, self.effect, (" (permanent)" if self.permanent else ""), self.identifier)
 
 	class Meta:
 		app_label = 'fight'

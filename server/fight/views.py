@@ -105,6 +105,7 @@ def playGame(request, gameId):
 						Q(id__in=characterModifiers.values_list("modifier", flat=True))
 				)
 	characterAttributes = CharacterAttribute.objects.filter(character__in=characters)
+	curGamePlayer = game.currentGamePlayer()
 
 	return render_to_response("playGame.html", {
 		"game": game,
@@ -124,7 +125,8 @@ def playGame(request, gameId):
 		"attributes": attributes,
 		"modifiers": modifiers,
 		"cellModifiers": cellModifiers,
-		"characterModifiers": characterModifiers
+		"characterModifiers": characterModifiers,
+		"curGamePlayer": curGamePlayer
 	}, RequestContext(request))
 
 

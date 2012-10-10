@@ -18,5 +18,5 @@ urlpatterns = patterns('',
 		(r'^resize/(?P<mapId>[0-9]+)/(?P<x>[0-9]*):(?P<y>[0-9]+)/?$', resize),  # resize/mapid/x:y with an optional trailing slash
 		(r'^move/(?P<charId>[0-9]+)/(?P<pathHash>(?:[0-9]+:?)+)/?$', followPath),  # move/charId/cellId1:cellId2:cellId3:...
 		(r'^endTurn/(?P<gameId>[0-9]+)/?$', endTurn),
-		(r'^attack/(?P<charId1>[0-9]+):(?P<charId2>[0-9]+)/?$)', attack)
+		(r'^attack/(?P<charId1>[0-9]+):(?P<charId2>[0-9]+)/?$', attack)
 	)

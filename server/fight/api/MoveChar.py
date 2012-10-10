@@ -79,6 +79,7 @@ def attack(request, charId1, charId2):
 		atkCost = char1.calcAttr("meleeAttackCost")
 		defense = char2.calcAttr("meleeDefense")
 	else:
+		# TODO: check range
 		atk = char1.calcAttr("rangeAttack")
 		atkCost = char1.calcAttr("rangeAttackCost")
 		defense = char2.calcAttr("rangeDefense")
@@ -98,7 +99,7 @@ def attack(request, charId1, charId2):
 	respDict['health'] = health
 	respDict['damage'] = damageDone
 	respDict['attackCost'] = atkCost
-	
+
 	resp.content = simplejson.dumps(respDict)
 	resp.status_code = 200
 	return resp

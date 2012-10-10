@@ -121,6 +121,43 @@
 	display: none;
 }
 
+.target {
+	position: absolute;
+	left: 3px;
+	right: 3px;
+	top: 3px;
+	bottom: 3px;
+	border: 1px solid #A00;
+	border-radius: 50%;
+	-webkit-filter: drop-shadow(1px 0 rgba(0, 0, 0, 0.5)) drop-shadow(-1px 0 rgba(0, 0, 0, 0.5)) drop-shadow(0 1px rgba(0, 0, 0, 0.5)) drop-shadow(0 -1px rgba(0, 0, 0, 0.5));
+	-webkit-animation: 1s linear pulse infinite;
+	cursor: pointer;
+}
+
+.target:before {
+	position: absolute;
+	content: "";
+	height: 100%;
+	width: 1px;
+	left: 50%;
+	background: #A00;
+}
+
+.target:after {
+	position: absolute;
+	content: "";
+	width: 100%;
+	height: 1px;
+	top: 50%;
+	background: #A00;
+}
+
+@-webkit-keyframes pulse {
+	0% {opacity: 1; -webkit-transform: scale(1);}
+	95% {opacity: 0; -webkit-transform: scale(0.7);}
+	100% {opacity: 1; -webkit-transform: scale(0.7);}
+}
+
 /* progress bar CSS from http://css-tricks.com/css3-progress-bars/ */
 .content .apArea {
 	position: absolute;

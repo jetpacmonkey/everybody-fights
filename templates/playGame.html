@@ -52,7 +52,7 @@
 				<div class="mapCell terrain-{{ cell.origCell.terrain.id }}" id="gameCell_{{ cell.id }}" data-gamecellid="{{ cell.id }}">
 					{% if cell.gamecharacter %}
 					{% with char=cell.gamecharacter %}
-					<div class="character ownedBy-{{ char.owner.playerNum }} character-{{ char.character.id }}" id="gameCharacter_{{ char.id }}" data-id="{{ char.id }}"></div>
+					<div class="character ownedBy-{{ char.owner.playerNum }} character-{{ char.character.id }}{% if curGamePlayer.player == user and char.owner != curGamePlayer %} opponent{% endif %}" id="gameCharacter_{{ char.id }}" data-id="{{ char.id }}"></div>
 					{% endwith %}
 					{% endif %}
 				</div>

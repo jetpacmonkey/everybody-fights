@@ -98,23 +98,29 @@
 			cellDiv.removeClass("hovered");
 		},
 		overCell: function(e) {
-			if (this.placingChar && !$(".character", e.currentTarget).length) {
-				$(e.currentTarget).append($(this.placingChar.icon));
-			} else if ($(".character", e.currentTarget).length) {
-				var id = $(".character", e.currentTarget).data("id");
+			var self = this,
+				cellDiv = $(e.currentTarget);
+			if (self.placingChar && !$(".character", cellDiv).length) {
+				cellDiv.append($(self.placingChar.icon));
+			} else if ($(".character", cellDiv).length) {
+				var id = $(".character", cellDiv).data("id");
 				var selDiv = $("#gameCharacterSelect_" + id);
 				selDiv.addClass("hovered");
+
+				if (!self.placingChar && self.selCharView.model && self.gameCharacters.get(id).get("owner") != self.selCharView.model.get("owner")) {
+					cellDiv.append($("<div>").addClass("target"));
+				}
 			}
 
-			if (this.pathFinder && $(e.currentTarget).hasClass("reachable")) {
+			if (self.pathFinder && cellDiv.hasClass("reachable")) {
 				var cellId = $(e.currentTarget).data("gamecellid"),
-					path = this.pathFinder.movePath(cellId);
+					path = self.pathFinder.movePath(cellId);
 				for (var i=0, ii=path.length; i<ii; ++i) {
-					var pathCell = this.$("#gameCell_" + path[i]);
+					var pathCell = self.$("#gameCell_" + path[i]);
 					pathCell.addClass("inPath");
-					pathCell.attr("data-movecost", this.pathFinder.moveCost(path[i]));
+					pathCell.attr("data-movecost", self.pathFinder.moveCost(path[i]));
 				}
-				$(e.currentTarget).addClass("inPath").attr("data-movecost", this.pathFinder.moveCost(cellId));
+				cellDiv.addClass("inPath").attr("data-movecost", self.pathFinder.moveCost(cellId));
 			}
 		},
 		outCell: function(e) {
@@ -125,6 +131,8 @@
 				var id = $(".character", e.currentTarget).data("id");
 				var selDiv = $("#gameCharacterSelect_" + id);
 				selDiv.removeClass("hovered");
+
+				$(".target", e.currentTarget).remove();
 			}
 
 			this.$(".inPath").removeClass("inPath").removeAttr("data-movecost");

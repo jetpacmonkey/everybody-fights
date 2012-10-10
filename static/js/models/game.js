@@ -77,6 +77,28 @@
 				}
 			}));
 		},
+		attack: function(target, opts) {
+			var passedSuccess = opts.success;
+			var self = this;
+			opts.success = function(data) {
+				//not sure if anything will need to be added here...
+				console.log(data);
+
+				if ($.isFunction(passedSuccess)) {
+					passedSuccess.apply(this, arguments);
+				}
+			};
+
+			$.ajax(_.extend(opts, {
+				type: "POST",
+				dataType: "json",
+				contentType: "application/json",
+				url: "/fight/api/attack/" + self.get("id") + ":" + target.get("id"),
+				data: {
+					"csrfmiddlewaretoken": $("#csrf input").val()
+				}
+			}));
+		},
 		calcAttr: function(attrName, opts) {
 			if (arguments.length < 2) {
 				opts = {};

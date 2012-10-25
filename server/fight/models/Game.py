@@ -134,6 +134,7 @@ class GameCharacter(models.Model):
 	def damage(self, damage):
 		try:
 			mod = CharacterModifier.objects.get(character=self, modifier__identifier="damage")
+			baseMod = mod.modifier
 		except:
 			mod = CharacterModifier()
 			mod.character = self
@@ -145,12 +146,12 @@ class GameCharacter(models.Model):
 		healthLeft = self.calcAttr("health")
 		finalHealth = healthLeft
 		if damage > healthLeft:
-			mod.effect -= healthLeft
+			baseMod.effect -= healthLeft
 			finalHealth = 0
 		else:
-			mod.effect -= damage
+			baseMod.effect -= damage
 			finalHealth -= damage
-		mod.save()
+		baseMod.save()
 		return finalHealth
 
 	class Meta:

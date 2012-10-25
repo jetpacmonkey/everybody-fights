@@ -165,6 +165,13 @@
 				if (gameChar.get("owner") == self.userPlayer.get("id")) { //character owned by current player
 					var selDiv = $("#gameCharacterSelect_" + id);
 					selDiv.click();
+				} else if (self.selCharView.model) { //character owned by an opponent, ATTAAAAAACK!!
+					var selChar = self.selCharView.model;
+					selChar.attack(gameChar, {
+						success: function() {
+							console.log(arguments);
+						}
+					});
 				}
 			} else if ($(e.currentTarget).hasClass("reachable")) {
 				var cellId = +$(e.currentTarget).data("gamecellid"),

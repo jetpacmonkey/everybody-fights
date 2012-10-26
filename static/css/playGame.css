@@ -448,3 +448,29 @@
 	color: #ff6;
 	text-decoration: underline;
 }
+
+.hoverInfo {
+	display: none;
+	position: absolute;
+	width: 200px;
+	height: 50px;
+	line-height: 25px;
+	padding: 10px;
+
+	background: white;
+
+	border-radius: 8px;
+
+	-webkit-filter: drop-shadow(0 0 2px black) opacity(0.85);
+	-webkit-transform: translateX(-220px) translateY(-70px);
+}
+.hoverInfo:after {
+	content: "";
+	position: absolute;
+	right: -12px;
+	bottom: -8px;
+	-webkit-transform: rotate(45deg);
+	border-left: 20px solid white;
+	border-top: 7px solid transparent;
+	border-bottom: 7px solid transparent;
+}

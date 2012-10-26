@@ -30,7 +30,7 @@
 {% block content %}
 	<div class="characterSelector selector">
 		{% for char in playerChars %}
-		<div class="oneChar{% if not char.cell%} unplaced{% endif %}" data-id="{{ char.id }}" id="gameCharacterSelect_{{ char.id }}">
+		<div class="oneChar{% if not char.cell %} unplaced{% endif %}" data-id="{{ char.id }}" id="gameCharacterSelect_{{ char.id }}">
 			<div class="itemName">{{ char.character.name }}</div>
 			<div class="itemBack"></div>
 		</div>
@@ -83,6 +83,14 @@
 				{% endif %}
 				{% endfor %}
 			</div>
+		</div>
+	</div>
+	<div class="hoverInfo">
+		<div class="nameArea">
+			<span class="ownerName"></span>'s <span class="charName"></span>
+		</div>
+		<div class="healthArea">
+			<span class="health"></span> / <span class="maxHealth"></span>
 		</div>
 	</div>
 {% endblock %}

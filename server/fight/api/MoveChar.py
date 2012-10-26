@@ -94,6 +94,11 @@ def attack(request, charId1, charId2):
 	damageDone = damageVal - blockVal
 
 	health = char2.damage(damageDone)
+	owner.apRemaining -= atkCost
+	owner.save()
+
+	if health <= 0:
+		char2.kill()
 
 	respDict = {}
 	respDict['health'] = health

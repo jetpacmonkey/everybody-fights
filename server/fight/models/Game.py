@@ -154,6 +154,11 @@ class GameCharacter(models.Model):
 		baseMod.save()
 		return finalHealth
 
+	def kill(self):
+		# Might want to change an "alive" boolean or something instead of just removing the GameCharacter, but this is fine for now
+		self.delete()
+		# TODO Add an end-of-game check here
+
 	class Meta:
 		app_label = 'fight'
 

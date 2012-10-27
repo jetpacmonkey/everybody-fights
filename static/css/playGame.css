@@ -450,8 +450,10 @@
 }
 
 .hoverInfo {
-	display: none;
+	z-index: -1;
 	position: absolute;
+	left: -220px;
+	top: -70px;
 	width: 200px;
 	height: 50px;
 	line-height: 25px;
@@ -461,8 +463,12 @@
 
 	border-radius: 8px;
 
-	-webkit-filter: drop-shadow(0 0 2px black) opacity(0.85);
-	-webkit-transform: translateX(-220px) translateY(-70px);
+	-webkit-filter: drop-shadow(0 0 2px black) opacity(0);
+	-webkit-transform: translateX(-225px) translateY(-95px);
+
+	-webkit-transition: all 0.15s linear;
+	-moz-transition: all 0.15s linear;
+	transition: all 0.15s linear;
 }
 .hoverInfo:after {
 	content: "";
@@ -473,4 +479,25 @@
 	border-left: 20px solid white;
 	border-top: 7px solid transparent;
 	border-bottom: 7px solid transparent;
+}
+
+.hoverInfo.open {
+	-webkit-filter: drop-shadow(0 0 2px black) opacity(0.85);
+	z-index: 999;
+}
+
+.hoverInfo.onBottom {
+	-webkit-transform: translateX(-225px) translateY(5px);
+}
+.hoverInfo.onBottom:after {
+	bottom: auto;
+	top: -8px;
+	-webkit-transform: rotate(-45deg);
+}
+
+.hoverInfo .playerName {
+	text-shadow: -1px 0 black, 1px 0 black, 0 -1px black, 0 1px black, 2px 2px 2px rgba(30, 30, 30, 0.8);
+	letter-spacing: 1px;
+
+	font-size: 18px;
 }

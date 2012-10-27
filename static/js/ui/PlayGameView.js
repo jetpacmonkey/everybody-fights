@@ -40,8 +40,13 @@
 			self.apRemView = new ApMeterView();
 			self.selCharView = new SelectedCharInfoView();
 			self.actionMenuView = new ActionMenuView();
+			self.hoverInfoView = new HoverInfoView();
 
-			self.apRemView.mainView = self.selCharView.mainView = self.actionMenuView.mainView = self;
+			self.apRemView.mainView =
+				self.selCharView.mainView =
+				self.actionMenuView.mainView =
+				self.hoverInfoView.mainView =
+				self;
 
 			BaseView.prototype.initialize.apply(self);
 		},
@@ -110,6 +115,7 @@
 				if (!self.placingChar && self.selCharView.model && self.gameCharacters.get(id).get("owner") != self.selCharView.model.get("owner")) {
 					cellDiv.append($("<div>").addClass("target"));
 				}
+				self.hoverInfoView.show(self.gameCharacters.get(id), $(e.currentTarget).offset());
 			}
 
 			if (self.pathFinder && cellDiv.hasClass("reachable")) {
@@ -133,6 +139,8 @@
 				selDiv.removeClass("hovered");
 
 				$(".target", e.currentTarget).remove();
+
+				this.hoverInfoView.hide();
 			}
 
 			this.$(".inPath").removeClass("inPath").removeAttr("data-movecost");
@@ -333,6 +341,35 @@
 			alert("Oh come on now, it's not as bad as you think.");
 		}
 	});
+
+	var HoverInfoView = Backbone.View.extend({
+		el: ".hoverInfo",
+		initialize: function() {
+			this.origPlayerClass = this.$(".playerName").attr("class");
+		},
+		show: function(gameCharacter, pos) {
+			var self = this,
+				character = self.mainView.characters.get(gameCharacter.get("character")),
+				hp = gameCharacter.calcAttr("health")
+				maxHp = character.attr("health"),
+				owner = self.mainView.gamePlayers.get(gameCharacter.get("owner"));
+
+			self.$(".playerName").attr("class", self.origPlayerClass).addClass("gamePlayer-" + owner.get("playerNum"));
+			self.$(".charName").text(character.get("name"));
+			self.$(".health").text(hp);
+			self.$(".maxHealth").text(maxHp);
+
+			self.$el.addClass("open").css(pos);
+			if (pos.top < 95) {
+				self.$el.addClass("onBottom");
+			} else {
+				self.$el.removeClass("onBottom");
+			}
+		},
+		hide: function() {
+			this.$el.removeClass("open");
+		}
+	})
 
 	$(function() {
 		new PlayGameView();

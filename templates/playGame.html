@@ -20,6 +20,12 @@
 			color: {{ c }};
 		}
 		{% endfor %}
+
+		{% for gp in gamePlayers %}
+		.playerName.gamePlayer-{{ gp.playerNum }}:after {
+			content: "{{ gp.player.username }}";
+		}
+		{% endfor %}
 	</style>
 {% endblock %}
 
@@ -37,7 +43,7 @@
 		{% endfor %}
 		<div class="apArea">
 			<div class="apTitle">
-				<span class="playerName gamePlayer-{{ curGamePlayer.playerNum }}">{{ curGamePlayer.player.username }}</span>'s
+				<span class="playerName gamePlayer-{{ curGamePlayer.playerNum }}"></span>'s
 				AP Remaining: <span class="apRemainingDisp">{{ game.currentGamePlayer.apRemaining }}</span>/<span class="totalApDisp">{{ game.maxAP }}</span></div>
 			<div class="apMeter">
 				<span class="apRemaining" style="width: {{ game.currentGamePlayer.apRemaining|percentOf:game.maxAP }}%;">
@@ -87,10 +93,10 @@
 	</div>
 	<div class="hoverInfo">
 		<div class="nameArea">
-			<span class="ownerName"></span>'s <span class="charName"></span>
+			<span class="playerName"></span>'s <span class="charName"></span>
 		</div>
 		<div class="healthArea">
-			<span class="health"></span> / <span class="maxHealth"></span>
+			HP: <span class="health"></span> / <span class="maxHealth"></span>
 		</div>
 	</div>
 {% endblock %}

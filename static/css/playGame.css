@@ -464,7 +464,7 @@
 	border-radius: 8px;
 
 	-webkit-filter: drop-shadow(0 0 2px black) opacity(0);
-	-webkit-transform: translateX(-225px) translateY(-95px);
+	-webkit-transform: translateX(-225px) translateY(-115px);
 
 	-webkit-transition: all 0.15s linear;
 	-moz-transition: all 0.15s linear;
@@ -483,16 +483,21 @@
 
 .hoverInfo.open {
 	-webkit-filter: drop-shadow(0 0 2px black) opacity(0.85);
+	-webkit-transform: translateX(-225px) translateY(-95px);
 	z-index: 999;
 }
 
 .hoverInfo.onBottom {
-	-webkit-transform: translateX(-225px) translateY(5px);
+	-webkit-transform: translateX(-225px) translateY(25px);
 }
 .hoverInfo.onBottom:after {
 	bottom: auto;
 	top: -8px;
 	-webkit-transform: rotate(-45deg);
+}
+
+.hoverInfo.onBottom.open {
+	-webkit-transform: translateX(-225px) translateY(5px);
 }
 
 .hoverInfo .playerName {

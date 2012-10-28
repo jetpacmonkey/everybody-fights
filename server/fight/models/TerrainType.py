@@ -27,7 +27,7 @@ class TerrainModifier(models.Model):
 	terrain = models.ForeignKey(TerrainType)
 	attribute = models.ForeignKey(Attribute)
 	operator = models.CharField(max_length=1, choices=modifierOperators)
-	effect = models.DecimalField(default=0, max_digits=5, decimal_places=2)
+	effect = models.FloatField(default=0)
 
 	def applyTo(self, val):
 		if self.operator == "+":

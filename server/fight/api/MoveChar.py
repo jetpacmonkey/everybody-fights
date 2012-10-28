@@ -84,6 +84,11 @@ def attack(request, charId1, charId2):
 		atkCost = char1.calcAttr("rangeAttackCost")
 		defense = char2.calcAttr("rangeDefense")
 
+	if atkCost is None:
+		resp.status_code = 400
+		resp.content = "That character cannot make that type of attack"
+		return resp
+
 	if atkCost > owner.apRemaining:
 		resp.status_code = 400
 		resp.content = "Player does not have enough AP for that kind of attack"

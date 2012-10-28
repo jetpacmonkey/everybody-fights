@@ -56,6 +56,9 @@
 			"cell": null,
 			"owner": null
 		},
+		initialize: function() {
+			this.tmpHealthMod = 0;
+		},
 		followPath: function(path, opts) {
 			var passedSuccess = opts.success;
 			var self = this;
@@ -77,12 +80,25 @@
 				}
 			}));
 		},
+		damage: function(damageDone) {
+			var self = this;
+			if (!self.initHealth) {
+				self.initHealth = self.calcAttr("health");
+			}
+
+			self.tmpHealthMod -= damageDone;
+			if (self.tmpHealthMod < -self.initHealth) { //got rid of more health than we actually have (so it should be 0)
+				self.tmpHealthMod = -self.initHealth;
+			}
+			console.log(self.initHealth, self.tmpHealthMod);
+		},
 		attack: function(target, opts) {
 			var passedSuccess = opts.success;
 			var self = this;
 			opts.success = function(data) {
-				//not sure if anything will need to be added here...
 				console.log(data);
+
+				target.damage(data.damage);
 
 				if ($.isFunction(passedSuccess)) {
 					passedSuccess.apply(this, arguments);
@@ -105,6 +121,9 @@
 			}
 
 			var base = this.calcBase(attrName, opts);
+			if (base === null) {
+				return null;
+			}
 			return base + this.calcMods(attrName, base, opts);
 		},
 		calcBase: function(attrName) {
@@ -159,6 +178,11 @@
 				var mod = this.collection.getCollection("modifiers").get(cellMods.get("modifier"));
 				val += mod.get("effect");
 			}
+
+			if (this.tmpHealthMod && attrName == "health") {
+				val += this.tmpHealthMod;
+			}
+
 			return val - base;
 		}
 	});

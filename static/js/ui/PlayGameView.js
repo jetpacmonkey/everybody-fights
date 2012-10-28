@@ -113,7 +113,18 @@
 				selDiv.addClass("hovered");
 
 				if (!self.placingChar && self.selCharView.model && self.gameCharacters.get(id).get("owner") != self.selCharView.model.get("owner")) {
-					cellDiv.append($("<div>").addClass("target"));
+					var selCharCell = self.cells.get(self.gameCells.get(self.selCharView.model.get("cell")).get("origCell")),
+						adjCells = selCharCell.adjacentCells(),
+						attackCellId = self.cells.get(self.gameCells.get(cellDiv.data("gamecellid")).get("origCell")).get("id"),
+						attackCost;
+					if (_.find(adjCells, function(c) {return c.get("id") == attackCellId})) { //check if clicked cell is one of the adjacent ones
+						attackCost = self.selCharView.model.calcAttr("meleeAttackCost");
+					} else { //not adjacent, must be ranged
+						attackCost = self.selCharView.model.calcAttr("rangeAttackCost");
+					}
+					if (attackCost !== null) { //if it's an attack that this character is capable of
+						cellDiv.append($("<div>").addClass("target")).addClass("targeted").attr("data-movecost", attackCost);
+					}
 				}
 				self.hoverInfoView.show(self.gameCharacters.get(id), $(e.currentTarget).offset());
 			}
@@ -139,6 +150,7 @@
 				selDiv.removeClass("hovered");
 
 				$(".target", e.currentTarget).remove();
+				$(e.currentTarget).removeClass("targeted").removeAttr("data-movecost");
 
 				this.hoverInfoView.hide();
 			}
@@ -146,9 +158,10 @@
 			this.$(".inPath").removeClass("inPath").removeAttr("data-movecost");
 		},
 		clickCell: function(e) {
-			var self = this;
-			if (self.placingChar && !$(".character", e.currentTarget).not(self.placingChar.icon).length) {
-				var cell = self.gameCells.get($(e.currentTarget).data("gamecellid"));
+			var self = this,
+				clickedCell = $(e.currentTarget);
+			if (self.placingChar && !$(".character", clickedCell).not(self.placingChar.icon).length) {
+				var cell = self.gameCells.get(clickedCell.data("gamecellid"));
 				self.placingChar.character.followPath([cell.get("id")], {
 					success: function() {
 						var moveCost = self.placingChar.character.calcAttr("moveCost");
@@ -166,23 +179,40 @@
 						alert(respTxt);
 					}
 				});
-			} else if ($(".character", e.currentTarget).length) {
-				var id = $(".character", e.currentTarget).data("id"),
-					gameChar = self.gameCharacters.get(id);
+			} else if ($(".character", clickedCell).length) {
+				var id = $(".character", clickedCell).data("id"),
+					gameChar = self.gameCharacters.get(id)
 
 				if (gameChar.get("owner") == self.userPlayer.get("id")) { //character owned by current player
 					var selDiv = $("#gameCharacterSelect_" + id);
 					selDiv.click();
-				} else if (self.selCharView.model) { //character owned by an opponent, ATTAAAAAACK!!
+				} else if ($(e.currentTarget).hasClass("targeted")) { //character owned by an opponent and we have an attacker selected, ATTAAAAAACK!!
 					var selChar = self.selCharView.model;
 					selChar.attack(gameChar, {
-						success: function() {
-							console.log(arguments);
+						success: function(response) {
+							var damInd = $("<div>").addClass("damageIndicator").text(response.damage);
+							clickedCell.append(damInd);
+							self.hoverInfoView.show();
+
+							self.apRemView.setAp("-=" + response.attackCost);
+							window.setTimeout(function() {
+								damInd.addClass("fading");
+								window.setTimeout(function() {
+									damInd.remove();
+									if (!response.health) {
+										$(".character", clickedCell).remove();
+									}
+								}, 300);
+							}, 500);
+						},
+						error: function(response) {
+							var respTxt = response.responseText;
+							alert(respTxt);
 						}
 					});
 				}
-			} else if ($(e.currentTarget).hasClass("reachable")) {
-				var cellId = +$(e.currentTarget).data("gamecellid"),
+			} else if (clickedCell.hasClass("reachable")) {
+				var cellId = +clickedCell.data("gamecellid"),
 					cell = self.gameCells.get(cellId),
 					path = self.pathFinder.movePath(cellId),
 					cost = self.pathFinder.moveCost(cellId),
@@ -195,7 +225,7 @@
 						});
 						self.apRemView.setAp("-=" + cost.toString());
 						$(".mapCell.selected").removeClass("selected");
-						$(e.currentTarget).append($("#gameCharacter_" + gameChar.get("id"))).addClass("selected");
+						clickedCell.append($("#gameCharacter_" + gameChar.get("id"))).addClass("selected");
 						self.setPaths(gameChar);
 					},
 					error: function(response) {
@@ -348,22 +378,31 @@
 			this.origPlayerClass = this.$(".playerName").attr("class");
 		},
 		show: function(gameCharacter, pos) {
+			if (!arguments.length) {
+				gameCharacter = this.model;
+				pos = null;
+			}
+
 			var self = this,
 				character = self.mainView.characters.get(gameCharacter.get("character")),
 				hp = gameCharacter.calcAttr("health")
 				maxHp = character.attr("health"),
 				owner = self.mainView.gamePlayers.get(gameCharacter.get("owner"));
 
+			self.model = gameCharacter;
+
 			self.$(".playerName").attr("class", self.origPlayerClass).addClass("gamePlayer-" + owner.get("playerNum"));
 			self.$(".charName").text(character.get("name"));
 			self.$(".health").text(hp);
 			self.$(".maxHealth").text(maxHp);
 
-			self.$el.addClass("open").css(pos);
-			if (pos.top < 95) {
-				self.$el.addClass("onBottom");
-			} else {
-				self.$el.removeClass("onBottom");
+			if (pos) {
+				self.$el.addClass("open").css(pos);
+				if (pos.top < 95) {
+					self.$el.addClass("onBottom");
+				} else {
+					self.$el.removeClass("onBottom");
+				}
 			}
 		},
 		hide: function() {

@@ -30,7 +30,8 @@
 		defaults: {
 			"attribute": null,
 			"permanent": false,
-			"effect": 0
+			"effect": 0,
+			"identifier": ""
 		}
 	});
 

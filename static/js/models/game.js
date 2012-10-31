@@ -169,13 +169,13 @@
 				}
 				var cellMods = this.collection.getCollection("cellModifiers").getByNameAndCell(attrName, cellId);
 				for (var i=0, ii=cellMods.length; i<ii; ++i) {
-					var mod = this.collection.getCollection("modifiers").get(cellMods.get("modifier"));
+					var mod = this.collection.getCollection("modifiers").get(cellMods[i].get("modifier"));
 					val += mod.get("effect");
 				}
 			}
-			var charMods = this.collection.getCollection("characterModifiers").getByNameAndCharacter(attrName, this.get("character"));
+			var charMods = this.collection.getCollection("characterModifiers").getByNameAndCharacter(attrName, this.get("id"));
 			for (var i=0, ii=charMods.length; i<ii; ++i) {
-				var mod = this.collection.getCollection("modifiers").get(cellMods.get("modifier"));
+				var mod = this.collection.getCollection("modifiers").get(charMods[i].get("modifier"));
 				val += mod.get("effect");
 			}
 

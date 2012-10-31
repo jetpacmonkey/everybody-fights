@@ -127,7 +127,7 @@ class GameCharacter(models.Model):
 			for cellMod in cell.cellmodifier_set.filter(modifier__attribute__name=attrName).select_related('modifier'):
 				val += cellMod.modifier.effect
 		for charMod in self.charactermodifier_set.filter(modifier__attribute__name=attrName).select_related('modifier'):
-			val += cellMod.modifier.effect
+			val += charMod.modifier.effect
 		return val
 
 
@@ -143,6 +143,7 @@ class GameCharacter(models.Model):
 			baseMod.attribute = Attribute.objects.get(name="health")
 			baseMod.save()
 			mod.modifier = baseMod
+			mod.save()
 		healthLeft = self.calcAttr("health")
 		finalHealth = healthLeft
 		if damage > healthLeft:

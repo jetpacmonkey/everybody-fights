@@ -5,6 +5,8 @@ from fight.models.Game import Game, GameSetting, GamePlayer, GameCell, GameChara
 from fight.models.Character import Character, CharacterAttribute
 from fight.models.CharacterSet import CharacterSet
 from fight.models.Attribute import Attribute, Modifier
+from fight.models.UserProfile import UserProfile
+from fight.models.AI import AIEngine
 
 from django.contrib import admin
 
@@ -22,3 +24,5 @@ admin.site.register(GameCell)
 admin.site.register(GameCharacter)
 admin.site.register(Attribute)
 admin.site.register(Modifier)
+admin.site.register(UserProfile)
+admin.site.register(AIEngine)

@@ -24,7 +24,7 @@ Possible Working Title: *FORSAKEN REALM*
     * Purchase characters ___DONE___
     * Place characters ___DONE___
     * Move characters ___DONE___
-    * Melee/ranged attacks
+    * Melee/ranged attacks ___DONE___
     * End turn ___DONE___
     * End-of-game checking
     * Enforce maxMove attribute

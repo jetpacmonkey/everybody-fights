@@ -49,8 +49,8 @@ class AIEngine(models.Model):
 				availActionTypes.append("melAtk")
 				melAttackable = list(GameCharacter.objects.filter(id__in=adj.exclude(openAdj).values_list("gamecharacter", flat=True)))
 			if rngAtkCost <= apRemaining and rng is not None:
-				for c in all_characters if c.owner != player:
-					if origCell.distTo(c.cell.origCell) <= rng:
+				for c in all_characters:
+					if c.owner != player and origCell.distTo(c.cell.origCell) <= rng:
 						rngAttackable.append(c)
 				if len(rngAttackable):
 					availActionTypes.append("rngAtk")

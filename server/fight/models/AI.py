@@ -63,7 +63,7 @@ class AIEngine(models.Model):
 				elif action == "melAtk":
 					target = random.choice(melAttackable)
 					doAttack(char, target)
-				elif action = "rngAtk":
+				elif action == "rngAtk":
 					target = random.choice(rngAttackable)
 					doAttack(char, target)
 			else:

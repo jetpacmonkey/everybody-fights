@@ -68,6 +68,8 @@ def attack(request, charId1, charId2):
 	owner2 = char2.owner
 	resp = HttpResponse()
 
+	# TODO: check to make sure char1 is owned by the logged-in user
+
 	if owner == owner2:
 		resp.status_code = 400
 		resp.content = "Can't attack your own character, genius."
@@ -79,7 +81,17 @@ def attack(request, charId1, charId2):
 		atkCost = char1.calcAttr("meleeAttackCost")
 		defense = char2.calcAttr("meleeDefense")
 	else:
-		# TODO: check range
+		# check range
+		dist = char1.cell.origCell.distTo(char2.cell.origCell)
+		rng = char1.calcAttr("range")
+		if rng is None:
+			resp.status_code = 400
+			resp.content = "%s characters do not have a range attack." % char1.character.name
+		elif dist > rng:
+			resp.status_code = 400
+			resp.content = "That character is out of range."
+			return resp
+		
 		atk = char1.calcAttr("rangeAttack")
 		atkCost = char1.calcAttr("rangeAttackCost")
 		defense = char2.calcAttr("rangeDefense")

@@ -20,7 +20,8 @@ class UserProfile(models.Model):
 			characters = GameCharacter.objects.filter(owner=player)
 			all_characters = GameCharacter.objects.filter(owner__game=game)
 
-			aiEngine.execute(player=player, characters=characters, all_characters=all_characters)
+			while game.currentPlayer == self.user:
+				self.aiEngine.execute(player=player, characters=characters, all_characters=all_characters)
 
 	def __unicode__(self):
 		return "%s's profile" % self.user.username

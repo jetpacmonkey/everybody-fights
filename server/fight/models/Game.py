@@ -52,6 +52,8 @@ class Game(models.Model):
 		nextPlayer.apRemaining = self.maxAP  # at the start of the turn, the player has the max AP
 		nextPlayer.save()
 		self.save()
+		if nextPlayer.player.profile.aiEngine:
+			nextPlayer.player.profile.doAIMove(self)
 
 	def currentGamePlayer(self):
 		return self.gameplayer_set.filter(player=self.currentPlayer)[0]

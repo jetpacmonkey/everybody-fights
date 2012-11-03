@@ -70,58 +70,63 @@ def attack(request, charId1, charId2):
 
 	# TODO: check to make sure char1 is owned by the logged-in user
 
-	if owner == owner2:
+	try:
+		respDict = doAttack(char1, char2)
+	except Exception as e:
 		resp.status_code = 400
-		resp.content = "Can't attack your own character, genius."
+		resp.content = str(e)
 		return resp
 
-	melee = char1.cell.origCell.isAdj(char2.cell.origCell)
+	resp.content = simplejson.dumps(respDict)
+	resp.status_code = 200
+	return resp
+
+
+def doAttack(attacker, defender):
+	owner = attacker.owner
+	owner2 = defender.owner
+
+	if owner == owner2:
+		raise Exception("Can't attack your own character, genius.")
+
+	melee = attacker.cell.origCell.isAdj(defender.cell.origCell)
 	if melee:
-		atk = char1.calcAttr("meleeAttack")
-		atkCost = char1.calcAttr("meleeAttackCost")
-		defense = char2.calcAttr("meleeDefense")
+		atk = attacker.calcAttr("meleeAttack")
+		atkCost = attacker.calcAttr("meleeAttackCost")
+		defense = defender.calcAttr("meleeDefense")
 	else:
 		# check range
-		dist = char1.cell.origCell.distTo(char2.cell.origCell)
-		rng = char1.calcAttr("range")
+		dist = attacker.cell.origCell.distTo(defender.cell.origCell)
+		rng = attacker.calcAttr("range")
 		if rng is None:
-			resp.status_code = 400
-			resp.content = "%s characters do not have a range attack." % char1.character.name
+			raise Exception("%s characters do not have a range attack." % attacker.character.name)
 		elif dist > rng:
-			resp.status_code = 400
-			resp.content = "That character is out of range."
-			return resp
-		
-		atk = char1.calcAttr("rangeAttack")
-		atkCost = char1.calcAttr("rangeAttackCost")
-		defense = char2.calcAttr("rangeDefense")
+			raise Exception("That character is out of range.")
+
+		atk = attacker.calcAttr("rangeAttack")
+		atkCost = attacker.calcAttr("rangeAttackCost")
+		defense = defender.calcAttr("rangeDefense")
 
 	if atkCost is None:
-		resp.status_code = 400
-		resp.content = "That character cannot make that type of attack"
-		return resp
+		raise Exception("That character cannot make that type of attack")
 
 	if atkCost > owner.apRemaining:
-		resp.status_code = 400
-		resp.content = "Player does not have enough AP for that kind of attack"
-		return resp
+		raise Exception("Player does not have enough AP for that kind of attack")
 
 	damageVal = random.randint(atk - round(atk/3), atk + atk//4)
 	blockVal = random.randint(max(0, defense - 3), defense + 1)
 	damageDone = damageVal - blockVal
 
-	health = char2.damage(damageDone)
+	health = defender.damage(damageDone)
 	owner.apRemaining -= atkCost
 	owner.save()
 
 	if health <= 0:
-		char2.kill()
+		defender.kill()
 
 	respDict = {}
 	respDict['health'] = health
 	respDict['damage'] = damageDone
 	respDict['attackCost'] = atkCost
 
-	resp.content = simplejson.dumps(respDict)
-	resp.status_code = 200
-	return resp
+	return respDict

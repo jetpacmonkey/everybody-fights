@@ -28,6 +28,23 @@ class Cell(models.Model):
 			return yDiff == 0 or yDiff == 1
 		return yDiff == 0 or yDiff == -1
 
+	def distTo(self, other):
+		xDiff = abs(self.x - other.x)
+		yDiff = abs(self.y - other.y)
+
+		freeY = xDiff // 2
+		if xDiff % 2:  # sometimes get an extra free y when moving an odd number of columns
+			if other.y < self.y and not self.x % 2:  # moving down from an even column
+				freeY += 1
+			elif other.y > self.y and self.x % 2:  # moving up from an odd column
+				freeY += 1
+
+		yDiff -= freeY
+		if yDiff < 0:
+			yDiff = 0
+
+		return xDiff + yDiff
+
 	class Meta:
 		app_label = 'fight'
 		unique_together = ("mapObj", "x", "y")

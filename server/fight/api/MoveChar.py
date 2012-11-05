@@ -60,6 +60,8 @@ def moveChar(char, cell):
 	owner.apRemaining -= moveCost
 	owner.save()
 
+	print "Moved %s to %s, costing %d to %s" % (char, cell, moveCost, owner)
+
 
 def attack(request, charId1, charId2):
 	char1 = GameCharacter.objects.get(id=charId1)
@@ -128,5 +130,7 @@ def doAttack(attacker, defender):
 	respDict['health'] = health
 	respDict['damage'] = damageDone
 	respDict['attackCost'] = atkCost
+
+	print "%s attacked %s, costing %d to %s" % (attacker, defender, atkCost, owner)
 
 	return respDict

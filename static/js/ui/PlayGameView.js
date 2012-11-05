@@ -201,6 +201,8 @@
 									damInd.remove();
 									if (!response.health) {
 										$(".character", clickedCell).remove();
+										$(".target", clickedCell).remove();
+										clickedCell.removeAttr("data-movecost").removeClass("targeted");
 									}
 								}, 300);
 							}, 500);

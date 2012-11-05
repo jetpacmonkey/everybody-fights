@@ -95,6 +95,7 @@ class GamePlayerResource(ModelResource):
 			bundle.obj.game.gamePhase += 1
 			bundle.obj.game.save()
 			GamePlayer.objects.filter(game=bundle.obj.game).update(apRemaining=bundle.obj.game.maxAP)
+			bundle.data['apRemaining'] = bundle.obj.game.maxAP
 
 		return bundle
 

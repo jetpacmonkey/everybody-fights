@@ -43,7 +43,7 @@ class Game(models.Model):
 			if laterPlayers.exists():
 				nextPlayer = laterPlayers[0]
 			else:
-				nextPlayer = self.gameplayer_set.all()[0]
+				nextPlayer = self.gameplayer_set.all().order_by("playerNum")[0]
 				self.turnNum += 1
 		else:
 			nextPlayer = self.gameplayer_set.all()[0]
@@ -56,7 +56,7 @@ class Game(models.Model):
 			nextPlayer.player.profile.doAIMove(self)
 
 	def currentGamePlayer(self):
-		return self.gameplayer_set.filter(player=self.currentPlayer)[0]
+		return self.gameplayer_set.get(player=self.currentPlayer)
 
 	class Meta:
 		app_label = 'fight'

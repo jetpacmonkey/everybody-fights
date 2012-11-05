@@ -3,6 +3,7 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.models import User
 from fight.models.Game import GamePlayer, GameCharacter
+from fight.models.Character import Character
 
 from fight.models.AI import AIEngine
 
@@ -13,15 +14,17 @@ class UserProfile(models.Model):
 	aiSettings = models.TextField(default="{}", help_text="JSON dictionary of settings that certain AI types may need")
 
 	def doAIMove(self, game):
+		player = GamePlayer.objects.get(game=game, player=self.user)
 		if game.gamePhase == 1:  # Buying characters
-			pass
+			characters = Character.objects.all()
+			self.aiEngine.buyPhase(player=player, characters=characters)
 		elif game.gamePhase == 2:  # Main gameplay
-			player = GamePlayer.objects.get(game=game, player=self.user)
-			characters = GameCharacter.objects.filter(owner=player)
-			all_characters = GameCharacter.objects.filter(owner__game=game)
-
-			while game.currentPlayer == self.user:
-				self.aiEngine.execute(player=player, characters=characters, all_characters=all_characters)
+			goAgain = True
+			while goAgain:
+				characters = GameCharacter.objects.filter(owner=player)
+				all_characters = GameCharacter.objects.filter(owner__game=game)
+				goAgain = self.aiEngine.execute(player=player, characters=characters, all_characters=all_characters)
+				player = GamePlayer.objects.get(id=player.id)  # make sure any changes made to the GamePlayer get reflected here
 
 	def __unicode__(self):
 		return "%s's profile" % self.user.username

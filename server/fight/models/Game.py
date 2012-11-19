@@ -11,13 +11,14 @@ GAME_TYPE_CHOICES = (
 GAME_PHASE_CHOICES = (
 	(0, 'Waiting for players'),
 	(1, 'Buying characters'),
-	(2, 'Playing')
+	(2, 'Playing'),
+	(3, 'Game Over')
 )
 
 class Game(models.Model):
 	name = models.CharField(max_length = 128)
 	creator = models.ForeignKey(User, related_name = 'createdGames')
-	currentPlayer = models.ForeignKey(User, related_name = 'currentGames', default = None, null = True)
+	currentPlayer = models.ForeignKey(User, related_name = 'currentGames', default = None, null = True, help_text = "The user whose turn it is. Or, if the game is over, the winning player.")
 	mapObj = models.ForeignKey(Map)
 	gameType = models.CharField(max_length = 16, choices = GAME_TYPE_CHOICES, default = GAME_TYPE_CHOICES[0][0])
 	minPlayers = models.IntegerField(default = 2)

@@ -47,17 +47,17 @@
 				<td>{{ g.mapObj.name }}</td>
 				<td>{{ g.gameplayer_set.count }}{% if g.gamePhase == 0 %} ({{ g.minPlayers }}-{{ g.maxPlayers }}){% endif %}</td>
 				<td>{{ g.get_gamePhase_display }}</td>
-				<td>{% if g.gamePhase == 2 %}{{ g.currentPlayer }}{% else %}---{% endif %}</td>
+				<td>{% if g.gamePhase == 2 %}{{ g.currentPlayer }}{% elif %}{{ g.currentPlayer }} wins{% else %}---{% endif %}</td>
 				<td>{% if g.gamePhase == 2 %}{{ g.turnNum }}{% else %}---{% endif %}</td>
 				<td>
 					{% if g.gamePhase == 1 %}
 					<a href="{% url "fight.views.buyChars" g.id %}">Buy Characters</a>
 					{% elif g.gamePhase == 2 %}
 					<a href="{% url "fight.views.playGame" g.id %}">View</a>
-					{% elif g.gameplayer_set.count >= g.minPlayers and user == g.creator %}
+					{% elif g.gameplayer_set.count >= g.minPlayers and user == g.creator and g.gamePhase == 0 %}
 					<a href="{% url "fight.commands.startGame" g.id %}">Start Game</a>
 					{% else %}
-					---
+					---{# game over #}
 					{% endif %}
 				</td>
 			</tr>

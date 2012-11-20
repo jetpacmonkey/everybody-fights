@@ -26,7 +26,7 @@ Possible Working Title: *FORSAKEN REALM*
     * Move characters ___DONE___
     * Melee/ranged attacks ___DONE___
     * End turn ___DONE___
-    * End-of-game checking
+    * End-of-game checking ___DONE___
     * Enforce maxMove attribute
 * Simple, dumb AI (basically just need to put the hooks in there that a real AI would use, and then make a dummy AI that just picks an action at random) ___DONE___ _(although I didn't make it as extendable as I had originally planned, gonna have to add a bit of extra code to actually get that right)_
 

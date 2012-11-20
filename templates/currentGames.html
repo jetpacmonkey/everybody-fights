@@ -47,7 +47,7 @@
 				<td>{{ g.mapObj.name }}</td>
 				<td>{{ g.gameplayer_set.count }}{% if g.gamePhase == 0 %} ({{ g.minPlayers }}-{{ g.maxPlayers }}){% endif %}</td>
 				<td>{{ g.get_gamePhase_display }}</td>
-				<td>{% if g.gamePhase == 2 %}{{ g.currentPlayer }}{% elif %}{{ g.currentPlayer }} wins{% else %}---{% endif %}</td>
+				<td>{% if g.gamePhase == 2 %}{{ g.currentPlayer }}{% elif g.gamePhase == 3 %}{{ g.currentPlayer }} wins{% else %}---{% endif %}</td>
 				<td>{% if g.gamePhase == 2 %}{{ g.turnNum }}{% else %}---{% endif %}</td>
 				<td>
 					{% if g.gamePhase == 1 %}

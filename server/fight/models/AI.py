@@ -81,6 +81,7 @@ class AIEngine(models.Model):
 
 			if len(availActionTypes):
 				action = random.choice(availActionTypes)
+				gameOver = False
 				if action == "move":
 					moveTo = random.choice(moveableAdj)
 					print "AI moving %s from %s to %s" % (char, char.cell, moveTo)
@@ -88,12 +89,12 @@ class AIEngine(models.Model):
 				elif action == "melAtk":
 					target = random.choice(melAttackable)
 					print "AI attacking %s with %s (melee)" % (target, char)
-					doAttack(char, target)
+					gameOver = doAttack(char, target)['gameOver']
 				elif action == "rngAtk":
 					target = random.choice(rngAttackable)
 					print "AI attacking %s with %s (ranged)" % (target, char)
-					doAttack(char, target)
-				return True
+					gameOver = doAttack(char, target)['gameOver']
+				return not gameOver
 			else:
 				player.game.nextPlayer()  # can't do anything, end turn
 				return False

@@ -203,6 +203,11 @@
 										$(".character", clickedCell).remove();
 										$(".target", clickedCell).remove();
 										clickedCell.removeAttr("data-movecost").removeClass("targeted");
+
+										if (response.gameOver) {
+											alert("Game over!");
+											window.location = "/fight/currentGames/";
+										}
 									}
 								}, 300);
 							}, 500);

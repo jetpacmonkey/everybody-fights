@@ -59,6 +59,16 @@ class Game(models.Model):
 	def currentGamePlayer(self):
 		return self.gameplayer_set.get(player=self.currentPlayer)
 
+	def checkGameOver(self):
+		remainingCharacters = GameCharacter.objects.filter(owner__game=self)
+		remainingPlayers = remainingCharacters.values_list("owner", flat=True).distinct()
+		if self.gameType == 'skirmish':
+			if len(remainingPlayers) <= 1:
+				self.gamePhase += 1
+				self.save()
+				return True  # that's all, folks
+		return False  # keep this sucka goin!
+
 	class Meta:
 		app_label = 'fight'
 
@@ -159,9 +169,10 @@ class GameCharacter(models.Model):
 		return finalHealth
 
 	def kill(self):
+		game = self.owner.game
 		# Might want to change an "alive" boolean or something instead of just removing the GameCharacter, but this is fine for now
 		self.delete()
-		# TODO Add an end-of-game check here
+		return game.checkGameOver()  # return False to indicate the game's not over yet, True for game over
 
 	class Meta:
 		app_label = 'fight'

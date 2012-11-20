@@ -123,13 +123,15 @@ def doAttack(attacker, defender):
 	owner.apRemaining -= atkCost
 	owner.save()
 
+	gameOver = False
 	if health <= 0:
-		defender.kill()
+		gameOver = defender.kill()
 
 	respDict = {}
 	respDict['health'] = health
 	respDict['damage'] = damageDone
 	respDict['attackCost'] = atkCost
+	respDict['gameOver'] = gameOver
 
 	print "%s attacked %s, costing %d to %s" % (attacker, defender, atkCost, owner)
 

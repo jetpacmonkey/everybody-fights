@@ -1,7 +1,7 @@
 from django.shortcuts import render_to_response, redirect
 from django.template import RequestContext
 from django.contrib.auth.decorators import login_required
-from django.db.models import Q
+from django.db.models import Q, F, Count
 from fight.models import *
 
 MAX_NUM_PLAYERS = 16
@@ -152,4 +152,13 @@ def buyChars(request, gameId):
 		"attributes": attributes,
 		"costAttr": costAttr,
 		"character_attributes": character_attributes
+	}, RequestContext(request))
+
+
+@login_required
+def joinGame(request):
+	games = Game.objects.filter(gamePhase=0).annotate(numPlayers=Count("gameplayer")).filter(numPlayers__lt=F("maxPlayers")).exclude(gameplayer__player=request.user)
+
+	return render_to_response("joinGame.html", {
+		"games": games
 	}, RequestContext(request))

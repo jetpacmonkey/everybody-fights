@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% load url from future %}
+
+{% block scripts %}
+	<script type="text/javascript" src="{{ STATIC_URL }}js/ui/JoinGameView.js"></script>
+{% endblock %}
+
+{% block styles %}
+	<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/joinGame.css"/>
+{% endblock %}
+
+{% block content %}
+<div class="gamesWrapper">
+	<table class="games">
+		<thead>
+			<tr>
+				<th>Name</th>
+				<th>Type</th>
+				<th>Map</th>
+				<th># Players</th>
+				<th>Phase</th>
+				<th>Action</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for g in games %}
+			<tr>
+				<td>{{ g.name }}</td>
+				<td>{{ g.get_gameType_display }}</td>
+				<td>{{ g.mapObj.name }}</td>
+				<td>{{ g.gameplayer_set.count }} ({{ g.minPlayers }}-{{ g.maxPlayers }})</td>
+				<td>{{ g.creator }}</td>
+				<td>
+					<a href="{% url "fight.commands.joinGame" g.id %}">Join</a>
+				</td>
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+</div>
+{% endblock %}

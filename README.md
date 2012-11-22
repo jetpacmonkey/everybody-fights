@@ -20,15 +20,16 @@ Possible Working Title: *FORSAKEN REALM*
     * `<attribute>` `<operator>` `<effect>` (eg `moveCost * 2`) ___DONE___
     * require `<attribute>` `<comparison>` `<value>` (eg `size < 7`) _NOTE: This is partly done. The models have been made, and I wrote a `check` function in the JS to help with enforcing it down the road._
 * Game Creation ___DONE___
+* Game Joining (Issue #6)
 * Basic gameplay - skirmish mode
     * Purchase characters ___DONE___
     * Place characters ___DONE___
     * Move characters ___DONE___
-    * Melee/ranged attacks ___DONE___
+    * Melee/ranged attacks (Issue #1) ___DONE___
     * End turn ___DONE___
-    * End-of-game checking ___DONE___
-    * Enforce maxMove attribute
-* Simple, dumb AI (basically just need to put the hooks in there that a real AI would use, and then make a dummy AI that just picks an action at random) ___DONE___ _(although I didn't make it as extendable as I had originally planned, gonna have to add a bit of extra code to actually get that right)_
+    * End-of-game checking (Issue #3) ___DONE___
+    * Enforce maxMove attribute (Issue #4)
+* Simple, dumb AI (basically just need to put the hooks in there that a real AI would use, and then make a dummy AI that just picks an action at random) (Issue #2) ___DONE___ _(although I didn't make it as extendable as I had originally planned, gonna have to add a bit of extra code to actually get that right)_
 
 ## Down the road ideas:
 * Other game modes (CTF, race, ability to add NPCs, co-op)

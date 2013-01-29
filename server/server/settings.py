@@ -171,3 +171,6 @@ LOGIN_URL = "/accounts/login/"
 LOGIN_REDIRECT_URL = "/fight/"
 
 AUTH_PROFILE_MODULE = "fight.UserProfile"
+
+try:
+    from local_settings import *

@@ -174,3 +174,5 @@ AUTH_PROFILE_MODULE = "fight.UserProfile"
 
 try:
     from local_settings import *
+except:
+    pass

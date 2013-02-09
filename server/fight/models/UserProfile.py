@@ -1,6 +1,5 @@
 from django.db import models
 from django.contrib import admin
-from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.models import User
 from fight.models.Game import GamePlayer, GameCharacter
 from fight.models.Character import Character
@@ -43,6 +42,8 @@ def profileGetter(user):
 
 User.profile = property(profileGetter)
 
+'''
+(this wasn't working when going through Apache)
 
 # Admin page settings
 class UserProfileInline(admin.StackedInline):
@@ -57,3 +58,4 @@ class UserAdmin(UserAdmin):
 
 admin.site.unregister(User)
 admin.site.register(User, UserAdmin)
+'''

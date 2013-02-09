@@ -178,4 +178,4 @@ except:
     pass
 
 if DATABASES['default']['NAME'] == "/OVERRIDE":
-    except "Database location not set in local settings."
+    raise "Database location not set in local settings."
